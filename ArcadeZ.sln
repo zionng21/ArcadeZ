@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArcadeZ.Server", "ArcadeZ\Server\ArcadeZ.Server.csproj", "{7E4DEF51-AA91-42BC-BC61-3B284D59730A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArcadeZ.Server", "ArcadeZ\Server\ArcadeZ.Server.csproj", "{7E4DEF51-AA91-42BC-BC61-3B284D59730A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArcadeZ.Client", "ArcadeZ\Client\ArcadeZ.Client.csproj", "{C6CCFD00-7C2E-4CB5-8DF9-A68567E795DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArcadeZ.Client", "ArcadeZ\Client\ArcadeZ.Client.csproj", "{C6CCFD00-7C2E-4CB5-8DF9-A68567E795DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArcadeZ.Shared", "ArcadeZ\Shared\ArcadeZ.Shared.csproj", "{DFB6FB57-6CF0-4BB7-85F7-652FE791133E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArcadeZ.Shared", "ArcadeZ\Shared\ArcadeZ.Shared.csproj", "{DFB6FB57-6CF0-4BB7-85F7-652FE791133E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
