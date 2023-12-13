@@ -1,5 +1,46 @@
 
+.navdiv{
+    display: flex;
+    justify-content: space-between;
+    align-items:center;
+    padding:30px;
+}
 
+.logo{
+    cursor: pointer;
+    float:left;
+}
+
+.navlinks {
+    list-style: none;
+    padding-left: 0;
+}
+
+.navlinks li {
+    display: inline-block;
+    padding: 0px 20px;
+}
+
+.navlinks li a{
+    transition: all 0.3s ease 0s;
+}
+
+.navlinks li a:hover {
+    colour:#0088a9;
+}
+
+button {
+    padding: 9px 25px;
+    background-color:rgba(0,136,169,1);
+    border:none;
+    border-radius:50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+button:hover {
+    background-color:rgba(0,136,169,0.8)
+}
 
 
 
