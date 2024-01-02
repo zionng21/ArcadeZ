@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace ArcadeZ.Shared.Domain
 {
-    public class Enterprise
+    public class Enterprise : BaseDomainModel
     {
-        public int EnterpriseId { get; set; }
         public string? FirstName { get; set; }
         public string? EnterpriseName { get; set; }
         public string? Password { get; set; }
@@ -17,6 +16,5 @@ namespace ArcadeZ.Shared.Domain
         public string? EnterpriseAddress { get; set; }
         public DateTime JoinedDateTime { get; set; }
         
-
     }
 }

@@ -18,5 +18,11 @@ namespace ArcadeZ.Server.Data
 		public DbSet<Enterprise> Enterprises { get; set; }
         public DbSet<ProductHardware> ProductHardwares { get; set; }
         public DbSet<ProductSoftware> ProductSoftwares { get; set; }
+		public DbSet<CustOrderItem> CustOrderItems { get; set; }
+		public DbSet<Customer> Customers { get; set; }
+		public DbSet<Staff> Staffs { get; set; }
+		public DbSet<CustEnquiry> CustEnquiries { get; set; }
+		public DbSet<CustOrder> CustOrders { get; set; }
+		public DbSet<Payment> Payments { get; set; }
     }
 }

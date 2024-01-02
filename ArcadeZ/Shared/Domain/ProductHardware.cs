@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace ArcadeZ.Shared.Domain
 {
-    public class ProductHardware
+    public class ProductHardware : BaseDomainModel
     {
-        public int PhId { get; set; }
         public string? hTitle { get; set; }
         public string? hPrice { get; set; }
         public string? Description { get; set; }
