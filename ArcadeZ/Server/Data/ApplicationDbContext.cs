@@ -1,4 +1,5 @@
 ﻿using ArcadeZ.Server.Models;
+using ArcadeZ.Shared.Domain;
 using Duende.IdentityServer.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
@@ -13,5 +14,9 @@ namespace ArcadeZ.Server.Data
 			IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
 		{
 		}
-	}
+
+		public DbSet<Enterprise> Enterprises { get; set; }
+        public DbSet<ProductHardware> ProductHardwares { get; set; }
+        public DbSet<ProductSoftware> ProductSoftwares { get; set; }
+    }
 }
