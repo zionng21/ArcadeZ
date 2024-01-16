@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArcadeZ.Server.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240102141900_AddApplicationTables")]
+    [Migration("20240103012207_AddApplicationTables")]
     partial class AddApplicationTables
     {
         /// <inheritdoc />
