@@ -9,6 +9,16 @@
             <li><a href="#">Community</a></li>
             <li><a href="#">Support</a></li>
             <li><a href="#">About</a></li>
+            <AuthorizeView>
+                <Authorized>
+                    <li><a href="authentication/profile">Hello, @context.User.Identity?.Name!</a></li>
+                    <li><a href="authentication/login" @onclick="BeginLogOut">Log out</a></li>
+                </Authorized>
+                <NotAuthorized>
+                    <li><a href="authentication/register">Register</a></li>
+                    <li><a href="authentication/login">Log In</a></li>
+                </NotAuthorized>
+            </AuthorizeView>
         </ul>
     </nav>
     <a href="#"><button>Cart</button></a>
@@ -98,7 +108,7 @@
         </div>
     </nav>
 </div>
-
+*@
 @code {
     private bool collapseNavMenu = true;
 
@@ -113,4 +123,3 @@
         Navigation.NavigateToLogout("authentication/logout", "/");
     }
 }
-*@
