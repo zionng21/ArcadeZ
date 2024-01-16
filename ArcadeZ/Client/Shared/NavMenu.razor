@@ -4,6 +4,21 @@
     <p class="logo">ARCADEZ LOGO</p>
     <nav>
         <ul class="navlinks">
+            <li><a href="#">Store</a></li>
+            <li><a href="#">Distribution</a></li>
+            <li><a href="#">Community</a></li>
+            <li><a href="#">Support</a></li>
+            <li><a href="#">About</a></li>
+            <AuthorizeView>
+                <Authorized>
+                    <li><a href="authentication/profile">Hello, @context.User.Identity?.Name!</a></li>
+                    <li><a href="authentication/login" @onclick="BeginLogOut">Log out</a></li>
+                </Authorized>
+                <NotAuthorized>
+                    <li><a href="authentication/register">Register</a></li>
+                    <li><a href="authentication/login">Log In</a></li>
+                </NotAuthorized>
+            </AuthorizeView>
             <li><a href="store">Store</a></li>
             <li><a href="/distribution">Distribution</a></li>
             <li><a href="/community">Community</a></li>
@@ -98,7 +113,7 @@
         </div>
     </nav>
 </div>
-
+*@
 @code {
     private bool collapseNavMenu = true;
 
@@ -113,4 +128,3 @@
         Navigation.NavigateToLogout("authentication/logout", "/");
     }
 }
-*@
