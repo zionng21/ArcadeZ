@@ -1,5 +1,8 @@
-﻿using ArcadeZ.Server.Models;
+﻿using ArcadeZ.Server.Configurations.Entities;
+using ArcadeZ.Server.Models;
 using ArcadeZ.Shared.Domain;
+using ArcardZ.Server.Configurations.Entities;
+using CarRentalManagement.Server.Configurations.Entities;
 using Duende.IdentityServer.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
@@ -24,5 +27,18 @@ namespace ArcadeZ.Server.Data
 		public DbSet<CustEnquiry> CustEnquiries { get; set; }
 		public DbSet<CustOrder> CustOrders { get; set; }
 		public DbSet<Payment> Payments { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+			builder.ApplyConfiguration(new ProductHardwareSeedConfiguration());
+            builder.ApplyConfiguration(new ProductSoftwareSeedConfiguration());
+            builder.ApplyConfiguration(new CustomerSeedConfiguration());
+            builder.ApplyConfiguration(new EnterpriseSeedConfiguration());
+            builder.ApplyConfiguration(new RoleSeedConfiguration());
+            builder.ApplyConfiguration(new UserRoleSeedConfiguration());
+            builder.ApplyConfiguration(new UserSeedConfiguration());
+        }
     }
 }
