@@ -26,7 +26,7 @@ namespace ArcadeZ.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCustOrders()
         {
-            var custOrders = await _unitOfWork.CustOrders.GetAll();
+            var custOrders = await _unitOfWork.CustOrders.GetAll(includes: q=>q.Include(x=>x.Customer).Include(x=>x.Staff));
             return Ok(custOrders);
         }
 

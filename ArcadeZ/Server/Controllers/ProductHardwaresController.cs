@@ -26,7 +26,7 @@ namespace ArcadeZ.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetProductHardwares()
         {
-            var productHardwares = await _unitOfWork.ProductHardwares.GetAll();
+            var productHardwares = await _unitOfWork.ProductHardwares.GetAll(includes: q => q.Include(x => x.Enterprise));
             return Ok(productHardwares);
         }
 
