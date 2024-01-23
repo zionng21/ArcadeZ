@@ -357,8 +357,7 @@ namespace ArcadeZ.Server.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CustId = table.Column<int>(type: "int", nullable: false),
-                    CustomerId = table.Column<int>(type: "int", nullable: true),
+                    CustomerId = table.Column<int>(type: "int", nullable: false),
                     StaffId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -368,7 +367,8 @@ namespace ArcadeZ.Server.Migrations
                         name: "FK_CustOrders_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_CustOrders_Staffs_StaffId",
                         column: x => x.StaffId,
@@ -452,25 +452,7 @@ namespace ArcadeZ.Server.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "218e320f-c51c-4dcf-b31c-828972c7d543", "admin@localhost.com", false, "Admin", "User", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAEFl8hqNqNFrrBP4oNxrvshFuZTX1cdAXHleuRVfcjChPqcEduNgeQQ54xihPpDEjFA==", null, false, "cd459583-2b48-4986-8978-a13baf7d4414", false, "admin@localhost.com" });
-
-            migrationBuilder.InsertData(
-               table: "Staffs",
-               columns: new[] { "Id", "DateJoined", "DateOfBirth", "Department", "Email", "Name", "Password", "Role" },
-               values: new object[,]
-               {
-                    { 1, new DateTime(2022, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1987, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Customer Service", "staff1@arcadeZmail.com", "Staff1", "P@ssw0rd", "CS Support" },
-                    { 2, new DateTime(2021, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2003, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "Customer Service", "staff2@arcadeZmail.com", "Staff2", "P@ssw0rd", "CS Manager" }
-               });
-
-            migrationBuilder.InsertData(
-                table: "CustEnquiries",
-                columns: new[] { "Id", "CustId", "CustomerId", "EnquiryDesc", "EnquiryType", "Resolved", "StaffId", "UpdatedBy" },
-                values: new object[,]
-                {
-                    { 1, 1, null, "Refund for game", "Refund", true, 1, "Staff1" },
-                    { 2, 2, null, "Console not working properly", "Product Fault", null, 1, null }
-                });
+                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "11f74bb1-9805-4de3-9e54-f41390d68057", "admin@localhost.com", false, "Admin", "User", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAEAr61Yjw+bFT/YnIDwFgAe6QF8WK9oV/CpslIUbdx8GqiWFpRemHnL0iAoMCAo831g==", null, false, "3bffa037-f33d-449f-9d61-f8617a220664", false, "admin@localhost.com" });
 
             migrationBuilder.InsertData(
                 table: "CustOrderItems",
@@ -511,17 +493,35 @@ namespace ArcadeZ.Server.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Staffs",
+                columns: new[] { "Id", "DateJoined", "DateOfBirth", "Department", "Email", "Name", "Password", "Role" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2022, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1987, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Customer Service", "staff1@arcadeZmail.com", "Staff1", "P@ssw0rd", "CS Support" },
+                    { 2, new DateTime(2021, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2003, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "Customer Service", "staff2@arcadeZmail.com", "Staff2", "P@ssw0rd", "CS Manager" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[] { "ad2bcf0c-20db-474f-8407-5a6b159518ba", "3781efa7-66dc-47f0-860f-e506d04102e4" });
 
             migrationBuilder.InsertData(
-                table: "CustOrders",
-                columns: new[] { "Id", "CustId", "CustomerId", "OrderDateTime", "StaffId" },
+                table: "CustEnquiries",
+                columns: new[] { "Id", "CustId", "CustomerId", "EnquiryDesc", "EnquiryType", "Resolved", "StaffId", "UpdatedBy" },
                 values: new object[,]
                 {
-                    { 1, 1, null, new DateTime(2024, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 },
-                    { 2, 2, null, new DateTime(2024, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 2 }
+                    { 1, 1, null, "Refund for game", "Refund", true, 1, "Staff1" },
+                    { 2, 2, null, "Console not working properly", "Product Fault", null, 1, null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "CustOrders",
+                columns: new[] { "Id", "CustomerId", "OrderDateTime", "StaffId" },
+                values: new object[,]
+                {
+                    { 1, 1, new DateTime(2024, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 },
+                    { 2, 2, new DateTime(2024, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 2 }
                 });
 
             migrationBuilder.InsertData(

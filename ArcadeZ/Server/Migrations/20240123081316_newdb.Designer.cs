@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArcadeZ.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240122193132_newdb")]
+    [Migration("20240123081316_newdb")]
     partial class newdb
     {
         /// <inheritdoc />
@@ -100,7 +100,7 @@ namespace ArcadeZ.Server.Migrations
                         {
                             Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "218e320f-c51c-4dcf-b31c-828972c7d543",
+                            ConcurrencyStamp = "11f74bb1-9805-4de3-9e54-f41390d68057",
                             Email = "admin@localhost.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -108,9 +108,9 @@ namespace ArcadeZ.Server.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFl8hqNqNFrrBP4oNxrvshFuZTX1cdAXHleuRVfcjChPqcEduNgeQQ54xihPpDEjFA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAr61Yjw+bFT/YnIDwFgAe6QF8WK9oV/CpslIUbdx8GqiWFpRemHnL0iAoMCAo831g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "cd459583-2b48-4986-8978-a13baf7d4414",
+                            SecurityStamp = "3bffa037-f33d-449f-9d61-f8617a220664",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         });
@@ -161,7 +161,7 @@ namespace ArcadeZ.Server.Migrations
                             EnquiryDesc = "Refund for game",
                             EnquiryType = "Refund",
                             Resolved = true,
-                            StaffId = 0,
+                            StaffId = 1,
                             UpdatedBy = "Staff1"
                         },
                         new
@@ -170,7 +170,7 @@ namespace ArcadeZ.Server.Migrations
                             CustId = 2,
                             EnquiryDesc = "Console not working properly",
                             EnquiryType = "Product Fault",
-                            StaffId = 0
+                            StaffId = 1
                         });
                 });
 
@@ -182,10 +182,7 @@ namespace ArcadeZ.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CustId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CustomerId")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("OrderDateTime")
@@ -206,14 +203,14 @@ namespace ArcadeZ.Server.Migrations
                         new
                         {
                             Id = 1,
-                            CustId = 1,
+                            CustomerId = 1,
                             OrderDateTime = new DateTime(2024, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StaffId = 1
                         },
                         new
                         {
                             Id = 2,
-                            CustId = 2,
+                            CustomerId = 2,
                             OrderDateTime = new DateTime(2024, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StaffId = 2
                         });
@@ -963,7 +960,9 @@ namespace ArcadeZ.Server.Migrations
                 {
                     b.HasOne("ArcadeZ.Shared.Domain.Customer", "Customer")
                         .WithMany()
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ArcadeZ.Shared.Domain.Staff", "Staff")
                         .WithMany()

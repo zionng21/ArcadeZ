@@ -13,14 +13,14 @@ namespace ArcadeZ.Server.Configurations.Entities
                 {
                     Id = 1,
                     OrderDateTime = new DateTime(2024, 1, 3),
-                    CustId = 1,
+                    CustomerId = 1,
                     StaffId = 1
                 },
                 new CustOrder
                 {
                     Id = 2,
                     OrderDateTime = new DateTime(2024, 1, 5),
-                    CustId = 2,
+                    CustomerId = 2,
                     StaffId = 2
                 }
             );

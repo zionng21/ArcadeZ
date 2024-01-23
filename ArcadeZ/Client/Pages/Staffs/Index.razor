@@ -2,7 +2,14 @@
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
+<h3 class="card-title">Staff Creation</h3>
 
+<a href="/staffs/create" class="btn btn-secondary">
+	<span class="oi oi-plus"></span>
+	Create New Staff
+</a>
+<br />
+<br />
 <h3 class="card-title">Staff</h3>
 
 @if(Staffs == null)
