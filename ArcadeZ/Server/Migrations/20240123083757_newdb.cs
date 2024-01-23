@@ -450,7 +450,22 @@ namespace ArcadeZ.Server.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+<<<<<<<< HEAD:ArcadeZ/Server/Migrations/20240123083757_newdb.cs
                 values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "88424eb5-bb91-4b04-9148-0ab45962ed73", "admin@localhost.com", false, "Admin", "User", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAEBM4+5iXmMYBEr3ow+TE8FCujZMuDiLqX3splExYcIyea6XyBcrHDxjrKWN7HDABNA==", null, false, "38ec36ce-6ce1-4a04-aa52-62b9fe20fa01", false, "admin@localhost.com" });
+========
+                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "11f74bb1-9805-4de3-9e54-f41390d68057", "admin@localhost.com", false, "Admin", "User", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAEAr61Yjw+bFT/YnIDwFgAe6QF8WK9oV/CpslIUbdx8GqiWFpRemHnL0iAoMCAo831g==", null, false, "3bffa037-f33d-449f-9d61-f8617a220664", false, "admin@localhost.com" });
+
+            migrationBuilder.InsertData(
+                table: "CustOrderItems",
+                columns: new[] { "Id", "CohId", "CustOrderId", "PhId", "ProductHardwareId", "ProductSoftwareId", "PsId", "Qty" },
+                values: new object[,]
+                {
+                    { 1, 1, null, 1, null, null, 0, 1 },
+                    { 2, 1, null, 0, null, null, 1, 1 },
+                    { 3, 2, null, 1, null, null, 0, 1 },
+                    { 4, 2, null, 4, null, null, 0, 2 }
+                });
+>>>>>>>> 0597cbb6b95cfd1a387f63029bce322449cac083:ArcadeZ/Server/Migrations/20240123081316_newdb.cs
 
             migrationBuilder.InsertData(
                 table: "Customers",
@@ -480,17 +495,34 @@ namespace ArcadeZ.Server.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Staffs",
+                columns: new[] { "Id", "DateJoined", "DateOfBirth", "Department", "Email", "Name", "Password", "Role" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2022, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1987, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Customer Service", "staff1@arcadeZmail.com", "Staff1", "P@ssw0rd", "CS Support" },
+                    { 2, new DateTime(2021, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2003, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "Customer Service", "staff2@arcadeZmail.com", "Staff2", "P@ssw0rd", "CS Manager" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[] { "ad2bcf0c-20db-474f-8407-5a6b159518ba", "3781efa7-66dc-47f0-860f-e506d04102e4" });
 
             migrationBuilder.InsertData(
                 table: "CustEnquiries",
+<<<<<<<< HEAD:ArcadeZ/Server/Migrations/20240123083757_newdb.cs
                 columns: new[] { "Id", "CustomerId", "EnquiryDesc", "EnquiryType", "Resolved", "StaffId", "UpdatedBy" },
                 values: new object[,]
                 {
                     { 1, 1, "Refund for game", "Refund", true, 1, "Staff1" },
                     { 2, 2, "Console not working properly", "Product Fault", null, 1, null }
+========
+                columns: new[] { "Id", "CustId", "CustomerId", "EnquiryDesc", "EnquiryType", "Resolved", "StaffId", "UpdatedBy" },
+                values: new object[,]
+                {
+                    { 1, 1, null, "Refund for game", "Refund", true, 1, "Staff1" },
+                    { 2, 2, null, "Console not working properly", "Product Fault", null, 1, null }
+>>>>>>>> 0597cbb6b95cfd1a387f63029bce322449cac083:ArcadeZ/Server/Migrations/20240123081316_newdb.cs
                 });
 
             migrationBuilder.InsertData(
