@@ -1,5 +1,81 @@
-﻿<h3>Index</h3>
+﻿@page "/payments/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+
+<h3 class="card-title">Payment</h3>
+
+@if (Payments == null)
+{
+	<div class="alert alert-info">Loading Payment...</div>
+}
+else
+{
+	<table class="table table-responsive">
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Price</th>
+				<th>Description</th>
+				<th>Inventory</th>
+				<th>Published By</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			Amount { get; set; }
+			public string? PaymentType { get; set; }
+			public int CustId {  get; set; }
+			public virtual Customer? Customer { get; set; }
+			public int CohId { get; set; }
+			public virtual CustOrder? CustOrder { ge
+
+			@foreach (var payment in Payments)
+			{
+				<tr>
+					<td>@payment.PaymentDateTime</td>
+					<td>@payment.Amount</td>
+					<td>@payment.PaymentType</td>
+					<td>@payment.CustId</td>
+					<td>@payment.CohId</td>
+					<td>
+						<a href="/payments/view/@payment.Id" class="btn btn-primary">
+							<span class="oi oi-book"></span>
+						</a>
+						<a href="/payments/edit/@payment.Id" class="btn btn-warning">
+							<span class="oi oi-pencil"></span>
+						</a>
+						<button class="btn btn-danger" @onclick="@(()=>Delete(payment.Id))">
+							<span class="oi oi-delete"></span>
+						</button>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
 
 @code {
+	private List<Payment>? Payments;
+
+	protected async override Task OnInitializedAsync()
+	{
+		Payments = await _client.GetFromJsonAsync<List<Payment>>($"{Endpoints.PaymentsEndpoint}");
+	}
+
+	async Task Delete(int PaymentId)
+	{
+		if (Payments != null)
+		{
+			var payment = Payments.First(q => q.Id == PaymentId);
+			var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {payment.PaymentDateTime}?");
+			if (confirm)
+			{
+				await _client.DeleteAsync($"{Endpoints.PaymentsEndpoint}/{PaymentId}");
+				await OnInitializedAsync();
+			}
+		}
+	}
 
 }

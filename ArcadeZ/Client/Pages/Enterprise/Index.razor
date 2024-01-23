@@ -1,5 +1,77 @@
-﻿<h3>Index</h3>
+﻿@page "/enterprises/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+
+<h3 class="card-title">Enterprise</h3>
+
+@if (Enterprises == null)
+{
+	<div class="alert alert-info">Loading Enterprise...</div>
+}
+else
+{
+	<table class="table table-responsive">
+		<thead>
+			<tr>
+				<th>First Name</th>
+				<th>Enterprise Name</th>
+				<th>Password</th>
+				<th>Contact Number</th>
+				<th>Email</th>
+				<th>Enterprise Address</th>
+				<th>Joined Date&Time</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var enterprise in Enterprises)
+			{
+				<tr>
+					<td>@enterprise.FirstName</td>
+					<td>@enterprise.EnterpriseName</td>
+					<td>@enterprise.Password</td>
+					<td>@enterprise.ContactNumber</td>
+					<td>@enterprise.Email</td>
+					<td>@enterprise.EnterpriseAddress</td>
+					<td>@enterprise.JoinedDateTime</td>
+					<td>
+						<a href="/enterprises/view/@enterprise.Id" class="btn btn-primary">
+							<span class="oi oi-book"></span>
+						</a>
+						<a href="/enterprises/edit/@enterprise.Id" class="btn btn-warning">
+							<span class="oi oi-pencil"></span>
+						</a>
+						<button class="btn btn-danger" @onclick="@(()=>Delete(enterprise.Id))">
+							<span class="oi oi-delete"></span>
+						</button>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
 
 @code {
+	private List<Enterprise>? Enterprises;
+
+	protected async override Task OnInitializedAsync()
+	{
+		Enterprises = await _client.GetFromJsonAsync<List<Enterprise>>($"{Endpoints.EnterprisesEndpoint}");
+	}
+
+	async Task Delete(int EnterpriseId)
+	{
+		if (Enterprises != null)
+		{
+			var enterprise = Enterprises.First(q => q.Id == EnterpriseId);
+			var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {enterprise.FirstName}?");
+			if (confirm)
+			{
+				await _client.DeleteAsync($"{Endpoints.EnterprisesEndpoint}/{EnterpriseId}");
+				await OnInitializedAsync();
+			}
+		}
+	}
 
 }

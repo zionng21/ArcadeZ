@@ -1,5 +1,73 @@
-﻿<h3>Index</h3>
+﻿@page "/productsoftwares/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+
+<h3 class="card-title">ProductSoftware</h3>
+
+@if (ProductSoftwares == null)
+{
+	<div class="alert alert-info">Loading ProductSoftware...</div>
+}
+else
+{
+	<table class="table table-responsive">
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Price</th>
+				<th>Description</th>
+				<th>Inventory</th>
+				<th>Published By</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var productsoftware in ProductSoftwares)
+			{
+				<tr>
+					<td>@productsoftware.sTitle</td>
+					<td>@productsoftware.sPrice</td>
+					<td>@productsoftware.Category</td>
+					<td>@productsoftware.Description</td>
+					<td>@productsoftware.Enterprise?.EnterpriseName</td>
+					<td>
+						<a href="/productsoftwares/view/@productsoftware.Id" class="btn btn-primary">
+							<span class="oi oi-book"></span>
+						</a>
+						<a href="/productsoftwares/edit/@productsoftware.Id" class="btn btn-warning">
+							<span class="oi oi-pencil"></span>
+						</a>
+						<button class="btn btn-danger" @onclick="@(()=>Delete(productsoftware.Id))">
+							<span class="oi oi-delete"></span>
+						</button>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
 
 @code {
+	private List<ProductSoftware>? ProductSoftwares;
+
+	protected async override Task OnInitializedAsync()
+	{
+		ProductSoftwares = await _client.GetFromJsonAsync<List<ProductSoftware>>($"{Endpoints.ProductSoftwaresEndpoint}");
+	}
+
+	async Task Delete(int ProductSoftwareId)
+	{
+		if (ProductSoftwares != null)
+		{
+			var productsoftware = ProductSoftwares.First(q => q.Id == ProductSoftwareId);
+			var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {productsoftware.sTitle}?");
+			if (confirm)
+			{
+				await _client.DeleteAsync($"{Endpoints.ProductSoftwaresEndpoint}/{ProductSoftwareId}");
+				await OnInitializedAsync();
+			}
+		}
+	}
 
 }

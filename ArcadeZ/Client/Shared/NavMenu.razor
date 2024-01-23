@@ -1,45 +1,5 @@
 ﻿@inject NavigationManager Navigation
 
-<div class="navdiv">
-    <a href="" class="logo">ARCADEZ LOGO</a>
-    <nav>
-        <ul class="navlinks">
-            <li><a href="store">Store</a></li>
-            <li><a href="distribution">Distribution</a></li>
-            <li><a href="community">Community</a></li>
-            <li><a href="support">Support</a></li>
-            <li><a href="about">About</a></li>
-            <li><a href="staffs">Staff</a></li>
-            <AuthorizeView>
-                <Authorized>
-                    <li><a href="authentication/profile">Hello, @context.User.Identity?.Name!</a></li>
-                    <li><a href="authentication/login" @onclick="BeginLogOut">Log out</a></li>
-                </Authorized>
-                <NotAuthorized>
-                    <li><a href="authentication/register">Register</a></li>
-                    <li><a href="authentication/login">Log In</a></li>
-                </NotAuthorized>
-            </AuthorizeView>
-        </ul>
-    </nav>
-    <a href="#"><button>Cart</button></a>
-</div>
-
-
-@* <div class="">
-    <p class="col">ARCADEZ LOGO</p>
-    <nav class="container-fluid col">
-        <ul class="row align-items-center">
-            <li class="col"><a href="#">Store</a></li>
-            <li class="col"><a href="#">Distribution</a></li>
-            <li class="col"><a href="#">Community</a></li>
-            <li class="col"><a href="#">Support</a></li>
-            <li class="col"><a href="#">About</a></li>
-        </ul>
-</nav>  
-    <a class="col" style="float:right;" href="#"><button>Cart</button></a>
-</div> *@
-@*
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">ArcadeZ</a>
@@ -107,9 +67,34 @@
                 <span class="oi oi-list-rich" aria-hidden="true"></span> About
             </NavLink>
         </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="staffs">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Staff
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="enterprises">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Enterprise
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="producthardwares">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> ProductHardware
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="productsoftwares">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> ProductSoftware
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="payments">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Payment
+            </NavLink>
+        </div>
     </nav>
 </div>
-*@
+
 @code {
     private bool collapseNavMenu = true;
 
@@ -124,3 +109,44 @@
         Navigation.NavigateToLogout("authentication/logout", "/");
     }
 }
+
+
+                @* <div class="navdiv">
+    <a href="" class="logo">ARCADEZ LOGO</a>
+    <nav>
+        <ul class="navlinks">
+            <li><a href="store">Store</a></li>
+            <li><a href="distribution">Distribution</a></li>
+            <li><a href="community">Community</a></li>
+            <li><a href="support">Support</a></li>
+            <li><a href="about">About</a></li>
+            <li><a href="staffs">Staff</a></li>
+            <AuthorizeView>
+                <Authorized>
+                    <li><a href="authentication/profile">Hello, @context.User.Identity?.Name!</a></li>
+                    <li><a href="authentication/login" @onclick="BeginLogOut">Log out</a></li>
+                </Authorized>
+                <NotAuthorized>
+                    <li><a href="authentication/register">Register</a></li>
+                    <li><a href="authentication/login">Log In</a></li>
+                </NotAuthorized>
+            </AuthorizeView>
+        </ul>
+    </nav>
+    <a href="#"><button>Cart</button></a>
+</div> *@
+
+
+@* <div class="">
+    <p class="col">ARCADEZ LOGO</p>
+    <nav class="container-fluid col">
+        <ul class="row align-items-center">
+            <li class="col"><a href="#">Store</a></li>
+            <li class="col"><a href="#">Distribution</a></li>
+            <li class="col"><a href="#">Community</a></li>
+            <li class="col"><a href="#">Support</a></li>
+            <li class="col"><a href="#">About</a></li>
+        </ul>
+</nav>
+    <a class="col" style="float:right;" href="#"><button>Cart</button></a>
+</div> *@
