@@ -4,23 +4,20 @@ using ArcadeZ.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace ArcadeZ.Server.Data.Migrations
+namespace ArcadeZ.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240103012207_AddApplicationTables")]
-    partial class AddApplicationTables
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.13")
+                .HasAnnotation("ProductVersion", "7.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -94,6 +91,26 @@ namespace ArcadeZ.Server.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "218e320f-c51c-4dcf-b31c-828972c7d543",
+                            Email = "admin@localhost.com",
+                            EmailConfirmed = false,
+                            FirstName = "Admin",
+                            LastName = "User",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@LOCALHOST.COM",
+                            NormalizedUserName = "ADMIN@LOCALHOST.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFl8hqNqNFrrBP4oNxrvshFuZTX1cdAXHleuRVfcjChPqcEduNgeQQ54xihPpDEjFA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "cd459583-2b48-4986-8978-a13baf7d4414",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@localhost.com"
+                        });
                 });
 
             modelBuilder.Entity("ArcadeZ.Shared.Domain.CustEnquiry", b =>
@@ -132,6 +149,26 @@ namespace ArcadeZ.Server.Data.Migrations
                     b.HasIndex("StaffId");
 
                     b.ToTable("CustEnquiries");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CustId = 1,
+                            EnquiryDesc = "Refund for game",
+                            EnquiryType = "Refund",
+                            Resolved = true,
+                            StaffId = 0,
+                            UpdatedBy = "Staff1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CustId = 2,
+                            EnquiryDesc = "Console not working properly",
+                            EnquiryType = "Product Fault",
+                            StaffId = 0
+                        });
                 });
 
             modelBuilder.Entity("ArcadeZ.Shared.Domain.CustOrder", b =>
@@ -161,6 +198,22 @@ namespace ArcadeZ.Server.Data.Migrations
                     b.HasIndex("StaffId");
 
                     b.ToTable("CustOrders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CustId = 1,
+                            OrderDateTime = new DateTime(2024, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            StaffId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CustId = 2,
+                            OrderDateTime = new DateTime(2024, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            StaffId = 2
+                        });
                 });
 
             modelBuilder.Entity("ArcadeZ.Shared.Domain.CustOrderItem", b =>
@@ -201,6 +254,40 @@ namespace ArcadeZ.Server.Data.Migrations
                     b.HasIndex("ProductSoftwareId");
 
                     b.ToTable("CustOrderItems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CohId = 1,
+                            PhId = 1,
+                            PsId = 0,
+                            Qty = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CohId = 1,
+                            PhId = 0,
+                            PsId = 1,
+                            Qty = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CohId = 2,
+                            PhId = 1,
+                            PsId = 0,
+                            Qty = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CohId = 2,
+                            PhId = 4,
+                            PsId = 0,
+                            Qty = 2
+                        });
                 });
 
             modelBuilder.Entity("ArcadeZ.Shared.Domain.Customer", b =>
@@ -235,6 +322,30 @@ namespace ArcadeZ.Server.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Customers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "Tampines St 42 #03-12",
+                            DateOfBirth = new DateTime(2002, 9, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "JohnChan@mail.com",
+                            FirstName = "John",
+                            LastName = "Chan",
+                            Password = "JohnChan",
+                            UserName = "Johnny123"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Address = "Bedok South Ave 3 #10-175",
+                            DateOfBirth = new DateTime(1985, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "TomNg@mail.com",
+                            FirstName = "Tom",
+                            LastName = "Ng",
+                            Password = "TomNg",
+                            UserName = "Xx_Tom_xX"
+                        });
                 });
 
             modelBuilder.Entity("ArcadeZ.Shared.Domain.Enterprise", b =>
@@ -269,6 +380,30 @@ namespace ArcadeZ.Server.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Enterprises");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ContactNumber = 61232345,
+                            Email = "Enterprise1@mail.com",
+                            EnterpriseAddress = "Jurong West St 123",
+                            EnterpriseName = "Enterprise1",
+                            FirstName = "EntEmployee1",
+                            JoinedDateTime = new DateTime(2020, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Password = "Enterprise1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ContactNumber = 81239022,
+                            Email = "Enterprise2@mail.com",
+                            EnterpriseAddress = "Ang Mo Kio Ave 7",
+                            EnterpriseName = "Enterprise2",
+                            FirstName = "EntEmployee2",
+                            JoinedDateTime = new DateTime(2021, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Password = "Enterprise2"
+                        });
                 });
 
             modelBuilder.Entity("ArcadeZ.Shared.Domain.Payment", b =>
@@ -279,8 +414,8 @@ namespace ArcadeZ.Server.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("Amount")
-                        .HasColumnType("int");
+                    b.Property<double?>("Amount")
+                        .HasColumnType("float");
 
                     b.Property<int>("CohId")
                         .HasColumnType("int");
@@ -307,6 +442,26 @@ namespace ArcadeZ.Server.Data.Migrations
                     b.HasIndex("CustomerId");
 
                     b.ToTable("Payments");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Amount = 90.879999999999995,
+                            CohId = 1,
+                            CustId = 1,
+                            PaymentDateTime = new DateTime(2024, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentType = "Card"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Amount = 148.33000000000001,
+                            CohId = 2,
+                            CustId = 2,
+                            PaymentDateTime = new DateTime(2024, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentType = "PayNow"
+                        });
                 });
 
             modelBuilder.Entity("ArcadeZ.Shared.Domain.ProductHardware", b =>
@@ -326,8 +481,8 @@ namespace ArcadeZ.Server.Data.Migrations
                     b.Property<int>("Inventory")
                         .HasColumnType("int");
 
-                    b.Property<string>("hPrice")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double?>("hPrice")
+                        .HasColumnType("float");
 
                     b.Property<string>("hTitle")
                         .HasColumnType("nvarchar(max)");
@@ -337,6 +492,44 @@ namespace ArcadeZ.Server.Data.Migrations
                     b.HasIndex("EnterpriseId");
 
                     b.ToTable("ProductHardwares");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Gaming Mouse Brand1",
+                            EnterpriseId = 1,
+                            Inventory = 100,
+                            hPrice = 20.989999999999998,
+                            hTitle = "Mouse"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "RGB Gaming Keyboard Brand1",
+                            EnterpriseId = 1,
+                            Inventory = 100,
+                            hPrice = 42.990000000000002,
+                            hTitle = "Keyboard"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Gaming Mouse Brand2",
+                            EnterpriseId = 2,
+                            Inventory = 100,
+                            hPrice = 89.989999999999995,
+                            hTitle = "Mouse"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "Gaming Keyboard Brand2",
+                            EnterpriseId = 2,
+                            Inventory = 100,
+                            hPrice = 63.670000000000002,
+                            hTitle = "Keyboard"
+                        });
                 });
 
             modelBuilder.Entity("ArcadeZ.Shared.Domain.ProductSoftware", b =>
@@ -356,8 +549,8 @@ namespace ArcadeZ.Server.Data.Migrations
                     b.Property<int>("EnterpriseId")
                         .HasColumnType("int");
 
-                    b.Property<string>("sPrice")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double?>("sPrice")
+                        .HasColumnType("float");
 
                     b.Property<string>("sTitle")
                         .HasColumnType("nvarchar(max)");
@@ -367,6 +560,26 @@ namespace ArcadeZ.Server.Data.Migrations
                     b.HasIndex("EnterpriseId");
 
                     b.ToTable("ProductSoftwares");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Category = "Shooter, Action",
+                            Description = "World War 1 action",
+                            EnterpriseId = 1,
+                            sPrice = 69.890000000000001,
+                            sTitle = "Black War 1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Category = "Shooter, FPS, Violence",
+                            Description = "Boosting in game",
+                            EnterpriseId = 2,
+                            sPrice = 100.12,
+                            sTitle = "Overboost"
+                        });
                 });
 
             modelBuilder.Entity("ArcadeZ.Shared.Domain.Staff", b =>
@@ -401,6 +614,30 @@ namespace ArcadeZ.Server.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Staffs");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateJoined = new DateTime(2022, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateOfBirth = new DateTime(1987, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Department = "Customer Service",
+                            Email = "staff1@arcadeZmail.com",
+                            Name = "Staff1",
+                            Password = "P@ssw0rd",
+                            Role = "CS Support"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateJoined = new DateTime(2021, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateOfBirth = new DateTime(2003, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Department = "Customer Service",
+                            Email = "staff2@arcadeZmail.com",
+                            Name = "Staff2",
+                            Password = "P@ssw0rd",
+                            Role = "CS Manager"
+                        });
                 });
 
             modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.DeviceFlowCodes", b =>
@@ -569,6 +806,20 @@ namespace ArcadeZ.Server.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "ad2bcf0c-20db-474f-8407-5a6b159518ba",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = "bd2bcf0c-20db-474f-8407-5a6b159518bb",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -658,6 +909,13 @@ namespace ArcadeZ.Server.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "3781efa7-66dc-47f0-860f-e506d04102e4",
+                            RoleId = "ad2bcf0c-20db-474f-8407-5a6b159518ba"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

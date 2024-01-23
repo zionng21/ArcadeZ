@@ -31,10 +31,14 @@ namespace ArcadeZ.Server.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-			builder.ApplyConfiguration(new ProductHardwareSeedConfiguration());
-            builder.ApplyConfiguration(new ProductSoftwareSeedConfiguration());
+			builder.ApplyConfiguration(new StaffSeedConfiguration());
             builder.ApplyConfiguration(new CustomerSeedConfiguration());
+            builder.ApplyConfiguration(new CustEnquirySeedConfiguration());
+            builder.ApplyConfiguration(new PaymentSeedConfiguration());
+			builder.ApplyConfiguration(new CustOrderSeedConfiguration());
+			builder.ApplyConfiguration(new CustOrderItemSeedConfiguration());
+            builder.ApplyConfiguration(new ProductHardwareSeedConfiguration());
+            builder.ApplyConfiguration(new ProductSoftwareSeedConfiguration());
             builder.ApplyConfiguration(new EnterpriseSeedConfiguration());
             builder.ApplyConfiguration(new RoleSeedConfiguration());
             builder.ApplyConfiguration(new UserRoleSeedConfiguration());

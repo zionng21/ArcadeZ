@@ -9,7 +9,7 @@ namespace ArcadeZ.Shared.Domain
     public class ProductSoftware : BaseDomainModel
     {
         public string? sTitle { get; set; }
-        public string? sPrice { get; set; }
+        public double? sPrice { get; set; }
         public string? Category { get; set; }
         public string? Description { get; set; }
         public int EnterpriseId { get; set; }

@@ -9,7 +9,7 @@ namespace ArcadeZ.Shared.Domain
     public class Payment : BaseDomainModel
     {
         public DateTime? PaymentDateTime { get; set; }
-        public int? Amount { get; set; }
+        public double? Amount { get; set; }
         public string? PaymentType { get; set; }
         public int CustId {  get; set; }
         public virtual Customer? Customer { get; set; }
