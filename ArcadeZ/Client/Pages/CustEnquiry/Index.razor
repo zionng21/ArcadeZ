@@ -1,7 +1,70 @@
-﻿
+﻿@page "/custEnquiries/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
 
-<h3>Index</h3>
+<h3 class="card-title">Customer Enquiry</h3>
+
+@if (CustEnquiries == null)
+{
+	<div class="alert alert-info">Loading Customer Enquiries...</div>
+}
+else
+{
+	<table class="table table-responsive">
+		<thead>
+			<tr>
+				<th>Enquiry Description</th>
+				<th>Enquiry Type</th>
+				<th>Updated By</th>
+				<th>Resolved</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var custEnquiry in CustEnquiries)
+			{
+				<tr>
+					<td>@custEnquiry.EnquiryDesc</td>
+					<td>@custEnquiry.EnquiryType</td>
+					<td>@custEnquiry.Staff.Name</td>
+					<td>@custEnquiry.Resolved</td>
+					<td>
+						<a href="/custEnquiries/view/@custEnquiry.Id" class="btn btn-primary">
+							<span class="oi oi-book"></span>
+						</a>
+						<a href="/custEnquiries/edit/@custEnquiry.Id" class="btn btn-warning">
+							<span class="oi oi-pencil"></span>
+						</a>
+						<button class="btn btn-danger" @onclick="@(()=>Delete(custEnquiry.Id))">
+							<span class="oi oi-delete"></span>
+						</button>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
 
 @code {
+	private List<CustEnquiry>? CustEnquiries;
 
+	protected async override Task OnInitializedAsync()
+	{
+		CustEnquiries = await _client.GetFromJsonAsync<List<CustEnquiry>>($"{Endpoints.CustEnquiriesEndpoint}");
+	}
+
+	async Task Delete(int CustEnquiryId)
+	{
+		if (CustEnquiries != null)
+		{
+			var custEnquiry = CustEnquiries.First(q => q.Id == CustEnquiryId);
+			var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {custEnquiry.EnquiryDesc}?");
+			if (confirm)
+			{
+				await _client.DeleteAsync($"{Endpoints.CustEnquiriesEndpoint}/{CustEnquiryId}");
+				await OnInitializedAsync();
+			}
+		}
+	}
 }
