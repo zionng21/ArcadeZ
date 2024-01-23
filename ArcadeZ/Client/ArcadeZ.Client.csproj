@@ -57,4 +57,15 @@
     <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\CustEnquiry\" />
+    <Folder Include="Pages\Customer\" />
+    <Folder Include="Pages\CustOrder\" />
+    <Folder Include="Pages\CustOrderItem\" />
+    <Folder Include="Pages\Enterprise\" />
+    <Folder Include="Pages\ProductHardware\" />
+    <Folder Include="Pages\ProductSoftware\" />
+    <Folder Include="Pages\Payment\" />
+  </ItemGroup>
+
 </Project>
