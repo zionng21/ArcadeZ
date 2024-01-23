@@ -16,7 +16,7 @@ namespace ArcadeZ.Server.Configurations.Entities
                     EnquiryType = "Refund",
                     UpdatedBy = "Staff1",
                     Resolved = true,
-                    CustId = 1,
+                    CustomerId = 1,
                     StaffId = 1
                 },
                 new CustEnquiry
@@ -26,7 +26,7 @@ namespace ArcadeZ.Server.Configurations.Entities
                     EnquiryType = "Product Fault",
                     UpdatedBy = null,
                     Resolved = null,
-                    CustId = 2,
+                    CustomerId = 2,
                     StaffId = 1
                 }
             );

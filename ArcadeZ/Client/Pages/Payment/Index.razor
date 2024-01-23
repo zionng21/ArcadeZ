@@ -23,22 +23,14 @@ else
 			</tr>
 		</thead>
 		<tbody>
-
-			Amount { get; set; }
-			public string? PaymentType { get; set; }
-			public int CustId {  get; set; }
-			public virtual Customer? Customer { get; set; }
-			public int CohId { get; set; }
-			public virtual CustOrder? CustOrder { ge
-
 			@foreach (var payment in Payments)
 			{
 				<tr>
 					<td>@payment.PaymentDateTime</td>
 					<td>@payment.Amount</td>
 					<td>@payment.PaymentType</td>
-					<td>@payment.CustId</td>
-					<td>@payment.CohId</td>
+					<td>@payment.CustomerId</td>
+					<td>@payment.CustOrderId</td>
 					<td>
 						<a href="/payments/view/@payment.Id" class="btn btn-primary">
 							<span class="oi oi-book"></span>

@@ -11,9 +11,9 @@ namespace ArcadeZ.Shared.Domain
         public DateTime? PaymentDateTime { get; set; }
         public double? Amount { get; set; }
         public string? PaymentType { get; set; }
-        public int CustId {  get; set; }
+        public int CustomerId {  get; set; }
         public virtual Customer? Customer { get; set; }
-        public int CohId { get; set; }
+        public int CustOrderId { get; set; }
         public virtual CustOrder? CustOrder { get; set; }
     }
 }

@@ -13,29 +13,29 @@ namespace ArcadeZ.Server.Configurations.Entities
                 {
                     Id = 1,
                     Qty = 1,
-                    PhId = 1,
-                    CohId = 1
+                    ProductHardwareId = 1,
+                    CustOrderId = 1
                 },
                 new CustOrderItem
                 {
                     Id = 2,
                     Qty = 1,
-                    PsId = 1,
-                    CohId = 1
+                    ProductSoftwareId = 1,
+                    CustOrderId = 1
                 },
                 new CustOrderItem
                 {
                     Id = 3,
                     Qty = 1,
-                    PhId = 1,
-                    CohId = 2
+                    ProductHardwareId = 1,
+                    CustOrderId = 2
                 },
                 new CustOrderItem
                 {
                     Id = 4,
                     Qty = 2,
-                    PhId = 4,
-                    CohId = 2
+                    ProductHardwareId = 4,
+                    CustOrderId = 2
                 }
             );
         }

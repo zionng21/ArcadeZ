@@ -15,8 +15,8 @@ namespace ArcadeZ.Server.Configurations.Entities
                     PaymentDateTime = new DateTime(2024, 1, 3),
                     Amount = 90.88,
                     PaymentType = "Card",
-                    CustId = 1,
-                    CohId = 1
+                    CustomerId = 1,
+                    CustOrderId = 1
                 },
                 new Payment
                 {
@@ -24,8 +24,8 @@ namespace ArcadeZ.Server.Configurations.Entities
                     PaymentDateTime = new DateTime(2024, 1, 5),
                     Amount = 148.33,
                     PaymentType = "PayNow",
-                    CustId = 2,
-                    CohId = 2
+                    CustomerId = 2,
+                    CustOrderId = 2
                 }
             );
         }

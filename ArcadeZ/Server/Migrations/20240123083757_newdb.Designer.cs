@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArcadeZ.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240122193132_newdb")]
+    [Migration("20240123083757_newdb")]
     partial class newdb
     {
         /// <inheritdoc />
@@ -100,7 +100,7 @@ namespace ArcadeZ.Server.Migrations
                         {
                             Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "218e320f-c51c-4dcf-b31c-828972c7d543",
+                            ConcurrencyStamp = "88424eb5-bb91-4b04-9148-0ab45962ed73",
                             Email = "admin@localhost.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -108,9 +108,9 @@ namespace ArcadeZ.Server.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFl8hqNqNFrrBP4oNxrvshFuZTX1cdAXHleuRVfcjChPqcEduNgeQQ54xihPpDEjFA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBM4+5iXmMYBEr3ow+TE8FCujZMuDiLqX3splExYcIyea6XyBcrHDxjrKWN7HDABNA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "cd459583-2b48-4986-8978-a13baf7d4414",
+                            SecurityStamp = "38ec36ce-6ce1-4a04-aa52-62b9fe20fa01",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         });
@@ -124,10 +124,7 @@ namespace ArcadeZ.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CustId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CustomerId")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<string>("EnquiryDesc")
@@ -157,20 +154,20 @@ namespace ArcadeZ.Server.Migrations
                         new
                         {
                             Id = 1,
-                            CustId = 1,
+                            CustomerId = 1,
                             EnquiryDesc = "Refund for game",
                             EnquiryType = "Refund",
                             Resolved = true,
-                            StaffId = 0,
+                            StaffId = 1,
                             UpdatedBy = "Staff1"
                         },
                         new
                         {
                             Id = 2,
-                            CustId = 2,
+                            CustomerId = 2,
                             EnquiryDesc = "Console not working properly",
                             EnquiryType = "Product Fault",
-                            StaffId = 0
+                            StaffId = 1
                         });
                 });
 
@@ -182,10 +179,7 @@ namespace ArcadeZ.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CustId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CustomerId")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("OrderDateTime")
@@ -206,14 +200,14 @@ namespace ArcadeZ.Server.Migrations
                         new
                         {
                             Id = 1,
-                            CustId = 1,
+                            CustomerId = 1,
                             OrderDateTime = new DateTime(2024, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StaffId = 1
                         },
                         new
                         {
                             Id = 2,
-                            CustId = 2,
+                            CustomerId = 2,
                             OrderDateTime = new DateTime(2024, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StaffId = 2
                         });
@@ -227,22 +221,13 @@ namespace ArcadeZ.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CohId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CustOrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PhId")
+                    b.Property<int>("CustOrderId")
                         .HasColumnType("int");
 
                     b.Property<int?>("ProductHardwareId")
                         .HasColumnType("int");
 
                     b.Property<int?>("ProductSoftwareId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PsId")
                         .HasColumnType("int");
 
                     b.Property<int?>("Qty")
@@ -262,33 +247,29 @@ namespace ArcadeZ.Server.Migrations
                         new
                         {
                             Id = 1,
-                            CohId = 1,
-                            PhId = 1,
-                            PsId = 0,
+                            CustOrderId = 1,
+                            ProductHardwareId = 1,
                             Qty = 1
                         },
                         new
                         {
                             Id = 2,
-                            CohId = 1,
-                            PhId = 0,
-                            PsId = 1,
+                            CustOrderId = 1,
+                            ProductSoftwareId = 1,
                             Qty = 1
                         },
                         new
                         {
                             Id = 3,
-                            CohId = 2,
-                            PhId = 1,
-                            PsId = 0,
+                            CustOrderId = 2,
+                            ProductHardwareId = 1,
                             Qty = 1
                         },
                         new
                         {
                             Id = 4,
-                            CohId = 2,
-                            PhId = 4,
-                            PsId = 0,
+                            CustOrderId = 2,
+                            ProductHardwareId = 4,
                             Qty = 2
                         });
                 });
@@ -420,16 +401,10 @@ namespace ArcadeZ.Server.Migrations
                     b.Property<double?>("Amount")
                         .HasColumnType("float");
 
-                    b.Property<int>("CohId")
+                    b.Property<int>("CustOrderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CustId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CustOrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CustomerId")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("PaymentDateTime")
@@ -451,8 +426,8 @@ namespace ArcadeZ.Server.Migrations
                         {
                             Id = 1,
                             Amount = 90.879999999999995,
-                            CohId = 1,
-                            CustId = 1,
+                            CustOrderId = 1,
+                            CustomerId = 1,
                             PaymentDateTime = new DateTime(2024, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PaymentType = "Card"
                         },
@@ -460,8 +435,8 @@ namespace ArcadeZ.Server.Migrations
                         {
                             Id = 2,
                             Amount = 148.33000000000001,
-                            CohId = 2,
-                            CustId = 2,
+                            CustOrderId = 2,
+                            CustomerId = 2,
                             PaymentDateTime = new DateTime(2024, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PaymentType = "PayNow"
                         });
@@ -946,7 +921,9 @@ namespace ArcadeZ.Server.Migrations
                 {
                     b.HasOne("ArcadeZ.Shared.Domain.Customer", "Customer")
                         .WithMany()
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ArcadeZ.Shared.Domain.Staff", "Staff")
                         .WithMany()
@@ -963,7 +940,9 @@ namespace ArcadeZ.Server.Migrations
                 {
                     b.HasOne("ArcadeZ.Shared.Domain.Customer", "Customer")
                         .WithMany()
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ArcadeZ.Shared.Domain.Staff", "Staff")
                         .WithMany()
@@ -980,7 +959,9 @@ namespace ArcadeZ.Server.Migrations
                 {
                     b.HasOne("ArcadeZ.Shared.Domain.CustOrder", "CustOrder")
                         .WithMany()
-                        .HasForeignKey("CustOrderId");
+                        .HasForeignKey("CustOrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ArcadeZ.Shared.Domain.ProductHardware", "ProductHardware")
                         .WithMany()
@@ -1001,11 +982,15 @@ namespace ArcadeZ.Server.Migrations
                 {
                     b.HasOne("ArcadeZ.Shared.Domain.CustOrder", "CustOrder")
                         .WithMany()
-                        .HasForeignKey("CustOrderId");
+                        .HasForeignKey("CustOrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ArcadeZ.Shared.Domain.Customer", "Customer")
                         .WithMany()
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("CustOrder");
 

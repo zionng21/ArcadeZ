@@ -1,5 +1,73 @@
-﻿<h3>Index</h3>
+﻿@page "/custOrderItems/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+
+<h3 class="card-title">Customer Order Items</h3>
+
+@if (CustOrderItems == null)
+{
+	<div class="alert alert-info">Loading Customer Order Items...</div>
+}
+else
+{
+	<table class="table table-responsive">
+		<thead>
+			<tr>
+				<th>Quantity</th>
+				<th>Product</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var custOrderItem in CustOrderItems)
+			{
+				<tr>
+					<td>@custOrderItem.Qty</td>
+					@if (custOrderItem.ProductSoftwareId != null)
+					{
+						<td>@custOrderItem.ProductSoftware.sTitle</td>
+					}
+					else
+					{
+						<td>@custOrderItem.ProductHardware.hTitle</td>
+					}
+					<td>
+						<a href="/custOrderItems/view/@custOrderItem.Id" class="btn btn-primary">
+							<span class="oi oi-book"></span>
+						</a>
+						<a href="/custOrderItems/edit/@custOrderItem.Id" class="btn btn-warning">
+							<span class="oi oi-pencil"></span>
+						</a>
+						<button class="btn btn-danger" @onclick="@(()=>Delete(custOrderItem.Id))">
+							<span class="oi oi-delete"></span>
+						</button>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
 
 @code {
+	private List<CustOrderItem>? CustOrderItems;
 
+	protected async override Task OnInitializedAsync()
+	{
+		CustOrderItems = await _client.GetFromJsonAsync<List<CustOrderItem>>($"{Endpoints.CustOrderItemsEndpoint}");
+	}
+
+	async Task Delete(int CustOrderItemId)
+	{
+		if (CustOrderItems != null)
+		{
+			var custOrderItem = CustOrderItems.First(q => q.Id == CustOrderItemId);
+			var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {custOrderItem.Id}?");
+			if (confirm)
+			{
+				await _client.DeleteAsync($"{Endpoints.CustOrderItemsEndpoint}/{CustOrderItemId}");
+				await OnInitializedAsync();
+			}
+		}
+	}
 }

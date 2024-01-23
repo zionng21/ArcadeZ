@@ -330,8 +330,7 @@ namespace ArcadeZ.Server.Migrations
                     EnquiryType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Resolved = table.Column<bool>(type: "bit", nullable: true),
-                    CustId = table.Column<int>(type: "int", nullable: false),
-                    CustomerId = table.Column<int>(type: "int", nullable: true),
+                    CustomerId = table.Column<int>(type: "int", nullable: false),
                     StaffId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -341,7 +340,8 @@ namespace ArcadeZ.Server.Migrations
                         name: "FK_CustEnquiries_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_CustEnquiries_Staffs_StaffId",
                         column: x => x.StaffId,
@@ -357,8 +357,7 @@ namespace ArcadeZ.Server.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CustId = table.Column<int>(type: "int", nullable: false),
-                    CustomerId = table.Column<int>(type: "int", nullable: true),
+                    CustomerId = table.Column<int>(type: "int", nullable: false),
                     StaffId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -368,7 +367,8 @@ namespace ArcadeZ.Server.Migrations
                         name: "FK_CustOrders_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_CustOrders_Staffs_StaffId",
                         column: x => x.StaffId,
@@ -384,12 +384,9 @@ namespace ArcadeZ.Server.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Qty = table.Column<int>(type: "int", nullable: true),
-                    PhId = table.Column<int>(type: "int", nullable: false),
                     ProductHardwareId = table.Column<int>(type: "int", nullable: true),
-                    PsId = table.Column<int>(type: "int", nullable: false),
                     ProductSoftwareId = table.Column<int>(type: "int", nullable: true),
-                    CohId = table.Column<int>(type: "int", nullable: false),
-                    CustOrderId = table.Column<int>(type: "int", nullable: true)
+                    CustOrderId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -398,7 +395,8 @@ namespace ArcadeZ.Server.Migrations
                         name: "FK_CustOrderItems_CustOrders_CustOrderId",
                         column: x => x.CustOrderId,
                         principalTable: "CustOrders",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_CustOrderItems_ProductHardwares_ProductHardwareId",
                         column: x => x.ProductHardwareId,
@@ -420,10 +418,8 @@ namespace ArcadeZ.Server.Migrations
                     PaymentDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Amount = table.Column<double>(type: "float", nullable: true),
                     PaymentType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CustId = table.Column<int>(type: "int", nullable: false),
-                    CustomerId = table.Column<int>(type: "int", nullable: true),
-                    CohId = table.Column<int>(type: "int", nullable: false),
-                    CustOrderId = table.Column<int>(type: "int", nullable: true)
+                    CustomerId = table.Column<int>(type: "int", nullable: false),
+                    CustOrderId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -432,12 +428,14 @@ namespace ArcadeZ.Server.Migrations
                         name: "FK_Payments_CustOrders_CustOrderId",
                         column: x => x.CustOrderId,
                         principalTable: "CustOrders",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Payments_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.InsertData(
@@ -452,36 +450,7 @@ namespace ArcadeZ.Server.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "218e320f-c51c-4dcf-b31c-828972c7d543", "admin@localhost.com", false, "Admin", "User", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAEFl8hqNqNFrrBP4oNxrvshFuZTX1cdAXHleuRVfcjChPqcEduNgeQQ54xihPpDEjFA==", null, false, "cd459583-2b48-4986-8978-a13baf7d4414", false, "admin@localhost.com" });
-
-            migrationBuilder.InsertData(
-               table: "Staffs",
-               columns: new[] { "Id", "DateJoined", "DateOfBirth", "Department", "Email", "Name", "Password", "Role" },
-               values: new object[,]
-               {
-                    { 1, new DateTime(2022, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1987, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Customer Service", "staff1@arcadeZmail.com", "Staff1", "P@ssw0rd", "CS Support" },
-                    { 2, new DateTime(2021, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2003, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "Customer Service", "staff2@arcadeZmail.com", "Staff2", "P@ssw0rd", "CS Manager" }
-               });
-
-            migrationBuilder.InsertData(
-                table: "CustEnquiries",
-                columns: new[] { "Id", "CustId", "CustomerId", "EnquiryDesc", "EnquiryType", "Resolved", "StaffId", "UpdatedBy" },
-                values: new object[,]
-                {
-                    { 1, 1, null, "Refund for game", "Refund", true, 1, "Staff1" },
-                    { 2, 2, null, "Console not working properly", "Product Fault", null, 1, null }
-                });
-
-            migrationBuilder.InsertData(
-                table: "CustOrderItems",
-                columns: new[] { "Id", "CohId", "CustOrderId", "PhId", "ProductHardwareId", "ProductSoftwareId", "PsId", "Qty" },
-                values: new object[,]
-                {
-                    { 1, 1, null, 1, null, null, 0, 1 },
-                    { 2, 1, null, 0, null, null, 1, 1 },
-                    { 3, 2, null, 1, null, null, 0, 1 },
-                    { 4, 2, null, 4, null, null, 0, 2 }
-                });
+                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "88424eb5-bb91-4b04-9148-0ab45962ed73", "admin@localhost.com", false, "Admin", "User", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAEBM4+5iXmMYBEr3ow+TE8FCujZMuDiLqX3splExYcIyea6XyBcrHDxjrKWN7HDABNA==", null, false, "38ec36ce-6ce1-4a04-aa52-62b9fe20fa01", false, "admin@localhost.com" });
 
             migrationBuilder.InsertData(
                 table: "Customers",
@@ -502,12 +471,12 @@ namespace ArcadeZ.Server.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Payments",
-                columns: new[] { "Id", "Amount", "CohId", "CustId", "CustOrderId", "CustomerId", "PaymentDateTime", "PaymentType" },
+                table: "Staffs",
+                columns: new[] { "Id", "DateJoined", "DateOfBirth", "Department", "Email", "Name", "Password", "Role" },
                 values: new object[,]
                 {
-                    { 1, 90.879999999999995, 1, 1, null, null, new DateTime(2024, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "Card" },
-                    { 2, 148.33000000000001, 2, 2, null, null, new DateTime(2024, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "PayNow" }
+                    { 1, new DateTime(2022, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1987, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Customer Service", "staff1@arcadeZmail.com", "Staff1", "P@ssw0rd", "CS Support" },
+                    { 2, new DateTime(2021, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2003, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "Customer Service", "staff2@arcadeZmail.com", "Staff2", "P@ssw0rd", "CS Manager" }
                 });
 
             migrationBuilder.InsertData(
@@ -516,12 +485,21 @@ namespace ArcadeZ.Server.Migrations
                 values: new object[] { "ad2bcf0c-20db-474f-8407-5a6b159518ba", "3781efa7-66dc-47f0-860f-e506d04102e4" });
 
             migrationBuilder.InsertData(
-                table: "CustOrders",
-                columns: new[] { "Id", "CustId", "CustomerId", "OrderDateTime", "StaffId" },
+                table: "CustEnquiries",
+                columns: new[] { "Id", "CustomerId", "EnquiryDesc", "EnquiryType", "Resolved", "StaffId", "UpdatedBy" },
                 values: new object[,]
                 {
-                    { 1, 1, null, new DateTime(2024, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 },
-                    { 2, 2, null, new DateTime(2024, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 2 }
+                    { 1, 1, "Refund for game", "Refund", true, 1, "Staff1" },
+                    { 2, 2, "Console not working properly", "Product Fault", null, 1, null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "CustOrders",
+                columns: new[] { "Id", "CustomerId", "OrderDateTime", "StaffId" },
+                values: new object[,]
+                {
+                    { 1, 1, new DateTime(2024, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 },
+                    { 2, 2, new DateTime(2024, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -542,6 +520,26 @@ namespace ArcadeZ.Server.Migrations
                 {
                     { 1, "Shooter, Action", "World War 1 action", 1, 69.890000000000001, "Black War 1" },
                     { 2, "Shooter, FPS, Violence", "Boosting in game", 2, 100.12, "Overboost" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "CustOrderItems",
+                columns: new[] { "Id", "CustOrderId", "ProductHardwareId", "ProductSoftwareId", "Qty" },
+                values: new object[,]
+                {
+                    { 1, 1, 1, null, 1 },
+                    { 2, 1, null, 1, 1 },
+                    { 3, 2, 1, null, 1 },
+                    { 4, 2, 4, null, 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Payments",
+                columns: new[] { "Id", "Amount", "CustOrderId", "CustomerId", "PaymentDateTime", "PaymentType" },
+                values: new object[,]
+                {
+                    { 1, 90.879999999999995, 1, 1, new DateTime(2024, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "Card" },
+                    { 2, 148.33000000000001, 2, 2, new DateTime(2024, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "PayNow" }
                 });
 
             migrationBuilder.CreateIndex(
