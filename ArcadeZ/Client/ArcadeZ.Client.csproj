@@ -8,38 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Pages\CustEnquiry\**" />
-    <Compile Remove="Pages\Customer\**" />
-    <Compile Remove="Pages\CustOrderItem\**" />
-    <Compile Remove="Pages\CustOrder\**" />
-    <Compile Remove="Pages\Enterprise\**" />
-    <Compile Remove="Pages\Payment\**" />
-    <Compile Remove="Pages\ProductHardware\**" />
-    <Compile Remove="Pages\ProductSoftware\**" />
-    <Content Remove="Pages\CustEnquiry\**" />
-    <Content Remove="Pages\Customer\**" />
-    <Content Remove="Pages\CustOrderItem\**" />
-    <Content Remove="Pages\CustOrder\**" />
-    <Content Remove="Pages\Enterprise\**" />
-    <Content Remove="Pages\Payment\**" />
-    <Content Remove="Pages\ProductHardware\**" />
-    <Content Remove="Pages\ProductSoftware\**" />
-    <EmbeddedResource Remove="Pages\CustEnquiry\**" />
-    <EmbeddedResource Remove="Pages\Customer\**" />
-    <EmbeddedResource Remove="Pages\CustOrderItem\**" />
-    <EmbeddedResource Remove="Pages\CustOrder\**" />
-    <EmbeddedResource Remove="Pages\Enterprise\**" />
-    <EmbeddedResource Remove="Pages\Payment\**" />
-    <EmbeddedResource Remove="Pages\ProductHardware\**" />
-    <EmbeddedResource Remove="Pages\ProductSoftware\**" />
-    <None Remove="Pages\CustEnquiry\**" />
-    <None Remove="Pages\Customer\**" />
-    <None Remove="Pages\CustOrderItem\**" />
-    <None Remove="Pages\CustOrder\**" />
-    <None Remove="Pages\Enterprise\**" />
-    <None Remove="Pages\Payment\**" />
-    <None Remove="Pages\ProductHardware\**" />
-    <None Remove="Pages\ProductSoftware\**" />
+    <Compile Remove="Pages\d\**" />
+    <Content Remove="Pages\d\**" />
+    <EmbeddedResource Remove="Pages\d\**" />
+    <None Remove="Pages\d\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,17 +27,6 @@
 
   <ItemGroup>
     <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Pages\CustEnquiry\" />
-    <Folder Include="Pages\Customer\" />
-    <Folder Include="Pages\CustOrder\" />
-    <Folder Include="Pages\CustOrderItem\" />
-    <Folder Include="Pages\Enterprise\" />
-    <Folder Include="Pages\ProductHardware\" />
-    <Folder Include="Pages\ProductSoftware\" />
-    <Folder Include="Pages\Payment\" />
   </ItemGroup>
 
 </Project>
