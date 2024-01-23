@@ -97,7 +97,7 @@ namespace ArcadeZ.Server.Migrations
                         {
                             Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "88424eb5-bb91-4b04-9148-0ab45962ed73",
+                            ConcurrencyStamp = "2eadeb3f-f151-4f6d-8db4-1fe327323367",
                             Email = "admin@localhost.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -105,9 +105,9 @@ namespace ArcadeZ.Server.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBM4+5iXmMYBEr3ow+TE8FCujZMuDiLqX3splExYcIyea6XyBcrHDxjrKWN7HDABNA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECYaojSA2RW3AF6nyk5W8mTAybyEVSog31SdoXOC7mHfmh8xEt8tlXiA6LWYbWTahg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "38ec36ce-6ce1-4a04-aa52-62b9fe20fa01",
+                            SecurityStamp = "ffce1e75-d8b0-4bea-924c-c8e9a595de8e",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         });
