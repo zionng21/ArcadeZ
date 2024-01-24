@@ -1,0 +1,81 @@
+﻿@* Enterprise - Create.razor
+------------------ *@
+@page "/enterprises/create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Enterprise</h3>
+<hr />
+<br />
+
+<EditForm Model="@enterprise" OnValidSubmit="CreateEnterprise">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>First Name: </label>
+        <div>
+            <InputText @bind-Value="@enterprise.FirstName" class="form-control" />
+            <ValidationMessage For="@(() => enterprise.FirstName)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Enterprise Name: </label>
+        <div>
+            <InputText @bind-Value="@enterprise.EnterpriseName" class="form-control" />
+            <ValidationMessage For="@(() => enterprise.EnterpriseName)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Password: </label>
+        <div>
+            <InputText @bind-Value="@enterprise.Password" class="form-control" />
+            <ValidationMessage For="@(() => enterprise.Password)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Contact Number: </label>
+        <div>
+            <InputNumber @bind-Value="@enterprise.ContactNumber" class="form-control" />
+            <ValidationMessage For="@(() => enterprise.ContactNumber)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Email Address: </label>
+        <div>
+            <InputText @bind-Value="@enterprise.Email" class="form-control" />
+            <ValidationMessage For="@(() => enterprise.Email)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Email Address: </label>
+        <div>
+            <InputText @bind-Value="@enterprise.Email" class="form-control" />
+            <ValidationMessage For="@(() => enterprise.Email)" />
+        </div>
+    </div>
+
+    D
+
+    <button type="submit" class="btn btn-success btn-block">
+        Create Enterprise
+    </button>
+
+</EditForm>
+
+
+@code {
+    Enterprise enterprise = new Enterprise();
+  
+    private async Task CreateEnterprise()
+    {
+        await _client.PostAsJsonAsync(Endpoints.EnterprisesEndpoint, enterprise);
+        _navManager.NavigateTo("/enterprises/");
+    }
+
+}

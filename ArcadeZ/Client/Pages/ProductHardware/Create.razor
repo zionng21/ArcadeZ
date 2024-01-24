@@ -1,0 +1,67 @@
+﻿@page "/producthardwares/create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Product Hardware</h3>
+<hr />
+<br />
+
+<EditForm Model="@productHardware" OnValidSubmit="CreateProductHardware">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Title: </label>
+        <div>
+            <InputText @bind-Value="@productHardware.hTitle" class="form-control" />
+            <ValidationMessage For="@(() => productHardware.hTitle)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Price: </label>
+        <div>
+            <InputNumber @bind-Value="@productHardware.hPrice" class="form-control" />
+            <ValidationMessage For="@(() => productHardware.hPrice)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Description: </label>
+        <div>
+            <InputTextArea @bind-Value="@productHardware.Description" class="form-control" />
+            <ValidationMessage For="@(() => productHardware.Description)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Inventory: </label>
+        <div>
+            <InputNumber @bind-Value="@productHardware.Inventory" class="form-control" />
+            <ValidationMessage For="@(() => productHardware.Inventory)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Enterprise ID: </label>
+        <div>
+            <InputNumber @bind-Value="@productHardware.EnterpriseId" class="form-control" />
+            <ValidationMessage For="@(() => productHardware.EnterpriseId)" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success btn-block">
+        Create Product Hardware
+    </button>
+
+</EditForm>
+
+@code {
+    ProductHardware productHardware = new ProductHardware();
+
+    private async Task CreateProductHardware()
+    {
+        await _client.PostAsJsonAsync(Endpoints.ProductHardwaresEndpoint, productHardware);
+        _navManager.NavigateTo("/producthardwares/");
+    }
+}

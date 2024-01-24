@@ -33,7 +33,7 @@
         <div>
             <InputSelect @bind-Value="staff.Department" class="form-control">
                 <option value="">-- Select Department --</option>
-                
+
                 @if (departmentList != null)
                 {
                     foreach (var department in departmentList)
@@ -43,6 +43,33 @@
                 }
             </InputSelect>
             <ValidationMessage For="@(() => staff.Department)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Role: </label>
+        <div>
+            <InputSelect @bind-Value="staff.Role" class="form-control">
+                <option value="">-- Select Role --</option>
+                
+                @if (roleList != null)
+                {
+                    foreach (var role in roleList)
+                    {
+                        <option value="@role">@role</option>
+                    }
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => staff.Role)" />
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label>Password: </label>
+        <div>
+            <InputText @bind-Value="@staff.Password" class="form-control" />
+            <ValidationMessage For="@(() => staff.Password)" />
         </div>
     </div>
 
@@ -56,6 +83,7 @@
 @code {
     Staff staff = new Staff();
     List<string>departmentList = new List<string> { "Customer Service", "Logistic", "Marketing" };
+    List<string> roleList = new List<string> { "CS Support", "CS Manager", "Logistic Crew", "Logistic Manager", "Marketing Member", "Marketing Manager" };
     private async Task CreateStaff()
     {
         await _client.PostAsJsonAsync(Endpoints.StaffsEndpoint, staff);
