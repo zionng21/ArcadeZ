@@ -1,0 +1,42 @@
+﻿@page "/custorders/create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Customer Order</h3>
+<hr />
+<br />
+
+<EditForm Model="@custOrder" OnValidSubmit="CreateCustOrder">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Order Date and Time: </label>
+        <InputDate @bind-Value="@custOrder.OrderDateTime" class="form-control" />
+        <ValidationMessage For="@(() => custOrder.OrderDateTime)" />
+    </div>
+
+    <div class="form-group">
+        <label>Customer ID: </label>
+        <InputNumber @bind-Value="@custOrder.CustomerId" class="form-control" />
+        <ValidationMessage For="@(() => custOrder.CustomerId)" />
+    </div>
+
+    <div class="form-group">
+        <label>Staff ID: </label>
+        <InputNumber @bind-Value="@custOrder.StaffId" class="form-control" />
+        <ValidationMessage For="@(() => custOrder.StaffId)" />
+    </div>
+
+    <button type="submit" class="btn btn-success btn-block">Create Customer Order</button>
+</EditForm>
+
+@code {
+    CustOrder custOrder = new CustOrder();
+
+    private async Task CreateCustOrder()
+    {
+        await _client.PostAsJsonAsync(Endpoints.CustOrdersEndpoint, custOrder);
+        _navManager.NavigateTo("/custorders/");
+    }
+}

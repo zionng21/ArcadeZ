@@ -1,0 +1,48 @@
+﻿@page "/custorderitems/create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Customer Order Item</h3>
+<hr />
+<br />
+
+<EditForm Model="@custOrderItem" OnValidSubmit="CreateCustOrderItem">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Quantity: </label>
+        <InputNumber @bind-Value="@custOrderItem.Qty" class="form-control" />
+        <ValidationMessage For="@(() => custOrderItem.Qty)" />
+    </div>
+
+    <div class="form-group">
+        <label>Product Hardware ID: </label>
+        <InputNumber @bind-Value="@custOrderItem.ProductHardwareId" class="form-control" />
+        <ValidationMessage For="@(() => custOrderItem.ProductHardwareId)" />
+    </div>
+
+    <div class="form-group">
+        <label>Product Software ID: </label>
+        <InputNumber @bind-Value="@custOrderItem.ProductSoftwareId" class="form-control" />
+        <ValidationMessage For="@(() => custOrderItem.ProductSoftwareId)" />
+    </div>
+
+    <div class="form-group">
+        <label>Customer Order ID: </label>
+        <InputNumber @bind-Value="@custOrderItem.CustOrderId" class="form-control" />
+        <ValidationMessage For="@(() => custOrderItem.CustOrderId)" />
+    </div>
+
+    <button type="submit" class="btn btn-success btn-block">Create Customer Order Item</button>
+</EditForm>
+
+@code {
+    CustOrderItem custOrderItem = new CustOrderItem();
+
+    private async Task CreateCustOrderItem()
+    {
+        await _client.PostAsJsonAsync(Endpoints.CustOrderItemsEndpoint, custOrderItem);
+        _navManager.NavigateTo("/custorderitems/");
+    }
+}

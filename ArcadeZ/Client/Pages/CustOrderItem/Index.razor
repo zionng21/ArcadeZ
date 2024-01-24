@@ -2,7 +2,13 @@
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
-
+<h3 class="card-title">Customer Order Item Creation</h3>
+<a href="/custOrderItems/create" class="btn btn-secondary">
+	<span class="oi oi-plus"></span>
+	Create New Customer Order Item
+</a>
+<br />
+<br />
 <h3 class="card-title">Customer Order Items</h3>
 
 @if (CustOrderItems == null)
