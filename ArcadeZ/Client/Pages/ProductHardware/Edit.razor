@@ -1,0 +1,24 @@
+﻿@page "/producthardwares/edit/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Edit Hardware Product</h3>
+
+<FormComponent ButtonText="Update" OnValidSubmit="EditProductHardware" productHardware="productHardware"></FormComponent>
+
+@code {
+
+	[Parameter] public int id { get; set; }
+	ProductHardware? productHardware = new ProductHardware();
+
+	protected async override Task OnParametersSetAsync()
+	{
+		productHardware = await _client.GetFromJsonAsync<ProductHardware>($"{Endpoints.ProductHardwaresEndpoint}/{id}");
+	}
+
+	async Task EditProductHardware()
+	{
+		await _client.PutAsJsonAsync($"{Endpoints.ProductHardwaresEndpoint}/{id}", productHardware);
+		_navManager.NavigateTo("/producthardwares/");
+	}
+}

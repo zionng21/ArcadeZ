@@ -1,0 +1,70 @@
+﻿<EditForm Model="@payment" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Payment Date and Time: </label>
+        <div>
+            <InputDate @bind-Value="@payment.PaymentDateTime" class="form-control" />
+            <ValidationMessage For="@(() => payment.PaymentDateTime)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Amount: </label>
+        <div>
+            <InputNumber @bind-Value="@payment.Amount" class="form-control" />
+            <ValidationMessage For="@(() => payment.Amount)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Payment Type: </label>
+        <div>
+            <InputSelect @bind-Value="payment.PaymentType" class="form-control">
+                <option value="">-- Select Payment Type --</option>
+
+                @if (paymentList != null)
+                {
+                    foreach (var department in paymentList)
+                    {
+                        <option value="@department">@department</option>
+                    }
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => payment.PaymentType)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Customer ID: </label>
+        <div>
+            <InputNumber @bind-Value="@payment.CustomerId" class="form-control" />
+            <ValidationMessage For="@(() => payment.CustomerId)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Customer Order ID: </label>
+        <div>
+            <InputNumber @bind-Value="@payment.CustOrderId" class="form-control" />
+            <ValidationMessage For="@(() => payment.CustOrderId)" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success btn-block">
+        @ButtonText
+    </button>
+
+    <BackToList Target="payments" />
+
+</EditForm>
+
+@code {
+
+    List<string> paymentList = new List<string> { "Card", "PayNow", "GrabPay" };
+    [Parameter] public Payment? payment { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+
+}

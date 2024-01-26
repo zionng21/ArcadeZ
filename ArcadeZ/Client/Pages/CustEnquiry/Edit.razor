@@ -1,0 +1,24 @@
+﻿@page "/custEnquiries/edit/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Edit Customer Enquiry</h3>
+
+<FormComponent ButtonText="Update" OnValidSubmit="EditCustEnquiry" custEnquiry="custEnquiry"></FormComponent>
+
+@code {
+
+	[Parameter] public int id { get; set; }
+	CustEnquiry? custEnquiry = new CustEnquiry();
+
+	protected async override Task OnParametersSetAsync()
+	{
+		custEnquiry = await _client.GetFromJsonAsync<CustEnquiry>($"{Endpoints.CustEnquiriesEndpoint}/{id}");
+	}
+
+	async Task EditCustEnquiry()
+	{
+		await _client.PutAsJsonAsync($"{Endpoints.CustEnquiriesEndpoint}/{id}", custEnquiry);
+		_navManager.NavigateTo("/custEnquiries/");
+	}
+}
