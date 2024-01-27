@@ -1,0 +1,19 @@
+﻿@page "/custEnquiries/view/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">View Customer Enquiry</h3>
+
+<FormComponent custEnquiry="custEnquiry" Disabled="true"/>
+
+@code {
+
+	[Parameter] public int id { get; set; }
+	CustEnquiry? custEnquiry = new CustEnquiry();
+
+	protected async override Task OnParametersSetAsync()
+	{
+		custEnquiry = await _client.GetFromJsonAsync<CustEnquiry>($"{Endpoints.CustEnquiriesEndpoint}/{id}");
+	}
+
+}

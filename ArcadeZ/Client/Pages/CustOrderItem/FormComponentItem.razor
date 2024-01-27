@@ -1,40 +1,44 @@
 ﻿<EditForm Model="@custOrderItem" OnValidSubmit="OnValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
+    <fieldset disabled="@Disabled">
+        <div class="form-group">
+            <label>Quantity: </label>
+            <InputNumber @bind-Value="@custOrderItem.Qty" class="form-control" />
+            <ValidationMessage For="@(() => custOrderItem.Qty)" />
+        </div>
 
-    <div class="form-group">
-        <label>Quantity: </label>
-        <InputNumber @bind-Value="@custOrderItem.Qty" class="form-control" />
-        <ValidationMessage For="@(() => custOrderItem.Qty)" />
-    </div>
+        <div class="form-group">
+            <label>Product Hardware ID: </label>
+            <InputNumber @bind-Value="@custOrderItem.ProductHardwareId" class="form-control" />
+            <ValidationMessage For="@(() => custOrderItem.ProductHardwareId)" />
+        </div>
 
-    <div class="form-group">
-        <label>Product Hardware ID: </label>
-        <InputNumber @bind-Value="@custOrderItem.ProductHardwareId" class="form-control" />
-        <ValidationMessage For="@(() => custOrderItem.ProductHardwareId)" />
-    </div>
+        <div class="form-group">
+            <label>Product Software ID: </label>
+            <InputNumber @bind-Value="@custOrderItem.ProductSoftwareId" class="form-control" />
+            <ValidationMessage For="@(() => custOrderItem.ProductSoftwareId)" />
+        </div>
 
-    <div class="form-group">
-        <label>Product Software ID: </label>
-        <InputNumber @bind-Value="@custOrderItem.ProductSoftwareId" class="form-control" />
-        <ValidationMessage For="@(() => custOrderItem.ProductSoftwareId)" />
-    </div>
-
-    <div class="form-group">
-        <label>Customer Order ID: </label>
-        <InputNumber @bind-Value="@custOrderItem.CustOrderId" class="form-control" />
-        <ValidationMessage For="@(() => custOrderItem.CustOrderId)" />
-    </div>
-
-    <button type="submit" class="btn btn-success btn-block">
-        @ButtonText
-    </button>
+        <div class="form-group">
+            <label>Customer Order ID: </label>
+            <InputNumber @bind-Value="@custOrderItem.CustOrderId" class="form-control" />
+            <ValidationMessage For="@(() => custOrderItem.CustOrderId)" />
+        </div>
+    </fieldset>
+    @if (!Disabled)
+    {
+        <button type="submit" class="btn btn-success btn-block">
+            @ButtonText
+        </button>
+    }
 
     <BackToList Target="custOrderItems" />
 </EditForm>
 
 @code {
 
+    [Parameter] public bool Disabled { get; set; } = false;
     [Parameter] public CustOrderItem? custOrderItem { get; set; }
     [Parameter] public string ButtonText { get; set; } = "Save";
     [Parameter] public EventCallback OnValidSubmit { get; set; }

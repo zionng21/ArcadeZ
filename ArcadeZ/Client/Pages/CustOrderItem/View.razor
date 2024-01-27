@@ -1,0 +1,19 @@
+﻿@page "/custOrderItems/view/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">View Customer Order Item</h3>
+
+<FormComponentItem custOrderItem="custOrderItem" Disabled="true" />
+
+@code {
+
+	[Parameter] public int id { get; set; }
+	CustOrderItem? custOrderItem = new CustOrderItem();
+
+	protected async override Task OnParametersSetAsync()
+	{
+		custOrderItem = await _client.GetFromJsonAsync<CustOrderItem>($"{Endpoints.CustOrderItemsEndpoint}/{id}");
+	}
+	
+}

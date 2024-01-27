@@ -1,67 +1,70 @@
 ﻿<EditForm Model="@enterprise" OnValidSubmit="OnValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
-
-    <div class="form-group">
-        <label>First Name: </label>
-        <div>
-            <InputText @bind-Value="@enterprise.FirstName" class="form-control" />
-            <ValidationMessage For="@(() => enterprise.FirstName)" />
+    <fieldset disabled="@Disabled">
+        <div class="form-group">
+            <label>First Name: </label>
+            <div>
+                <InputText @bind-Value="@enterprise.FirstName" class="form-control" />
+                <ValidationMessage For="@(() => enterprise.FirstName)" />
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label>Enterprise Name: </label>
-        <div>
-            <InputText @bind-Value="@enterprise.EnterpriseName" class="form-control" />
-            <ValidationMessage For="@(() => enterprise.EnterpriseName)" />
+        <div class="form-group">
+            <label>Enterprise Name: </label>
+            <div>
+                <InputText @bind-Value="@enterprise.EnterpriseName" class="form-control" />
+                <ValidationMessage For="@(() => enterprise.EnterpriseName)" />
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label>Password: </label>
-        <div>
-            <InputText @bind-Value="@enterprise.Password" class="form-control" />
-            <ValidationMessage For="@(() => enterprise.Password)" />
+        <div class="form-group">
+            <label>Password: </label>
+            <div>
+                <InputText @bind-Value="@enterprise.Password" class="form-control" />
+                <ValidationMessage For="@(() => enterprise.Password)" />
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label>Contact Number: </label>
-        <div>
-            <InputNumber @bind-Value="@enterprise.ContactNumber" class="form-control" />
-            <ValidationMessage For="@(() => enterprise.ContactNumber)" />
+        <div class="form-group">
+            <label>Contact Number: </label>
+            <div>
+                <InputNumber @bind-Value="@enterprise.ContactNumber" class="form-control" />
+                <ValidationMessage For="@(() => enterprise.ContactNumber)" />
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label>Email Address: </label>
-        <div>
-            <InputText @bind-Value="@enterprise.Email" class="form-control" />
-            <ValidationMessage For="@(() => enterprise.Email)" />
+        <div class="form-group">
+            <label>Email Address: </label>
+            <div>
+                <InputText @bind-Value="@enterprise.Email" class="form-control" />
+                <ValidationMessage For="@(() => enterprise.Email)" />
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label>Email Address: </label>
-        <div>
-            <InputText @bind-Value="@enterprise.Email" class="form-control" />
-            <ValidationMessage For="@(() => enterprise.Email)" />
+        <div class="form-group">
+            <label>Email Address: </label>
+            <div>
+                <InputText @bind-Value="@enterprise.Email" class="form-control" />
+                <ValidationMessage For="@(() => enterprise.Email)" />
+            </div>
         </div>
-    </div>
-
+    </fieldset>
     D
 
-    <button type="submit" class="btn btn-success btn-block">
-        @ButtonText
-    </button>
-
+    @if (!Disabled)
+    {
+        <button type="submit" class="btn btn-success btn-block">
+            @ButtonText
+        </button>
+    }
     <BackToList Target="enterprises" />
 
 </EditForm>
 
 @code {
 
+    [Parameter] public bool Disabled { get; set; } = false;
     [Parameter] public Enterprise? enterprise { get; set; }
     [Parameter] public string ButtonText { get; set; } = "Save";
     [Parameter] public EventCallback OnValidSubmit { get; set; }

@@ -8,77 +8,7 @@
 <hr />
 <br />
 
-<EditForm Model="@staff" OnValidSubmit="CreateStaff">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-
-    <div class="form-group">
-        <label>Name: </label>
-        <div>
-            <InputText @bind-Value="@staff.Name" class="form-control" />
-            <ValidationMessage For="@(() => staff.Name)" />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label>Email Address: </label>
-        <div>
-            <InputText @bind-Value="@staff.Email" class="form-control" />
-            <ValidationMessage For="@(() => staff.Email)" />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label>Department: </label>
-        <div>
-            <InputSelect @bind-Value="staff.Department" class="form-control">
-                <option value="">-- Select Department --</option>
-
-                @if (departmentList != null)
-                {
-                    foreach (var department in departmentList)
-                    {
-                        <option value="@department">@department</option>
-                    }
-                }
-            </InputSelect>
-            <ValidationMessage For="@(() => staff.Department)" />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label>Role: </label>
-        <div>
-            <InputSelect @bind-Value="staff.Role" class="form-control">
-                <option value="">-- Select Role --</option>
-                
-                @if (roleList != null)
-                {
-                    foreach (var role in roleList)
-                    {
-                        <option value="@role">@role</option>
-                    }
-                }
-            </InputSelect>
-            <ValidationMessage For="@(() => staff.Role)" />
-        </div>
-    </div>
-
-
-    <div class="form-group">
-        <label>Password: </label>
-        <div>
-            <InputText @bind-Value="@staff.Password" class="form-control" />
-            <ValidationMessage For="@(() => staff.Password)" />
-        </div>
-    </div>
-
-    <button type="submit" class="btn btn-success btn-block">
-        Create Staff
-    </button>
-
-</EditForm>
-
+<FormComponent ButtonText="Create Staff" OnValidSubmit="CreateStaff" staff="staff" />
 
 @code {
     Staff staff = new Staff();

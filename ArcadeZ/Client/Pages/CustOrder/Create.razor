@@ -6,30 +6,7 @@
 <hr />
 <br />
 
-<EditForm Model="@custOrder" OnValidSubmit="CreateCustOrder">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-
-    <div class="form-group">
-        <label>Order Date and Time: </label>
-        <InputDate @bind-Value="@custOrder.OrderDateTime" class="form-control" />
-        <ValidationMessage For="@(() => custOrder.OrderDateTime)" />
-    </div>
-
-    <div class="form-group">
-        <label>Customer ID: </label>
-        <InputNumber @bind-Value="@custOrder.CustomerId" class="form-control" />
-        <ValidationMessage For="@(() => custOrder.CustomerId)" />
-    </div>
-
-    <div class="form-group">
-        <label>Staff ID: </label>
-        <InputNumber @bind-Value="@custOrder.StaffId" class="form-control" />
-        <ValidationMessage For="@(() => custOrder.StaffId)" />
-    </div>
-
-    <button type="submit" class="btn btn-success btn-block">Create Customer Order</button>
-</EditForm>
+<FormComponent ButtonText="Create Customer Order" OnValidSubmit="CreateCustOrder" custOrder="custOrder" />
 
 @code {
     CustOrder custOrder = new CustOrder();

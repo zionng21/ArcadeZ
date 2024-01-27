@@ -1,0 +1,19 @@
+﻿@page "/enterpises/view/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">View Enterprise</h3>
+
+<FormComponent enterprise="enterprise" Disabled="true" />
+
+@code {
+
+	[Parameter] public int id { get; set; }
+	Enterprise? enterprise = new Enterprise();
+
+	protected async override Task OnParametersSetAsync()
+	{
+		enterprise = await _client.GetFromJsonAsync<Enterprise>($"{Endpoints.EnterprisesEndpoint}/{id}");
+	}
+
+}

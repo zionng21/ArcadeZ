@@ -6,55 +6,7 @@
 <hr />
 <br />
 
-<EditForm Model="@productSoftware" OnValidSubmit="CreateProductSoftware">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-
-    <div class="form-group">
-        <label>Title: </label>
-        <div>
-            <InputText @bind-Value="@productSoftware.sTitle" class="form-control" />
-            <ValidationMessage For="@(() => productSoftware.sTitle)" />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label>Price: </label>
-        <div>
-            <InputNumber @bind-Value="@productSoftware.sPrice" class="form-control" />
-            <ValidationMessage For="@(() => productSoftware.sPrice)" />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label>Category: </label>
-        <div>
-            <InputText @bind-Value="@productSoftware.Category" class="form-control" />
-            <ValidationMessage For="@(() => productSoftware.Category)" />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label>Description: </label>
-        <div>
-            <InputTextArea @bind-Value="@productSoftware.Description" class="form-control" />
-            <ValidationMessage For="@(() => productSoftware.Description)" />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label>Enterprise ID: </label>
-        <div>
-            <InputNumber @bind-Value="@productSoftware.EnterpriseId" class="form-control" />
-            <ValidationMessage For="@(() => productSoftware.EnterpriseId)" />
-        </div>
-    </div>
-
-    <button type="submit" class="btn btn-success btn-block">
-        Create Product Software
-    </button>
-
-</EditForm>
+<FormComponent ButtonText="Create Product Software" OnValidSubmit="CreateProductSoftware" productSoftware="productSoftware" />
 
 @code {
     ProductSoftware productSoftware = new ProductSoftware();

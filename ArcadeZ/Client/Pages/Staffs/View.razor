@@ -1,10 +1,10 @@
-﻿@page "/staffs/edit/{id:int}"
+﻿@page "/staffs/view/{id:int}"
 @inject HttpClient _client
 @inject NavigationManager _navManager
 
-<h3 class="card-title">Edit Staff</h3>
+<h3 class="card-title">View Staff</h3>
 
-<FormComponent ButtonText="Update" OnValidSubmit="EditStaff" staff="staff" />
+<FormComponent staff="staff" Disabled="true" />
 
 @code {
 
@@ -14,11 +14,5 @@
 	protected async override Task OnParametersSetAsync()
 	{
 		staff = await _client.GetFromJsonAsync<Staff>($"{Endpoints.StaffsEndpoint}/{id}");
-	}
-
-	async Task EditStaff()
-	{
-		await _client.PutAsJsonAsync($"{Endpoints.StaffsEndpoint}/{id}", staff);
-		_navManager.NavigateTo("/staffs/");
 	}
 }

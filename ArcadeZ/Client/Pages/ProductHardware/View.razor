@@ -1,0 +1,19 @@
+﻿@page "/producthardwares/view/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">View Hardware Product</h3>
+
+<FormComponent productHardware="productHardware" Disabled="true" />
+
+@code {
+
+	[Parameter] public int id { get; set; }
+	ProductHardware? productHardware = new ProductHardware();
+
+	protected async override Task OnParametersSetAsync()
+	{
+		productHardware = await _client.GetFromJsonAsync<ProductHardware>($"{Endpoints.ProductHardwaresEndpoint}/{id}");
+	}
+
+}

@@ -6,73 +6,7 @@
 <hr />
 <br />
 
-<EditForm Model="@custEnquiry" OnValidSubmit="CreateCustEnquiry">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-
-    <div class="form-group">
-        <label>Enquiry Description: </label>
-        <div>
-            <InputTextArea @bind-Value="@custEnquiry.EnquiryDesc" class="form-control" />
-            <ValidationMessage For="@(() => custEnquiry.EnquiryDesc)" />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label>Enquiry Type: </label>
-        <div>
-            <InputSelect @bind-Value="custEnquiry.EnquiryType" class="form-control">
-                <option value="">-- Select Department --</option>
-
-                @if (ETypeList != null)
-                {
-                    foreach (var department in ETypeList)
-                    {
-                        <option value="@department">@department</option>
-                    }
-                }
-            </InputSelect>
-            <ValidationMessage For="@(() => custEnquiry.EnquiryType)" />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label>Updated By: </label>
-        <div>
-            <InputText @bind-Value="@custEnquiry.UpdatedBy" class="form-control" />
-            <ValidationMessage For="@(() => custEnquiry.UpdatedBy)" />
-        </div>
-    </div>
-
-@*  <div class="form-group">
-        <label>Resolved: </label>
-        <div>
-            <InputCheckbox @bind-Value="@custEnquiry.Resolved" class="form-check-input" />
-            <ValidationMessage For="@(() => custEnquiry.Resolved)" />
-        </div>
-    </div> *@
-
-    <div class="form-group">
-        <label>Customer ID: </label>
-        <div>
-            <InputNumber @bind-Value="@custEnquiry.CustomerId" class="form-control" />
-            <ValidationMessage For="@(() => custEnquiry.CustomerId)" />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label>Staff ID: </label>
-        <div>
-            <InputNumber @bind-Value="@custEnquiry.StaffId" class="form-control" />
-            <ValidationMessage For="@(() => custEnquiry.StaffId)" />
-        </div>
-    </div>
-
-    <button type="submit" class="btn btn-success btn-block">
-        Create Enquiry
-    </button>
-
-</EditForm>
+<FormComponent ButtonText="Create Enquiry" OnValidSubmit="CreateCustEnquiry" custEnquiry="custEnquiry" />
 
 @code {
     CustEnquiry custEnquiry = new CustEnquiry();
