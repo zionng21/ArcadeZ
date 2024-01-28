@@ -2,6 +2,36 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
     <fieldset disabled="@Disabled">
+        @if (productSoftware.sthumbnail == null && @Disabled != true)
+        {
+            <div class="form-group">
+                <label>Image: </label>
+                <div>
+                    <InputFile OnChange="HandleFileSelected"></InputFile>
+                </div>
+            </div>
+        }
+        @if (Disabled != null && productSoftware.sthumbnail != null)
+        {
+            existingImageData = Convert.ToBase64String(productSoftware.sthumbnail);
+            @if (@Disabled == true)
+            {
+                <div>
+                    <label>Image: </label>
+                    <img src="@("data:image/png;base64," + existingImageData)" alt="image" />
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label>Image: </label>
+                    <img src="@("data:image/png;base64," + existingImageData)" alt="image" />
+                    <div>
+                        <InputFile OnChange="HandleFileSelected"></InputFile>
+                    </div>
+                </div>
+            }
+        }
         <div class="form-group">
             <label>Title: </label>
             <div>
@@ -60,5 +90,32 @@
     [Parameter] public ProductSoftware? productSoftware { get; set; }
     [Parameter] public string ButtonText { get; set; } = "Save";
     [Parameter] public EventCallback OnValidSubmit { get; set; }
+
+    private byte[] imageBytes;
+    private string existingImageData;
+
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        
+        if (file != null)
+        {
+            var resizedFile = await file.RequestImageFileAsync(file.ContentType, 376, 282);
+            // Read the selected file
+            using (var stream = resizedFile.OpenReadStream())
+            {
+                // Convert the file content to a byte array
+                using (var memoryStream = new MemoryStream())
+                {
+                    await stream.CopyToAsync(memoryStream);
+                    imageBytes = memoryStream.ToArray();
+
+                    // Assign the byte array to the productSoftware.thumbnail property
+                    productSoftware.sthumbnail = imageBytes;
+                }
+            }
+        }
+    }
+
 
 }

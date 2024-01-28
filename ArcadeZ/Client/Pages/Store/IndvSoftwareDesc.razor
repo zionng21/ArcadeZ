@@ -1,0 +1,19 @@
+﻿@page "/store/software/{id:int}"
+@inject HttpClient _client
+
+<div>
+	<p>@productSoftware.sTitle</p>
+	<p>@productSoftware.Description</p>
+	<p>@productSoftware.Category</p>
+</div>
+
+@code {
+
+	[Parameter] public int id { get; set; }
+	ProductSoftware? productSoftware = new ProductSoftware();
+	
+	protected async override Task OnParametersSetAsync()
+	{
+		productSoftware = await _client.GetFromJsonAsync<ProductSoftware>($"{Endpoints.ProductSoftwaresEndpoint}/{id}");
+	}
+}

@@ -283,6 +283,7 @@ namespace ArcadeZ.Server.Migrations
                     hTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     hPrice = table.Column<double>(type: "float", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    hthumbnail = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     Inventory = table.Column<int>(type: "int", nullable: false),
                     EnterpriseId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -307,6 +308,7 @@ namespace ArcadeZ.Server.Migrations
                     sPrice = table.Column<double>(type: "float", nullable: true),
                     Category = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    sthumbnail = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     EnterpriseId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -450,7 +452,7 @@ namespace ArcadeZ.Server.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "2eadeb3f-f151-4f6d-8db4-1fe327323367", "admin@localhost.com", false, "Admin", "User", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAECYaojSA2RW3AF6nyk5W8mTAybyEVSog31SdoXOC7mHfmh8xEt8tlXiA6LWYbWTahg==", null, false, "ffce1e75-d8b0-4bea-924c-c8e9a595de8e", false, "admin@localhost.com" });
+                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "344ae187-2663-4573-a8c0-f8b5bbefcbc2", "admin@localhost.com", false, "Admin", "User", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAEFjXoFGAA2ebT2tkbzZT9XLSDu/l+qc5U3psN2S45N24YiYc3mBWKGf3ISwEL/68ow==", null, false, "f85aed8f-c40c-48c2-95c8-a768e8da9ee4", false, "admin@localhost.com" });
 
             migrationBuilder.InsertData(
                 table: "Customers",
@@ -504,22 +506,22 @@ namespace ArcadeZ.Server.Migrations
 
             migrationBuilder.InsertData(
                 table: "ProductHardwares",
-                columns: new[] { "Id", "Description", "EnterpriseId", "Inventory", "hPrice", "hTitle" },
+                columns: new[] { "Id", "Description", "EnterpriseId", "Inventory", "hPrice", "hTitle", "hthumbnail" },
                 values: new object[,]
                 {
-                    { 1, "Gaming Mouse Brand1", 1, 100, 20.989999999999998, "Mouse" },
-                    { 2, "RGB Gaming Keyboard Brand1", 1, 100, 42.990000000000002, "Keyboard" },
-                    { 3, "Gaming Mouse Brand2", 2, 100, 89.989999999999995, "Mouse" },
-                    { 4, "Gaming Keyboard Brand2", 2, 100, 63.670000000000002, "Keyboard" }
+                    { 1, "Gaming Mouse Brand1", 1, 100, 20.989999999999998, "Mouse", null },
+                    { 2, "RGB Gaming Keyboard Brand1", 1, 100, 42.990000000000002, "Keyboard", null },
+                    { 3, "Gaming Mouse Brand2", 2, 100, 89.989999999999995, "Mouse", null },
+                    { 4, "Gaming Keyboard Brand2", 2, 100, 63.670000000000002, "Keyboard", null }
                 });
 
             migrationBuilder.InsertData(
                 table: "ProductSoftwares",
-                columns: new[] { "Id", "Category", "Description", "EnterpriseId", "sPrice", "sTitle" },
+                columns: new[] { "Id", "Category", "Description", "EnterpriseId", "sPrice", "sTitle", "sthumbnail" },
                 values: new object[,]
                 {
-                    { 1, "Shooter, Action", "World War 1 action", 1, 69.890000000000001, "Black War 1" },
-                    { 2, "Shooter, FPS, Violence", "Boosting in game", 2, 100.12, "Overboost" }
+                    { 1, "Shooter, Action", "World War 1 action", 1, 69.890000000000001, "Black War 1", null },
+                    { 2, "Shooter, FPS, Violence", "Boosting in game", 2, 100.12, "Overboost", null }
                 });
 
             migrationBuilder.InsertData(

@@ -1,0 +1,17 @@
+﻿@page "/store/hardware/{id:int}"
+@inject HttpClient _client
+
+<div>
+	<p>@productHardware.hTitle</p>
+	<p>@productHardware.Description</p>
+</div>
+
+@code {
+	[Parameter] public int id { get; set; }
+	ProductHardware? productHardware = new ProductHardware();
+
+	protected async override Task OnParametersSetAsync()
+	{
+		productHardware = await _client.GetFromJsonAsync<ProductHardware>($"{Endpoints.ProductHardwaresEndpoint}/{id}");
+	}
+}

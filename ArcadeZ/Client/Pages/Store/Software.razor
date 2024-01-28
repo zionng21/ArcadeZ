@@ -1,0 +1,40 @@
+﻿@page "/store/software/"
+@inject HttpClient _client
+
+<StoreIndex />
+@if (ProductSoftwares == null)
+{
+	<div class="alert alert-info">Loading Software Products...</div>
+}
+else
+{
+	<div class="row">
+		@foreach (var productsoftware in ProductSoftwares)
+		{
+			<div class="col-md-3 mb-3">
+				<div class="card h-100">
+					<a class="card-body" href="/store/software/@productsoftware.Id">
+						<div style ="text-align:center">
+							@if(productsoftware.sthumbnail != null)
+							{
+								existingImageData = Convert.ToBase64String(productsoftware.sthumbnail);
+								<img src="@("data:image/png;base64," + existingImageData)" alt="image" />
+							}
+						</div>
+						<h5 class="card-title">@productsoftware.sTitle</h5>
+						<p>$@productsoftware.sPrice</p>
+					</a>
+				</div>
+			</div>
+		}
+	</div>
+}
+@code {
+	private List<ProductSoftware>? ProductSoftwares;
+	private string existingImageData;
+
+	protected async override Task OnInitializedAsync()
+	{
+		ProductSoftwares = await _client.GetFromJsonAsync<List<ProductSoftware>>($"{Endpoints.ProductSoftwaresEndpoint}");
+	}
+}

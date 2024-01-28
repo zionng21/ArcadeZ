@@ -12,6 +12,7 @@ namespace ArcadeZ.Shared.Domain
         public double? sPrice { get; set; }
         public string? Category { get; set; }
         public string? Description { get; set; }
+        public byte[]? sthumbnail { get; set; }
         public int EnterpriseId { get; set; }
         public virtual Enterprise? Enterprise { get; set; }
     }

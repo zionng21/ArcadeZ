@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArcadeZ.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240123092155_newdb")]
+    [Migration("20240128032730_newdb")]
     partial class newdb
     {
         /// <inheritdoc />
@@ -100,7 +100,7 @@ namespace ArcadeZ.Server.Migrations
                         {
                             Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2eadeb3f-f151-4f6d-8db4-1fe327323367",
+                            ConcurrencyStamp = "344ae187-2663-4573-a8c0-f8b5bbefcbc2",
                             Email = "admin@localhost.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -108,9 +108,9 @@ namespace ArcadeZ.Server.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECYaojSA2RW3AF6nyk5W8mTAybyEVSog31SdoXOC7mHfmh8xEt8tlXiA6LWYbWTahg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFjXoFGAA2ebT2tkbzZT9XLSDu/l+qc5U3psN2S45N24YiYc3mBWKGf3ISwEL/68ow==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ffce1e75-d8b0-4bea-924c-c8e9a595de8e",
+                            SecurityStamp = "f85aed8f-c40c-48c2-95c8-a768e8da9ee4",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         });
@@ -465,6 +465,9 @@ namespace ArcadeZ.Server.Migrations
                     b.Property<string>("hTitle")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("hthumbnail")
+                        .HasColumnType("varbinary(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("EnterpriseId");
@@ -532,6 +535,9 @@ namespace ArcadeZ.Server.Migrations
 
                     b.Property<string>("sTitle")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("sthumbnail")
+                        .HasColumnType("varbinary(max)");
 
                     b.HasKey("Id");
 

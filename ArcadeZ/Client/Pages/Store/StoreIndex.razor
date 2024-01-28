@@ -1,6 +1,29 @@
-﻿@page "/store"
+﻿@page "/store/"
+@inject NavigationManager Navigation
+
 <h3>Store</h3>
 
-@code {
+<div>
+	<nav>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/store/software" Match="NavLinkMatch.All">
+                Software
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="store/hardware" Match="NavLinkMatch.All">
+                Hardware
+            </NavLink>
+        </div>
+	</nav>
+</div>
 
+@code {
+    protected override void OnInitialized()
+    {
+        if (Navigation.Uri.EndsWith("/store/"))
+        {
+            Navigation.NavigateTo("/store/software");
+        }
+    }
 }

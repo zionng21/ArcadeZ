@@ -11,7 +11,8 @@ namespace ArcadeZ.Shared.Domain
         public string? hTitle { get; set; }
         public double? hPrice { get; set; }
         public string? Description { get; set; }
-        public int Inventory { get; set; }    
+		public byte[]? hthumbnail { get; set; }
+		public int Inventory { get; set; }    
         public int EnterpriseId { get; set; }
         public virtual Enterprise? Enterprise { get; set; }
     }
