@@ -27,6 +27,7 @@ namespace ArcadeZ.Server.Data
 		public DbSet<CustEnquiry> CustEnquiries { get; set; }
 		public DbSet<CustOrder> CustOrders { get; set; }
 		public DbSet<Payment> Payments { get; set; }
+		public DbSet<TempCart> TempCarts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

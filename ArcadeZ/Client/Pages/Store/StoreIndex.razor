@@ -1,5 +1,5 @@
 ﻿@page "/store/"
-@inject NavigationManager Navigation
+@inject NavigationManager _navManager
 
 <h3>Store</h3>
 
@@ -21,9 +21,9 @@
 @code {
     protected override void OnInitialized()
     {
-        if (Navigation.Uri.EndsWith("/store/"))
+        if (_navManager.Uri.EndsWith("/store/"))
         {
-            Navigation.NavigateTo("/store/software");
+            _navManager.NavigateTo("/store/software");
         }
     }
 }

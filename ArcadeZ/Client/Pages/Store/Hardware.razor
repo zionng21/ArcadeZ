@@ -4,7 +4,7 @@
 <StoreIndex />
 @if (ProductHardwares == null)
 {
-	<div class="alert alert-info">Loading Software Products...</div>
+	<div class="alert alert-info">Loading Hardware Products...</div>
 }
 else
 {
@@ -13,7 +13,7 @@ else
 		{
 			<div class="col-md-3 mb-3">
 				<div class="card h-100">
-					<a class="card-body" href="/store/software/@producthardware.Id">
+					<a class="card-body" href="/store/hardware/@producthardware.Id">
 						<div style ="text-align:center">
 							@if(producthardware.hthumbnail != null)
 							{

@@ -13,6 +13,6 @@
 		public static readonly string ProductHardwaresEndpoint = $"{Prefix}/productHardwares";
 		public static readonly string ProductSoftwaresEndpoint = $"{Prefix}/productSoftwares";
 		public static readonly string EnterprisesEndpoint = $"{Prefix}/enterprises";
-
+		public static readonly string TempCartsEndpoint = $"{Prefix}/tempCarts";
 	}
 }

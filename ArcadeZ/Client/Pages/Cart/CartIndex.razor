@@ -1,0 +1,119 @@
+﻿@page "/cart/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
+@using System.Linq;
+
+@if(tempCarts == null)
+{
+	<div class="alert alert-info">Loading Cart...</div>
+}
+else
+{
+	@if (filteredSoftwareCarts.Count != 0)
+	{
+		<table class="table table-responsive">
+			<thead>
+				<tr>
+					<th>Game(s)</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var tempCartItem in tempCarts)
+				{
+					@if (@tempCartItem.ProductHardwareId == null)
+					{
+						<tr>
+							<td>@tempCartItem.ProductSoftware.sthumbnail</td>
+							<td>@tempCartItem.ProductSoftware.sTitle</td>
+							<td>$@tempCartItem.ProductSoftware.sPrice</td>
+						</tr>
+					}
+				}
+			</tbody>
+		</table>
+	}
+	@if (filteredHardwareCarts.Count != 0)
+	{
+		<table class="table table-responsive">
+			<thead>
+				<tr>
+					<th>Accessorie(s)</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var tempCartItem in tempCarts)
+				{
+					@if (@tempCartItem.ProductSoftwareId == null)
+					{
+						<tr>
+							<td>@tempCartItem.ProductHardware.hthumbnail</td>
+							<td>@tempCartItem.ProductHardware.hTitle</td>
+							<td>$@tempCartItem.ProductHardware.hPrice</td>
+						</tr>
+					}
+				}
+			</tbody>
+		</table>
+	}
+	<button class="btn btn-primary" @onclick="CheckOut">Check Out</button>
+}
+
+@code {
+	private List<TempCart>? filteredSoftwareCarts;
+	private List<TempCart>? filteredHardwareCarts;
+	private List<TempCart>? tempCarts;
+	private List<Customer>? customers;
+	private List<CustOrder>? custOrders;
+	CustOrder? custOrder = new CustOrder();
+	private int custInt;
+
+	protected async override Task OnInitializedAsync()
+	{
+		customers = await _client.GetFromJsonAsync<List<Customer>>($"{Endpoints.CustomersEndpoint}");
+		tempCarts = await _client.GetFromJsonAsync<List<TempCart>>($"{Endpoints.TempCartsEndpoint}");
+		filteredSoftwareCarts = tempCarts.Where(c => c.ProductHardwareId == null).ToList();
+		filteredHardwareCarts = tempCarts.Where(c => c.ProductSoftwareId == null).ToList();
+
+		var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+		var user = authstate.User;
+		var name = user.Identity.Name;
+
+		foreach (var customer in customers)
+		{
+			if (customer.Email == name)
+			{
+				custInt = customer.Id;
+			}
+		}
+	}
+
+	private async Task CheckOut()
+	{
+		custOrder.OrderDateTime = DateTime.Now;
+		custOrder.CustomerId = custInt;
+		await _client.PostAsJsonAsync(Endpoints.CustOrdersEndpoint, custOrder);
+		custOrders = await _client.GetFromJsonAsync<List<CustOrder>>($"{Endpoints.CustOrdersEndpoint}");
+		foreach(var tempCartItem in tempCarts)
+		{
+			CustOrderItem? custOrderItem = new CustOrderItem();
+			custOrderItem.CustOrderId = custOrders.Count;
+
+			if(tempCartItem.ProductSoftwareId == null)
+			{
+				custOrderItem.ProductHardwareId = tempCartItem.ProductHardwareId;
+			}
+			if (tempCartItem.ProductHardwareId == null)
+			{
+				custOrderItem.ProductSoftwareId = tempCartItem.ProductSoftwareId;
+			}
+			custOrderItem.Qty = tempCartItem.Quantity;
+			await _client.PostAsJsonAsync(Endpoints.CustOrderItemsEndpoint, custOrderItem);
+			await _client.DeleteAsync($"{Endpoints.TempCartsEndpoint}/{tempCartItem.Id}");
+		}
+		await _client.DeleteAsync(Endpoints.TempCartsEndpoint);
+		_navManager.NavigateTo("/store/");
+	}
+
+	
+}

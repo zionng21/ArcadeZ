@@ -19,5 +19,6 @@ namespace ArcadeZ.Server.IRepository
         IGenericRepository<ProductHardware> ProductHardwares { get; }
         IGenericRepository<ProductSoftware> ProductSoftwares { get; }
         IGenericRepository<Enterprise> Enterprises { get; }
+        IGenericRepository<TempCart> TempCarts { get; }
     }
 }

@@ -34,6 +34,10 @@ namespace ArcadeZ.Server.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -360,7 +364,7 @@ namespace ArcadeZ.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
-                    StaffId = table.Column<int>(type: "int", nullable: false)
+                    StaffId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -375,8 +379,39 @@ namespace ArcadeZ.Server.Migrations
                         name: "FK_CustOrders_Staffs_StaffId",
                         column: x => x.StaffId,
                         principalTable: "Staffs",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TempCarts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    ProductHardwareId = table.Column<int>(type: "int", nullable: true),
+                    ProductSoftwareId = table.Column<int>(type: "int", nullable: true),
+                    CustomerId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TempCarts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TempCarts_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TempCarts_ProductHardwares_ProductHardwareId",
+                        column: x => x.ProductHardwareId,
+                        principalTable: "ProductHardwares",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_TempCarts_ProductSoftwares_ProductSoftwareId",
+                        column: x => x.ProductSoftwareId,
+                        principalTable: "ProductSoftwares",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -451,8 +486,8 @@ namespace ArcadeZ.Server.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "344ae187-2663-4573-a8c0-f8b5bbefcbc2", "admin@localhost.com", false, "Admin", "User", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAEFjXoFGAA2ebT2tkbzZT9XLSDu/l+qc5U3psN2S45N24YiYc3mBWKGf3ISwEL/68ow==", null, false, "f85aed8f-c40c-48c2-95c8-a768e8da9ee4", false, "admin@localhost.com" });
+                columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "DateOfBirth", "DisplayName", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "Password", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, null, "09622f82-62e1-4532-a9d8-3590e9bea1bf", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "admin@localhost.com", false, "Admin", "User", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", null, "AQAAAAIAAYagAAAAEGqlLwe/6QQJZgLdcgVfxTPCZGfAiGLwlYrdodiWIBFL3Hi6oXsGuHTBiLSzNVGewQ==", null, false, "2b75be04-2bdf-48a0-932a-7a06ed0d8e0b", false, "admin@localhost.com" });
 
             migrationBuilder.InsertData(
                 table: "Customers",
@@ -673,6 +708,21 @@ namespace ArcadeZ.Server.Migrations
                 name: "IX_ProductSoftwares_EnterpriseId",
                 table: "ProductSoftwares",
                 column: "EnterpriseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TempCarts_CustomerId",
+                table: "TempCarts",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TempCarts_ProductHardwareId",
+                table: "TempCarts",
+                column: "ProductHardwareId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TempCarts_ProductSoftwareId",
+                table: "TempCarts",
+                column: "ProductSoftwareId");
         }
 
         /// <inheritdoc />
@@ -712,10 +762,16 @@ namespace ArcadeZ.Server.Migrations
                 name: "PersistedGrants");
 
             migrationBuilder.DropTable(
+                name: "TempCarts");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "CustOrders");
 
             migrationBuilder.DropTable(
                 name: "ProductHardwares");
@@ -724,16 +780,13 @@ namespace ArcadeZ.Server.Migrations
                 name: "ProductSoftwares");
 
             migrationBuilder.DropTable(
-                name: "CustOrders");
-
-            migrationBuilder.DropTable(
-                name: "Enterprises");
-
-            migrationBuilder.DropTable(
                 name: "Customers");
 
             migrationBuilder.DropTable(
                 name: "Staffs");
+
+            migrationBuilder.DropTable(
+                name: "Enterprises");
         }
     }
 }

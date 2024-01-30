@@ -25,6 +25,7 @@ namespace ArcadeZ.Server.Repository
         private IGenericRepository<ProductHardware> _productHardwares;
         private IGenericRepository<ProductSoftware> _productSoftwares;
         private IGenericRepository<Enterprise> _enterprises;
+        private IGenericRepository<TempCart> _tempCarts;
 
 
         private UserManager<ApplicationUser> _userManager;
@@ -53,6 +54,8 @@ namespace ArcadeZ.Server.Repository
             => _productSoftwares ??= new GenericRepository<ProductSoftware>(_context);
         public IGenericRepository<Enterprise> Enterprises
             => _enterprises ??= new GenericRepository<Enterprise>(_context);
+        public IGenericRepository<TempCart> TempCarts
+            => _tempCarts ??= new GenericRepository<TempCart>(_context);
 
         public void Dispose()
         {

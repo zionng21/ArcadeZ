@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArcadeZ.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240128032730_newdb")]
+    [Migration("20240130080907_newdb")]
     partial class newdb
     {
         /// <inheritdoc />
@@ -33,8 +33,17 @@ namespace ArcadeZ.Server.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DisplayName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -63,6 +72,9 @@ namespace ArcadeZ.Server.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
@@ -100,7 +112,8 @@ namespace ArcadeZ.Server.Migrations
                         {
                             Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "344ae187-2663-4573-a8c0-f8b5bbefcbc2",
+                            ConcurrencyStamp = "09622f82-62e1-4532-a9d8-3590e9bea1bf",
+                            DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@localhost.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -108,9 +121,9 @@ namespace ArcadeZ.Server.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFjXoFGAA2ebT2tkbzZT9XLSDu/l+qc5U3psN2S45N24YiYc3mBWKGf3ISwEL/68ow==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGqlLwe/6QQJZgLdcgVfxTPCZGfAiGLwlYrdodiWIBFL3Hi6oXsGuHTBiLSzNVGewQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f85aed8f-c40c-48c2-95c8-a768e8da9ee4",
+                            SecurityStamp = "2b75be04-2bdf-48a0-932a-7a06ed0d8e0b",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         });
@@ -185,7 +198,7 @@ namespace ArcadeZ.Server.Migrations
                     b.Property<DateTime?>("OrderDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("StaffId")
+                    b.Property<int?>("StaffId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -624,6 +637,37 @@ namespace ArcadeZ.Server.Migrations
                         });
                 });
 
+            modelBuilder.Entity("ArcadeZ.Shared.Domain.TempCart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProductHardwareId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProductSoftwareId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("ProductHardwareId");
+
+                    b.HasIndex("ProductSoftwareId");
+
+                    b.ToTable("TempCarts");
+                });
+
             modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.DeviceFlowCodes", b =>
                 {
                     b.Property<string>("UserCode")
@@ -952,9 +996,7 @@ namespace ArcadeZ.Server.Migrations
 
                     b.HasOne("ArcadeZ.Shared.Domain.Staff", "Staff")
                         .WithMany()
-                        .HasForeignKey("StaffId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StaffId");
 
                     b.Navigation("Customer");
 
@@ -1023,6 +1065,29 @@ namespace ArcadeZ.Server.Migrations
                         .IsRequired();
 
                     b.Navigation("Enterprise");
+                });
+
+            modelBuilder.Entity("ArcadeZ.Shared.Domain.TempCart", b =>
+                {
+                    b.HasOne("ArcadeZ.Shared.Domain.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ArcadeZ.Shared.Domain.ProductHardware", "ProductHardware")
+                        .WithMany()
+                        .HasForeignKey("ProductHardwareId");
+
+                    b.HasOne("ArcadeZ.Shared.Domain.ProductSoftware", "ProductSoftware")
+                        .WithMany()
+                        .HasForeignKey("ProductSoftwareId");
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("ProductHardware");
+
+                    b.Navigation("ProductSoftware");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

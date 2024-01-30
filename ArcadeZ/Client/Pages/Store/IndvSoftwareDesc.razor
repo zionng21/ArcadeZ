@@ -1,19 +1,67 @@
 ﻿@page "/store/software/{id:int}"
 @inject HttpClient _client
+@inject NavigationManager _navManager
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
 
 <div>
 	<p>@productSoftware.sTitle</p>
 	<p>@productSoftware.Description</p>
 	<p>@productSoftware.Category</p>
+			
+	@if(Disabled == false){
+		<button class="btn btn-primary" @onclick="AddToCart">Add to Cart</button>
+	}
+	else
+	{
+		<button class="btn btn-primary" @onclick="GoToCart">In Cart</button>
+	}
 </div>
 
 @code {
 
 	[Parameter] public int id { get; set; }
+	TempCart? tempCart = new TempCart();
 	ProductSoftware? productSoftware = new ProductSoftware();
-	
+	private List<TempCart>? tempCarts;
+	private List<Customer>? customers;
+	public bool Disabled { get; set; } = false;
+
+	private async Task AddToCart()
+	{
+		var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+		var user = authstate.User;
+		var name = user.Identity.Name;
+		tempCart.Quantity = 1;
+		tempCart.ProductSoftwareId = productSoftware.Id;
+		foreach(var customer in customers)
+		{
+			if(customer.Email == name)
+			{
+				tempCart.CustomerId = customer.Id;
+			}
+		}
+		await _client.PostAsJsonAsync(Endpoints.TempCartsEndpoint, tempCart);
+		_navManager.NavigateTo("/cart/");
+	}
+	private void GoToCart()
+	{
+		_navManager.NavigateTo("/cart/");
+	}
+
 	protected async override Task OnParametersSetAsync()
 	{
 		productSoftware = await _client.GetFromJsonAsync<ProductSoftware>($"{Endpoints.ProductSoftwaresEndpoint}/{id}");
+		tempCarts = await _client.GetFromJsonAsync<List<TempCart>>($"{Endpoints.TempCartsEndpoint}");
+		customers = await _client.GetFromJsonAsync<List<Customer>>($"{Endpoints.CustomersEndpoint}");
+		foreach (var tempcart in tempCarts)
+		{
+			if(tempcart.ProductSoftwareId != null)
+			{
+				if(tempcart.ProductSoftwareId == productSoftware.Id)
+				{
+					Disabled = true;
+				}
+			}
+		}
 	}
 }
