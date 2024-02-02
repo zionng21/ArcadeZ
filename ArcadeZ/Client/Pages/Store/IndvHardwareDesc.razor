@@ -23,23 +23,18 @@
 	ProductHardware? productHardware = new ProductHardware();
 	TempCart? tempCart = new TempCart();
 	private List<TempCart>? tempCarts;
+	private List<TempCart>? custCart = new List<TempCart>();
 	private List<Customer>? customers;
+	private int CustId;
 	public bool Disabled { get; set; } = false;
 
 	private async Task AddToCart()
 	{
-		var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
-		var user = authstate.User;
-		var name = user.Identity.Name;
+
 		tempCart.Quantity = 1;
 		tempCart.ProductHardwareId = productHardware.Id;
-		foreach (var customer in customers)
-		{
-			if (customer.Email == name)
-			{
-				tempCart.CustomerId = customer.Id;
-			}
-		}
+		tempCart.CustomerId = CustId;
+
 		await _client.PostAsJsonAsync(Endpoints.TempCartsEndpoint, tempCart);
 		_navManager.NavigateTo("/cart/");
 	}
@@ -48,19 +43,46 @@
 	{
 		_navManager.NavigateTo("/cart/");
 	}
-	
+
 	protected async override Task OnParametersSetAsync()
 	{
 		productHardware = await _client.GetFromJsonAsync<ProductHardware>($"{Endpoints.ProductHardwaresEndpoint}/{id}");
 		tempCarts = await _client.GetFromJsonAsync<List<TempCart>>($"{Endpoints.TempCartsEndpoint}");
 		customers = await _client.GetFromJsonAsync<List<Customer>>($"{Endpoints.CustomersEndpoint}");
-		foreach (var tempcart in tempCarts)
+
+		var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+		var user = authstate.User;
+		var name = user.Identity.Name;
+
+		foreach (var customer in customers)
 		{
-			if (tempcart.ProductHardwareId != null)
+			if (customer.Email == name)
 			{
-				if (tempcart.ProductHardwareId == productHardware.Id)
+				CustId = customer.Id;
+			}
+		}
+
+		if (tempCarts.Count != 0)
+		{
+			foreach (var tempcart in tempCarts)
+			{
+				if (tempcart.CustomerId == CustId)
 				{
-					Disabled = true;
+					custCart.Add(tempcart);
+				}
+			}
+		}
+
+		if (custCart.Count != 0)
+		{
+			foreach (var custCartItem in custCart)
+			{
+				if (custCartItem.ProductHardwareId != null)
+				{
+					if (custCartItem.ProductHardwareId == productHardware.Id)
+					{
+						Disabled = true;
+					}
 				}
 			}
 		}

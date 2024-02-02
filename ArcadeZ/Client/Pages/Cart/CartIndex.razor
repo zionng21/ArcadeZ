@@ -6,7 +6,10 @@
 
 @if(tempCarts == null)
 {
-	<div class="alert alert-info">Loading Cart...</div>
+	@if (custCart.Count == 0)
+	{
+		<div class="alert alert-info">Loading Cart...</div>
+	}	
 }
 else
 {
@@ -19,14 +22,14 @@ else
 				</tr>
 			</thead>
 			<tbody>
-				@foreach (var tempCartItem in tempCarts)
+				@foreach (var custCartItem in custCart)
 				{
-					@if (@tempCartItem.ProductHardwareId == null)
+					@if (@custCartItem.ProductHardwareId == null)
 					{
 						<tr>
-							<td>@tempCartItem.ProductSoftware.sthumbnail</td>
-							<td>@tempCartItem.ProductSoftware.sTitle</td>
-							<td>$@tempCartItem.ProductSoftware.sPrice</td>
+							<td>@custCartItem.ProductSoftware.sthumbnail</td>
+							<td>@custCartItem.ProductSoftware.sTitle</td>
+							<td>$@custCartItem.ProductSoftware.sPrice</td>
 						</tr>
 					}
 				}
@@ -42,14 +45,14 @@ else
 				</tr>
 			</thead>
 			<tbody>
-				@foreach (var tempCartItem in tempCarts)
+				@foreach (var custCartItem in custCart)
 				{
-					@if (@tempCartItem.ProductSoftwareId == null)
+					@if (@custCartItem.ProductSoftwareId == null)
 					{
 						<tr>
-							<td>@tempCartItem.ProductHardware.hthumbnail</td>
-							<td>@tempCartItem.ProductHardware.hTitle</td>
-							<td>$@tempCartItem.ProductHardware.hPrice</td>
+							<td>@custCartItem.ProductHardware.hthumbnail</td>
+							<td>@custCartItem.ProductHardware.hTitle</td>
+							<td>$@custCartItem.ProductHardware.hPrice</td>
 						</tr>
 					}
 				}
@@ -63,18 +66,17 @@ else
 	private List<TempCart>? filteredSoftwareCarts;
 	private List<TempCart>? filteredHardwareCarts;
 	private List<TempCart>? tempCarts;
+	private List<TempCart>? custCart = new List<TempCart>();
 	private List<Customer>? customers;
 	private List<CustOrder>? custOrders;
 	CustOrder? custOrder = new CustOrder();
-	private int custInt;
+	private int CustId;
 
 	protected async override Task OnInitializedAsync()
 	{
 		customers = await _client.GetFromJsonAsync<List<Customer>>($"{Endpoints.CustomersEndpoint}");
 		tempCarts = await _client.GetFromJsonAsync<List<TempCart>>($"{Endpoints.TempCartsEndpoint}");
-		filteredSoftwareCarts = tempCarts.Where(c => c.ProductHardwareId == null).ToList();
-		filteredHardwareCarts = tempCarts.Where(c => c.ProductSoftwareId == null).ToList();
-
+		
 		var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
 		var user = authstate.User;
 		var name = user.Identity.Name;
@@ -83,35 +85,48 @@ else
 		{
 			if (customer.Email == name)
 			{
-				custInt = customer.Id;
+				CustId = customer.Id;
 			}
 		}
+
+		if (tempCarts != null)
+		{
+			foreach (var tempcart in tempCarts)
+			{
+				if (tempcart.CustomerId == CustId)
+				{
+					custCart.Add(tempcart);
+				}
+			}
+		}
+
+		filteredSoftwareCarts = custCart.Where(c => c.ProductHardwareId == null).ToList();
+		filteredHardwareCarts = custCart.Where(c => c.ProductSoftwareId == null).ToList();
 	}
 
 	private async Task CheckOut()
 	{
 		custOrder.OrderDateTime = DateTime.Now;
-		custOrder.CustomerId = custInt;
+		custOrder.CustomerId = CustId;
 		await _client.PostAsJsonAsync(Endpoints.CustOrdersEndpoint, custOrder);
 		custOrders = await _client.GetFromJsonAsync<List<CustOrder>>($"{Endpoints.CustOrdersEndpoint}");
-		foreach(var tempCartItem in tempCarts)
+		foreach(var custCartItem in custCart)
 		{
 			CustOrderItem? custOrderItem = new CustOrderItem();
 			custOrderItem.CustOrderId = custOrders.Count;
 
-			if(tempCartItem.ProductSoftwareId == null)
+			if(custCartItem.ProductSoftwareId == null)
 			{
-				custOrderItem.ProductHardwareId = tempCartItem.ProductHardwareId;
+				custOrderItem.ProductHardwareId = custCartItem.ProductHardwareId;
 			}
-			if (tempCartItem.ProductHardwareId == null)
+			if (custCartItem.ProductHardwareId == null)
 			{
-				custOrderItem.ProductSoftwareId = tempCartItem.ProductSoftwareId;
+				custOrderItem.ProductSoftwareId = custCartItem.ProductSoftwareId;
 			}
-			custOrderItem.Qty = tempCartItem.Quantity;
+			custOrderItem.Qty = custCartItem.Quantity;
 			await _client.PostAsJsonAsync(Endpoints.CustOrderItemsEndpoint, custOrderItem);
-			await _client.DeleteAsync($"{Endpoints.TempCartsEndpoint}/{tempCartItem.Id}");
+			await _client.DeleteAsync($"{Endpoints.TempCartsEndpoint}/{custCartItem.Id}");
 		}
-		await _client.DeleteAsync(Endpoints.TempCartsEndpoint);
 		_navManager.NavigateTo("/store/");
 	}
 
