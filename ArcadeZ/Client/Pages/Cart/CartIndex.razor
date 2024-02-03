@@ -27,7 +27,12 @@ else
 					@if (@custCartItem.ProductHardwareId == null)
 					{
 						<tr>
-							<td>@custCartItem.ProductSoftware.sthumbnail</td>
+							<td>
+								@if (@custCartItem.ProductSoftware.sthumbnail != null)
+								{
+									<img src="@("data:image/png;base64," + Convert.ToBase64String(@custCartItem.ProductSoftware.sthumbnail))" alt="image" />
+								}
+							</td>
 							<td>@custCartItem.ProductSoftware.sTitle</td>
 							<td>$@custCartItem.ProductSoftware.sPrice</td>
 						</tr>
@@ -54,12 +59,39 @@ else
 							<td>@custCartItem.ProductHardware.hTitle</td>
 							<td>$@custCartItem.ProductHardware.hPrice</td>
 						</tr>
+						<tr>
+							<div class="form-group">
+								<div class="input-group">
+									<span class="input-group-btn">
+										<button class="btn btn-primary" @onclick="() => DecrementQuantity(custCartItem.Id)">-</button>
+									</span>
+									<input disabled="true" type="number" class="form-control" @bind="@custCartItem.Quantity" min="0" />
+									<span class="input-group-btn">
+										<button class="btn btn-primary" @onclick="() => IncrementQuantity(custCartItem.Id)">+</button>
+									</span>
+								</div>
+							</div>
+						</tr>
 					}
 				}
 			</tbody>
 		</table>
 	}
-	
+	<p>
+		Total Price: $@string.Format("{0:0.00}", TotalPrice)
+	</p>
+	<div class="form-group">
+		<label>Payment By: </label>
+		<div>
+			<InputSelect @bind-Value="payment.PaymentType" class="form-control">
+				@foreach (var paymentType in paymentList)
+				{
+					<option value="@paymentType">@paymentType</option>
+				}
+			</InputSelect>
+		</div>
+	</div>
+
 	<button class="btn btn-primary" @onclick="CheckOut">Check Out</button>
 }
 
@@ -70,14 +102,45 @@ else
 	private List<TempCart>? custCart = new List<TempCart>();
 	private List<Customer>? customers;
 	private List<CustOrder>? custOrders;
+	List<string> paymentList = new List<string> { "Card", "PayNow", "GrabPay" };
 	CustOrder? custOrder = new CustOrder();
+	Payment? payment = new Payment();
 	private int CustId;
+	private double? TotalPrice = 0;
+
+	private void IncrementQuantity(int custCartId)
+	{
+		foreach(var custCartItem in custCart)
+		{
+			if(custCartItem.Id == custCartId)
+			{
+				custCartItem.Quantity++;
+				TotalPrice += custCartItem.ProductHardware.hPrice;
+			}
+		}
+
+	}
+
+	private void DecrementQuantity(int custCartId)
+	{
+		foreach (var custCartItem in custCart)
+		{
+			if (custCartItem.Id == custCartId)
+			{
+				if (custCartItem.Quantity > 0)
+				{
+					custCartItem.Quantity--;
+					TotalPrice -= custCartItem.ProductHardware.hPrice;
+				}
+			}
+		}
+	}
 
 	protected async override Task OnInitializedAsync()
 	{
 		customers = await _client.GetFromJsonAsync<List<Customer>>($"{Endpoints.CustomersEndpoint}");
 		tempCarts = await _client.GetFromJsonAsync<List<TempCart>>($"{Endpoints.TempCartsEndpoint}");
-		
+
 		var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
 		var user = authstate.User;
 		var name = user.Identity.Name;
@@ -97,6 +160,14 @@ else
 				if (tempcart.CustomerId == CustId)
 				{
 					custCart.Add(tempcart);
+					if (tempcart.ProductSoftwareId == null)
+					{
+						TotalPrice += ((double) tempcart.Quantity * tempcart.ProductHardware.hPrice);
+					}
+					else
+					{
+						TotalPrice += ((double)tempcart.Quantity * tempcart.ProductSoftware.sPrice);
+					}
 				}
 			}
 		}
@@ -125,9 +196,19 @@ else
 				custOrderItem.ProductSoftwareId = custCartItem.ProductSoftwareId;
 			}
 			custOrderItem.Qty = custCartItem.Quantity;
+			
 			await _client.PostAsJsonAsync(Endpoints.CustOrderItemsEndpoint, custOrderItem);
 			await _client.DeleteAsync($"{Endpoints.TempCartsEndpoint}/{custCartItem.Id}");
 		}
+		if (payment.PaymentType == null)
+		{
+			payment.PaymentType = paymentList[0];
+		}
+		payment.Amount = double.Parse(string.Format("{0:0.00}", TotalPrice));
+		payment.PaymentDateTime = DateTime.Now;
+		payment.CustomerId = CustId;
+		payment.CustOrderId = custOrders.Count;
+		await _client.PostAsJsonAsync(Endpoints.PaymentsEndpoint, payment);
 		_navManager.NavigateTo("/store/");
 	}
 
