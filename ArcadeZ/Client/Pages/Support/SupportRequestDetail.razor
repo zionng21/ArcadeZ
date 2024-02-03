@@ -1,0 +1,23 @@
+﻿@page "/support/viewReq/{id:int}"
+@inject HttpClient _client
+
+<p>Enquiry Type: @custEnquiry.EnquiryType</p>
+<p>Details: @custEnquiry.EnquiryDesc</p>
+@if (@custEnquiry.Resolved == false)
+{
+	<p>Details: Pending</p>
+}
+else
+{
+	<p>Details: Resolved</p>
+}
+
+@code {
+	[Parameter] public int id { get; set; }
+	CustEnquiry? custEnquiry = new CustEnquiry();
+
+	protected async override Task OnParametersSetAsync()
+	{
+		custEnquiry = await _client.GetFromJsonAsync<CustEnquiry>($"{Endpoints.CustEnquiriesEndpoint}/{id}");
+	}
+}

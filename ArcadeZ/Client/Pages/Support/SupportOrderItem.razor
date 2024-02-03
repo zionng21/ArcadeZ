@@ -1,0 +1,56 @@
+﻿@page "/support/custOrder/{id:int}"
+@inject HttpClient _client
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
+@attribute [Authorize]
+
+@if(@currCustOrderItems.Count == 0)
+{
+	<div class="alert alert-info">Loading Order Items...</div>
+}
+else
+{
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<table class="table">
+					<tbody>
+						@foreach (var currCustOrderItem in currCustOrderItems)
+						{
+							<tr>
+								<td>
+									@if (currCustOrderItem.ProductSoftwareId == null)
+									{
+										<a href="/support/custEnquiry/@currCustOrderItem.Id" class="btn btn-primary btn-block rowBtn">@currCustOrderItem.ProductHardware.hTitle</a>
+									}
+									else
+									{
+										<a href="/support/custEnquiry/@currCustOrderItem.Id" class="btn btn-primary btn-block rowBtn">@currCustOrderItem.ProductSoftware.sTitle</a>
+									}
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+}
+
+@code {
+
+	[Parameter] public int id { get; set; }
+	private List<CustOrderItem>? custOrderItems;
+	private List<CustOrderItem>? currCustOrderItems = new List<CustOrderItem>();
+
+	protected async override Task OnParametersSetAsync()
+	{
+		custOrderItems = await _client.GetFromJsonAsync<List<CustOrderItem>>($"{Endpoints.CustOrderItemsEndpoint}");
+
+		foreach (var custOrderItem in custOrderItems)
+		{
+			if (custOrderItem.CustOrderId == id) {
+				currCustOrderItems.Add(custOrderItem);
+			}
+		}
+	}
+}

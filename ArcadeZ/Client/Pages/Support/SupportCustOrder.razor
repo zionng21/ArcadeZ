@@ -1,21 +1,44 @@
-﻿@page "/support/hardware"
+﻿@page "/support/custOrder"
 @inject HttpClient _client
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
+@attribute [Authorize]
 
-<h3>SupportHardware</h3>
+@if(currCustOrders.Count == 0)
+{
+	<div class="alert alert-info">Loading Order History...</div>
+}
+else
+{
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<table class="table">
+					<tbody>
+						@foreach(var currCustOrder in currCustOrders)
+						{
+							<tr>
+								<td>
+									<a href="/support/custOrder/@currCustOrder.Id" class="btn btn-primary btn-block rowBtn">Order #@currCustOrder.Id @currCustOrder.OrderDateTime</a>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+}
 
 @code {
 	private List<Customer>? customers;
 	private List<CustOrder>? custOrders;
-	private List<CustOrder>? currCustOrders = new List<CustOrder>(); 
-	private List<CustOrderItem>? custOrderItems;
+	private List<CustOrder>? currCustOrders = new List<CustOrder>();
 	private int CustId;
 
 	protected async override Task OnInitializedAsync()
 	{
 		customers = await _client.GetFromJsonAsync<List<Customer>>($"{Endpoints.CustomersEndpoint}");
 		custOrders = await _client.GetFromJsonAsync<List<CustOrder>>($"{Endpoints.CustOrdersEndpoint}");
-		custOrderItems = await _client.GetFromJsonAsync<List<CustOrderItem>>($"{Endpoints.CustOrderItemsEndpoint}");
 
 		var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
 		var user = authstate.User;
@@ -35,7 +58,7 @@
 			{
 				if(custOrder.CustomerId == CustId)
 				{
-					
+					currCustOrders.Add(custOrder);
 				}
 			}	
 		}

@@ -22,17 +22,17 @@ namespace ArcadeZ.Server.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        // GET: api/CustEnquires
+        // GET: api/CustEnquiries
         [HttpGet]
         public async Task<IActionResult> GetCustEnquiries()
         {
-            var custEnquiries = await _unitOfWork.CustEnquiries.GetAll(includes: q => q.Include(x=>x.Customer).Include(x=>x.Staff));
+            var custEnquiries = await _unitOfWork.CustEnquiries.GetAll();
             return Ok(custEnquiries);
         }
 
-        // GET: api/CustEnquires/5
+        // GET: api/CustEnquiries/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetStaff(int id)
+        public async Task<IActionResult> GetCustEnquiry(int id)
         {
             var custEnquiry = await _unitOfWork.CustEnquiries.Get(q => q.Id == id);
             
@@ -44,10 +44,10 @@ namespace ArcadeZ.Server.Controllers
             return Ok(custEnquiry);
         }
 
-        // PUT: api/CustEnquires/5
+        // PUT: api/CustEnquiries/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutStaff(int id, CustEnquiry custEnquiry)
+        public async Task<IActionResult> PutCustEnquiry(int id, CustEnquiry custEnquiry)
         {
             if (id != custEnquiry.Id)
             {
@@ -62,7 +62,7 @@ namespace ArcadeZ.Server.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (await StaffExists(id))
+                if (await CustEnquiryExists(id))
                 {
                     return NotFound();
                 }
@@ -75,20 +75,20 @@ namespace ArcadeZ.Server.Controllers
             return NoContent();
         }
 
-        // POST: api/CustEnquires
+        // POST: api/CustEnquiries
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<CustEnquiry>> PostStaff(CustEnquiry custEnquiry)
+        public async Task<ActionResult<CustEnquiry>> PostCustEnquiry(CustEnquiry custEnquiry)
         {
             await _unitOfWork.CustEnquiries.Insert(custEnquiry);
             await _unitOfWork.Save(HttpContext);
 
-            return CreatedAtAction("GetStaff", new { id = custEnquiry.Id }, custEnquiry);
+            return CreatedAtAction("GetCustEnquiry", new { id = custEnquiry.Id }, custEnquiry);
         }
 
-        // DELETE: api/CustEnquires/5
+        // DELETE: api/CustEnquiries/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteStaff(int id)
+        public async Task<IActionResult> DeleteCustEnquiry(int id)
         {
             var custEnquiry = await _unitOfWork.CustEnquiries.Get(q => q.Id == id);
             if(custEnquiry == null)
@@ -102,7 +102,7 @@ namespace ArcadeZ.Server.Controllers
             return NoContent();
         }
 
-        private async Task<bool> StaffExists(int id)
+        private async Task<bool> CustEnquiryExists(int id)
         {
             var custEnquiry = await _unitOfWork.CustEnquiries.Get(q => q.Id == id);
             return (custEnquiry != null);

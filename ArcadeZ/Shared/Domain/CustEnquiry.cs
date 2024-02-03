@@ -9,12 +9,12 @@ namespace ArcadeZ.Shared.Domain
     public class CustEnquiry : BaseDomainModel
     {
         public string? EnquiryDesc { get; set; }
-        public string? EnquiryType { get; set; }
+        public string EnquiryType { get; set; }
         public string? UpdatedBy { get; set; }
-        public bool? Resolved { get; set; }
+        public bool? Resolved { get; set; } = false;
         public int CustomerId { get; set; }
         public virtual Customer? Customer { get; set; }
-        public int StaffId { get; set; }
+        public int? StaffId { get; set; }
         public virtual Staff? Staff { get; set; }
     }
 }

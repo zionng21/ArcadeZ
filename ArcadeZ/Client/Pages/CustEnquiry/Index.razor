@@ -34,7 +34,7 @@ else
 				<tr>
 					<td>@custEnquiry.EnquiryDesc</td>
 					<td>@custEnquiry.EnquiryType</td>
-					<td>@custEnquiry.Staff.Name</td>
+					<td>@custEnquiry.Staff?.Name</td>
 					<td>@custEnquiry.Resolved</td>
 					<td>
 						<a href="/custEnquiries/view/@custEnquiry.Id" class="btn btn-primary">

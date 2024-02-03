@@ -13,7 +13,7 @@
     List<string> ETypeList = new List<string> { "Refund", "Product Fault", "Product Availability" };
     private async Task CreateCustEnquiry()
     {
-        await _client.PostAsJsonAsync("api/custenquiries", custEnquiry);
+        await _client.PostAsJsonAsync(Endpoints.CustEnquiriesEndpoint, custEnquiry);
         _navManager.NavigateTo("/custenquiries/");
     }
 }

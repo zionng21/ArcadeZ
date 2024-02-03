@@ -1,0 +1,66 @@
+﻿@page "/support/viewReq"
+@inject HttpClient _client
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
+
+@if (currCustEnquiries.Count == 0)
+{
+	<div class="alert alert-info">No recent enquiries</div>
+}
+else
+{
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<table class="table">
+					<tbody>
+						@foreach (var currCustEnquiry in currCustEnquiries)
+						{
+							<tr>
+								<td>
+									<a href="/support/viewReq/@currCustEnquiry.Id" class="btn btn-primary btn-block rowBtn">#@currCustEnquiry.Id Type: @currCustEnquiry.EnquiryType</a>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+}
+
+@code {
+	private List<Customer>? customers;
+	private List<CustEnquiry>? custEnquiries;
+	private List<CustEnquiry>? currCustEnquiries = new List<CustEnquiry>();
+	private int CustId;
+
+	protected async override Task OnInitializedAsync()
+	{
+		customers = await _client.GetFromJsonAsync<List<Customer>>($"{Endpoints.CustomersEndpoint}");
+		custEnquiries = await _client.GetFromJsonAsync<List<CustEnquiry>>($"{Endpoints.CustEnquiriesEndpoint}");
+
+		var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+		var user = authstate.User;
+		var name = user.Identity.Name;
+
+		foreach (var customer in customers)
+		{
+			if (customer.Email == name)
+			{
+				CustId = customer.Id;
+			}
+		}
+
+		if (custEnquiries != null)
+		{
+			foreach (var custEnquiry in custEnquiries)
+			{
+				if (custEnquiry.CustomerId == CustId)
+				{
+					currCustEnquiries.Add(custEnquiry);
+				}
+			}
+		}
+	}
+
+}

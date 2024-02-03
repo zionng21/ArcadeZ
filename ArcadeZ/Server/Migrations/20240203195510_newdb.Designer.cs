@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArcadeZ.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240130080907_newdb")]
+    [Migration("20240203195510_newdb")]
     partial class newdb
     {
         /// <inheritdoc />
@@ -112,7 +112,7 @@ namespace ArcadeZ.Server.Migrations
                         {
                             Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "09622f82-62e1-4532-a9d8-3590e9bea1bf",
+                            ConcurrencyStamp = "f97fdbc7-5454-4445-9641-bce95908cae4",
                             DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@localhost.com",
                             EmailConfirmed = false,
@@ -121,9 +121,9 @@ namespace ArcadeZ.Server.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGqlLwe/6QQJZgLdcgVfxTPCZGfAiGLwlYrdodiWIBFL3Hi6oXsGuHTBiLSzNVGewQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPhHy23xP6l23Ngik7+LqME54/n3WqiOvP67x/GurFUuBL8CvSIMq4DobfX6kJBIww==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2b75be04-2bdf-48a0-932a-7a06ed0d8e0b",
+                            SecurityStamp = "52400601-6604-4808-a589-836a1112e362",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         });
@@ -144,12 +144,13 @@ namespace ArcadeZ.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EnquiryType")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("Resolved")
                         .HasColumnType("bit");
 
-                    b.Property<int>("StaffId")
+                    b.Property<int?>("StaffId")
                         .HasColumnType("int");
 
                     b.Property<string>("UpdatedBy")
@@ -977,9 +978,7 @@ namespace ArcadeZ.Server.Migrations
 
                     b.HasOne("ArcadeZ.Shared.Domain.Staff", "Staff")
                         .WithMany()
-                        .HasForeignKey("StaffId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StaffId");
 
                     b.Navigation("Customer");
 

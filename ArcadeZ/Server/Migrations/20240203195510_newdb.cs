@@ -333,11 +333,11 @@ namespace ArcadeZ.Server.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EnquiryDesc = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EnquiryType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EnquiryType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Resolved = table.Column<bool>(type: "bit", nullable: true),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
-                    StaffId = table.Column<int>(type: "int", nullable: false)
+                    StaffId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -352,8 +352,7 @@ namespace ArcadeZ.Server.Migrations
                         name: "FK_CustEnquiries_Staffs_StaffId",
                         column: x => x.StaffId,
                         principalTable: "Staffs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -487,7 +486,7 @@ namespace ArcadeZ.Server.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "DateOfBirth", "DisplayName", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "Password", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, null, "09622f82-62e1-4532-a9d8-3590e9bea1bf", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "admin@localhost.com", false, "Admin", "User", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", null, "AQAAAAIAAYagAAAAEGqlLwe/6QQJZgLdcgVfxTPCZGfAiGLwlYrdodiWIBFL3Hi6oXsGuHTBiLSzNVGewQ==", null, false, "2b75be04-2bdf-48a0-932a-7a06ed0d8e0b", false, "admin@localhost.com" });
+                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, null, "f97fdbc7-5454-4445-9641-bce95908cae4", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "admin@localhost.com", false, "Admin", "User", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", null, "AQAAAAIAAYagAAAAEPhHy23xP6l23Ngik7+LqME54/n3WqiOvP67x/GurFUuBL8CvSIMq4DobfX6kJBIww==", null, false, "52400601-6604-4808-a589-836a1112e362", false, "admin@localhost.com" });
 
             migrationBuilder.InsertData(
                 table: "Customers",
