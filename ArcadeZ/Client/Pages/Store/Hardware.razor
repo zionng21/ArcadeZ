@@ -9,19 +9,20 @@
 }
 else
 {
-	<div class="row">
+	<div class="row p-5">
 		@foreach (var producthardware in ProductHardwares)
 		{
 			<div class="col-md-3 mb-3">
 				<div class="card h-100">
-					<a class="card-body" href="/store/hardware/@producthardware.Id">
-						<div style ="text-align:center">
+					<a class="card-body" style="box-shadow: 0 0 15px rgba(26, 188, 156, 0.5);" href="/store/hardware/@producthardware.Id">
+						<div class="text-center">
 							@if(producthardware.hthumbnail != null)
 							{
 								existingImageData = Convert.ToBase64String(producthardware.hthumbnail);
 								<img src="@("data:image/png;base64," + existingImageData)" alt="image" />
 							}
 						</div>
+						<hr>
 						<h5 class="card-title">@producthardware.hTitle</h5>
 						<p>$@producthardware.hPrice</p>
 					</a>

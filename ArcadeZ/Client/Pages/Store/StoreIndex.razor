@@ -1,21 +1,27 @@
 ﻿@page "/store/"
 @inject NavigationManager _navManager
+<p style="padding-top:1rem; background-color:#1ABC9C; color: white; " class="text-center"><b>Select Category</b></p>
 
-<h3>Store</h3>
 
-<div>
-	<nav>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="/store/software" Match="NavLinkMatch.All">
-                Software
-            </NavLink>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-3">
+            <!-- First Div -->
+            <div class="text-center">
+                <NavLink class="btn btn-xl btn-outline-store" href="/store/software" Match="NavLinkMatch.All">
+                    Software
+                </NavLink>
+            </div>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="store/hardware" Match="NavLinkMatch.All">
+        <div class="col-md-3">
+            <!-- Second Div -->
+            <div class="text-center">
+               <NavLink class="btn btn-xl btn-outline-store" href="store/hardware" Match="NavLinkMatch.All">
                 Hardware
-            </NavLink>
+               </NavLink>
+            </div>
         </div>
-	</nav>
+    </div>
 </div>
 
 @code {
