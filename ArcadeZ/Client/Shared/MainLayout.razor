@@ -36,7 +36,7 @@
                     <AuthorizeView>
                         <Authorized>
                             <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="authentication/profile">@context.User.Identity?.Name!</a></li>
-                            <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="authentication/login" @onclick="BeginLogOut">Log out</a></li>
+                            <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#" @onclick="BeginLogOut">Log out</a></li>
                         </Authorized>
                         <NotAuthorized>
                             <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="authentication/register">Register</a></li>
