@@ -1,7 +1,7 @@
 .header {
     padding:0px;
     background-image: url('/images/headerimg.jpg');
-    background-size: contain; /* This will make the image fit within the container without cropping */
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     width:100%;

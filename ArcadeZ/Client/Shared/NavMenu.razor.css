@@ -3,7 +3,7 @@
     display: flex;
     justify-content: space-between;
     align-items:center;
-    padding:30px;
+    padding:5px;
 }
 
 .logo{
@@ -11,7 +11,7 @@
     float:left;
 }
 
-.navlinks {
+/*.navlinks {
     list-style: none;
     padding-left: 0;
 }
@@ -101,14 +101,14 @@ button:hover {
         display: none;
     }
 
-    .collapse {
+    .collapse {*/
         /* Never collapse the sidebar for wide screens */
-        display: block;
+        /*display: block;
     }
     
-    .nav-scrollable {*/
+    .nav-scrollable {*/*/
         /* Allow sidebar to scroll for tall menus */
-        height: calc(100vh - 3.5rem);
+        /*height: calc(100vh - 3.5rem);
         overflow-y: auto;
     }
-}
+}*/
