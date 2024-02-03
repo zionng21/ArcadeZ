@@ -9,12 +9,12 @@
 }
 else
 {
-	<div class="row">
+	<div class="row p-5">
 		@foreach (var productsoftware in ProductSoftwares)
 		{
 			<div class="col-md-3 mb-3">
 				<div class="card h-100">
-					<a class="card-body" href="/store/software/@productsoftware.Id">
+					<a class="card-body" style="box-shadow: 0 0 15px rgba(26, 188, 156, 0.5);" href="/store/software/@productsoftware.Id">
 						<div style ="text-align:center">
 							@if(productsoftware.sthumbnail != null)
 							{
@@ -22,6 +22,7 @@ else
 								<img src="@("data:image/png;base64," + existingImageData)" alt="image" />
 							}
 						</div>
+						<hr>
 						<h5 class="card-title">@productsoftware.sTitle</h5>
 						<p>$@productsoftware.sPrice</p>
 					</a>
@@ -29,6 +30,7 @@ else
 			</div>
 		}
 	</div>
+	<p>OHHHH</p>
 }
 @code {
 	private List<ProductSoftware>? ProductSoftwares;
