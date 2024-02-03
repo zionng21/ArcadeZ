@@ -1,5 +1,6 @@
 ﻿@page "/store/software/"
 @inject HttpClient _client
+@attribute [Authorize]
 
 <StoreIndex />
 @if (ProductSoftwares == null)
