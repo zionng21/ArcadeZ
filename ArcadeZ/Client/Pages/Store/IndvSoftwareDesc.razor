@@ -2,20 +2,30 @@
 @inject HttpClient _client
 @inject NavigationManager _navManager
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
+<h3 style="padding-top:1rem;" class=" card-title text-center p-5 mt-1">>@productSoftware.sTitle Description</h3>
+<div class="border-top px-2 mx-2 pb-1" style="background-color:#1ABC9C;"></div>
 
-<div>
-	<p>@productSoftware.sTitle</p>
-	<p>@productSoftware.Description</p>
-	<p>@productSoftware.Category</p>
-			
-	@if(Disabled == false){
-		<button class="btn btn-primary" @onclick="AddToCart">Add to Cart</button>
-	}
-	else
-	{
-		<button class="btn btn-primary" @onclick="GoToCart">In Cart</button>
-	}
+<div class="container mt-4">
+
+	<p>Image</p>
+	<div class="card p-4">
+
+		<h3 class="card-title">@productSoftware.sTitle</h3>
+		<p class="card-text">@productSoftware.Description</p>
+		<p class="card-text"><small class="text-muted">@productSoftware.Category</small></p>
+
+		@if (Disabled == false)
+		{
+			<button class="btn btn-primary w-50" @onclick="AddToCart">Add to Cart</button>
+		}
+		else
+		{
+			<button class="btn btn-primary w-50" @onclick="GoToCart" disabled>In Cart</button>
+		}
+	</div>
 </div>
+
+
 
 @code {
 

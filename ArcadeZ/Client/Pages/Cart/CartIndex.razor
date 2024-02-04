@@ -64,8 +64,12 @@
                             @if (@custCartItem.ProductSoftwareId == null)
                             {
                                 <tr>
-                                    <td>@custCartItem.ProductHardware.hthumbnail</td>
 									<td>
+										@if (@custCartItem.ProductHardware.hthumbnail != null)
+										{
+											<img src="@("data:image/png;base64," + Convert.ToBase64String(@custCartItem.ProductHardware.hthumbnail))" alt="image" />
+										}
+									</td>
                                     <h5 class="mt-1">Title:@custCartItem.ProductHardware.hTitle</h5>
                                     <div>$@custCartItem.ProductHardware.hPrice</div>
                                     
@@ -81,7 +85,6 @@
                                             </span>
                                         </div>
                                     </div>
-									</td>
                                 </tr>
                             }
                         }
