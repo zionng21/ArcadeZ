@@ -1,6 +1,8 @@
 ﻿@page "/custOrders/edit/{id:int}"
 @inject HttpClient _client
 @inject NavigationManager _navManager
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 
 <h3 class="card-title">Edit Customer Order</h3>
 
@@ -13,6 +15,7 @@
 
 	protected async override Task OnParametersSetAsync()
 	{
+		_interceptor.MonitorEvent();
 		custOrder = await _client.GetFromJsonAsync<CustOrder>($"{Endpoints.CustOrdersEndpoint}/{id}");
 	}
 
@@ -20,5 +23,10 @@
 	{
 		await _client.PutAsJsonAsync($"{Endpoints.CustOrdersEndpoint}/{id}", custOrder);
 		_navManager.NavigateTo("/custOrders/");
+	}
+
+	public void Dispose()
+	{
+		_interceptor.DisposeEvent();
 	}
 }

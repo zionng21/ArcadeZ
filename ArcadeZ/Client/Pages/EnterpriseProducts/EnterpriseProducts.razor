@@ -1,5 +1,7 @@
 ﻿@page "/enterpriseProducts/"
 @inject NavigationManager _navManager
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 
 <p style="padding-top:1rem; background-color:#1ABC9C; color: white; " class="text-center"><b>Select Category</b></p>
 
@@ -28,9 +30,15 @@
 @code {
     protected override void OnInitialized()
     {
+        _interceptor.MonitorEvent();
         if (_navManager.Uri.EndsWith("/enterpriseProducts/"))
         {
             _navManager.NavigateTo("/enterpriseProducts/software");
         }
+    }
+
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
     }
 }

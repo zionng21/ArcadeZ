@@ -1,6 +1,8 @@
 ﻿@page "/support/viewReq"
 @inject HttpClient _client
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 @attribute [Authorize]
 
 <h3 style="padding-top:1rem;" class=" card-title text-center p-5 mt-1">Select to View Your Past Enquires</h3>
@@ -44,6 +46,7 @@ else
 
 	protected async override Task OnInitializedAsync()
 	{
+		_interceptor.MonitorEvent();
 		customers = await _client.GetFromJsonAsync<List<Customer>>($"{Endpoints.CustomersEndpoint}");
 		custEnquiries = await _client.GetFromJsonAsync<List<CustEnquiry>>($"{Endpoints.CustEnquiriesEndpoint}");
 
@@ -69,6 +72,11 @@ else
 				}
 			}
 		}
+	}
+
+	public void Dispose()
+	{
+		_interceptor.DisposeEvent();
 	}
 
 }

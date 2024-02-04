@@ -1,6 +1,9 @@
 ﻿@page "/staffSupport/{id:int}"
 @inject HttpClient _client
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
+
 @if(custEnquiry == null)
 {
 	
@@ -46,6 +49,7 @@ else
 
 	protected async override Task OnParametersSetAsync()
 	{
+		_interceptor.MonitorEvent();
 		custEnquiry = await _client.GetFromJsonAsync<CustEnquiry>($"{Endpoints.CustEnquiriesEndpoint}/{id}");
 		customers = await _client.GetFromJsonAsync<List<Customer>>($"{Endpoints.CustomersEndpoint}");
 	}
@@ -70,5 +74,10 @@ else
 		custEnquiry.Resolved = true;
 
 		await _client.PutAsJsonAsync($"{Endpoints.CustEnquiriesEndpoint}/{id}", custEnquiry);
+	}
+
+	public void Dispose()
+	{
+		_interceptor.DisposeEvent();
 	}
 }

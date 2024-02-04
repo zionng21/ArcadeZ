@@ -1,6 +1,8 @@
 ﻿@page "/producthardwares/create/"
 @inject HttpClient _client
 @inject NavigationManager _navManager
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 
 <h3 class="card-title">Create New Product Hardware</h3>
 <hr />
@@ -11,9 +13,19 @@
 @code {
     ProductHardware productHardware = new ProductHardware();
 
+    protected async override Task OnInitializedAsync()
+    {
+        _interceptor.MonitorEvent();
+    }
+
     private async Task CreateProductHardware()
     {
         await _client.PostAsJsonAsync(Endpoints.ProductHardwaresEndpoint, productHardware);
         _navManager.NavigateTo("/producthardwares/");
+    }
+
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
     }
 }

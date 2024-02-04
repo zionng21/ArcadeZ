@@ -1,7 +1,10 @@
 ﻿@page "/productsoftwares/"
 @inject HttpClient _client
 @inject IJSRuntime js
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 @attribute [Authorize]
+
 <h3 class="card-title">Product Software Creation</h3>
 <a href="/productsoftwares/create" class="btn btn-secondary">
 	<span class="oi oi-plus"></span>
@@ -59,6 +62,7 @@ else
 
 	protected async override Task OnInitializedAsync()
 	{
+		_interceptor.MonitorEvent();
 		ProductSoftwares = await _client.GetFromJsonAsync<List<ProductSoftware>>($"{Endpoints.ProductSoftwaresEndpoint}");
 	}
 
@@ -74,6 +78,11 @@ else
 				await OnInitializedAsync();
 			}
 		}
+	}
+
+	public void Dispose()
+	{
+		_interceptor.DisposeEvent();
 	}
 
 }

@@ -1,6 +1,8 @@
 ﻿@page "/enterpriseProducts/hardware/"
 @inject HttpClient _client
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 @attribute [Authorize]
 
 <EnterpriseProducts />
@@ -41,6 +43,7 @@ else
 
 	protected async override Task OnInitializedAsync()
 	{
+		_interceptor.MonitorEvent();
 		productHardwares = await _client.GetFromJsonAsync<List<ProductHardware>>($"{Endpoints.ProductHardwaresEndpoint}");
 		enterprises = await _client.GetFromJsonAsync<List<Enterprise>>($"{Endpoints.EnterprisesEndpoint}");
 
@@ -66,5 +69,10 @@ else
 				}
 			}
 		}
+	}
+
+	public void Dispose()
+	{
+		_interceptor.DisposeEvent();
 	}
 }

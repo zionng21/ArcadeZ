@@ -1,6 +1,8 @@
 ﻿@page "/custEnquiries/create/"
 @inject HttpClient _client
 @inject NavigationManager _navManager
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 
 <h3 class="card-title">Create New Customer Enquiry</h3>
 <hr />
@@ -11,9 +13,19 @@
 @code {
     CustEnquiry custEnquiry = new CustEnquiry();
     List<string> ETypeList = new List<string> { "Refund", "Product Fault", "Product Availability" };
+    protected async override Task OnInitializedAsync()
+    {
+        _interceptor.MonitorEvent();
+    }
+    
     private async Task CreateCustEnquiry()
     {
         await _client.PostAsJsonAsync(Endpoints.CustEnquiriesEndpoint, custEnquiry);
         _navManager.NavigateTo("/custenquiries/");
+    }
+
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
     }
 }

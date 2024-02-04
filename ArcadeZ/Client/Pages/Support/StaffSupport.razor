@@ -1,5 +1,7 @@
 ﻿@page "/staffSupport/"
 @inject HttpClient _client
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 
 <div class="container">
 	<div class="row">
@@ -30,7 +32,12 @@
 
 	protected async override Task OnInitializedAsync()
 	{
+		_interceptor.MonitorEvent();
 		custEnquiries = await _client.GetFromJsonAsync<List<CustEnquiry>>($"{Endpoints.CustEnquiriesEndpoint}");
 	}
 
+	public void Dispose()
+	{
+		_interceptor.DisposeEvent();
+	}
 }

@@ -1,6 +1,8 @@
 ﻿@page "/support/custOrder"
 @inject HttpClient _client
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 @attribute [Authorize]
 
 <h3 style="padding-top:1rem;" class=" card-title text-center p-5 mt-1">Which Order Will You Like To Enquire For?</h3>
@@ -43,6 +45,7 @@ else
 
 	protected async override Task OnInitializedAsync()
 	{
+		_interceptor.MonitorEvent();
 		customers = await _client.GetFromJsonAsync<List<Customer>>($"{Endpoints.CustomersEndpoint}");
 		custOrders = await _client.GetFromJsonAsync<List<CustOrder>>($"{Endpoints.CustOrdersEndpoint}");
 
@@ -69,4 +72,10 @@ else
 			}	
 		}
 	}
+
+	public void Dispose()
+	{
+		_interceptor.DisposeEvent();
+	}
+
 }

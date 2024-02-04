@@ -9,6 +9,7 @@ namespace ArcadeZ.Shared.Domain
     public class Staff : BaseDomainModel
     {
         public string? Name { get; set; }
+
         public string? Email { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public DateTime DateJoined { get; set; }

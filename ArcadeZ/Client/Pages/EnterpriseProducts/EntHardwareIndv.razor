@@ -1,6 +1,8 @@
 ﻿@page "/enterpriseProducts/hardware/{id:int}"
 @inject HttpClient _client
 @inject NavigationManager _navManager
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 
 <h3 class="card-title">Edit Software Product</h3>
 
@@ -69,6 +71,7 @@
 
     protected async override Task OnParametersSetAsync()
     {
+        _interceptor.MonitorEvent();
         productHardware = await _client.GetFromJsonAsync<ProductHardware>($"{Endpoints.ProductHardwaresEndpoint}/{id}");
     }
 
@@ -99,5 +102,10 @@
                 }
             }
         }
+    }
+
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
     }
 }

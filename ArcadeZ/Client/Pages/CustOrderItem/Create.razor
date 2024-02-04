@@ -1,6 +1,8 @@
 ﻿@page "/custorderitems/create/"
 @inject HttpClient _client
 @inject NavigationManager _navManager
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 
 <h3 class="card-title">Create New Customer Order Item</h3>
 <hr />
@@ -11,9 +13,19 @@
 @code {
     CustOrderItem custOrderItem = new CustOrderItem();
 
+    protected async override Task OnInitializedAsync()
+    {
+        _interceptor.MonitorEvent();
+    }
+
     private async Task CreateCustOrderItem()
     {
         await _client.PostAsJsonAsync(Endpoints.CustOrderItemsEndpoint, custOrderItem);
         _navManager.NavigateTo("/custorderitems/");
+    }
+
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
     }
 }

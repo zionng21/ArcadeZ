@@ -1,6 +1,8 @@
 ﻿@page "/payments/create/"
 @inject HttpClient _client
 @inject NavigationManager _navManager
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 
 <h3 class="card-title">Create New Payment</h3>
 <hr />
@@ -12,9 +14,19 @@
     List<string> paymentList = new List<string> { "Card", "PayNow", "GrabPay" };
     Payment payment = new Payment();
 
+    protected async override Task OnInitializedAsync()
+    {
+        _interceptor.MonitorEvent();
+    }
+
     private async Task CreatePayment()
     {
         await _client.PostAsJsonAsync(Endpoints.PaymentsEndpoint, payment);
         _navManager.NavigateTo("/payments/");
+    }
+
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
     }
 }

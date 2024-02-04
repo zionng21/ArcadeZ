@@ -1,5 +1,8 @@
 ﻿@page "/support/viewReq/{id:int}"
 @inject HttpClient _client
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
+
 <h3 style="padding-top:1rem;" class=" card-title text-center p-5 mt-1">View Your Enquiry Status Below</h3>
 <div class="border-top px-2 mx-2 pb-1" style="background-color:#1ABC9C;"></div>
 
@@ -62,6 +65,12 @@ else
 
 	protected async override Task OnParametersSetAsync()
 	{
+        _interceptor.MonitorEvent();
 		custEnquiry = await _client.GetFromJsonAsync<CustEnquiry>($"{Endpoints.CustEnquiriesEndpoint}/{id}");
 	}
+
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
+    }
 }

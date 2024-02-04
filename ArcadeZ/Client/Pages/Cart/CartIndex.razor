@@ -2,6 +2,8 @@
 @inject HttpClient _client
 @inject NavigationManager _navManager
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 @attribute [Authorize]
 @using System.Linq;
 
@@ -164,7 +166,6 @@
 				TotalPrice += custCartItem.ProductHardware.hPrice;
 			}
 		}
-
 	}
 
 	private void DecrementQuantity(int custCartId)
@@ -184,6 +185,8 @@
 
 	protected async override Task OnInitializedAsync()
 	{
+		_interceptor.MonitorEvent();
+
 		customers = await _client.GetFromJsonAsync<List<Customer>>($"{Endpoints.CustomersEndpoint}");
 		tempCarts = await _client.GetFromJsonAsync<List<TempCart>>($"{Endpoints.TempCartsEndpoint}");
 
@@ -247,7 +250,7 @@
 				custOrderItem.ProductSoftwareId = custCartItem.ProductSoftwareId;
 			}
 			custOrderItem.Qty = custCartItem.Quantity;
-			
+
 			await _client.PostAsJsonAsync(Endpoints.CustOrderItemsEndpoint, custOrderItem);
 			await _client.DeleteAsync($"{Endpoints.TempCartsEndpoint}/{custCartItem.Id}");
 		}
@@ -263,7 +266,11 @@
 		_navManager.NavigateTo("/store/");
 	}
 
-	
+	public void Dispose()
+	{
+		_interceptor.DisposeEvent();
+	}
+
 }
 
 					

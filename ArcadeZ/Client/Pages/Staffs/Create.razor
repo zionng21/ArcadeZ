@@ -1,8 +1,8 @@
-﻿@* Staff - Create.razor
------------------- *@
-@page "/staffs/create/"
+﻿@page "/staffs/create/"
 @inject HttpClient _client
 @inject NavigationManager _navManager
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 
 <h3 class="card-title">Create New Staff</h3>
 <hr />
@@ -11,13 +11,25 @@
 <FormComponent ButtonText="Create Staff" OnValidSubmit="CreateStaff" staff="staff" />
 
 @code {
+    
     Staff staff = new Staff();
     List<string>departmentList = new List<string> { "Customer Service", "Logistic", "Marketing" };
     List<string> roleList = new List<string> { "CS Support", "CS Manager", "Logistic Crew", "Logistic Manager", "Marketing Member", "Marketing Manager" };
+    
+    protected async override Task OnInitializedAsync()
+    {
+        _interceptor.MonitorEvent();
+    }
+    
     private async Task CreateStaff()
     {
         await _client.PostAsJsonAsync(Endpoints.StaffsEndpoint, staff);
         _navManager.NavigateTo("/staffs/");
+    }
+
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
     }
 
 }

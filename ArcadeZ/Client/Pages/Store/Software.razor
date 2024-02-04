@@ -1,5 +1,7 @@
 ﻿@page "/store/software/"
 @inject HttpClient _client
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 @attribute [Authorize]
 
 <StoreIndex />
@@ -37,6 +39,12 @@ else
 
 	protected async override Task OnInitializedAsync()
 	{
+		_interceptor.MonitorEvent();
 		ProductSoftwares = await _client.GetFromJsonAsync<List<ProductSoftware>>($"{Endpoints.ProductSoftwaresEndpoint}");
+	}
+
+	public void Dispose()
+	{
+		_interceptor.DisposeEvent();
 	}
 }

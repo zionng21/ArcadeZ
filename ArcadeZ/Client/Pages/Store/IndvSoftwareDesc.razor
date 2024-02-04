@@ -2,6 +2,8 @@
 @inject HttpClient _client
 @inject NavigationManager _navManager
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 
 <h3 style="padding-top:1rem;" class=" card-title text-center p-5 mt-1"><b style="color: #1ABC9C">Software</b> Description</h3>
 <div class="border-top px-2 mx-2 pb-1" style="background-color:#1ABC9C;"></div>
@@ -122,7 +124,7 @@
 
 	protected async override Task OnParametersSetAsync()
 	{
-
+		_interceptor.MonitorEvent();
 		productSoftware = await _client.GetFromJsonAsync<ProductSoftware>($"{Endpoints.ProductSoftwaresEndpoint}/{id}");
 		tempCarts = await _client.GetFromJsonAsync<List<TempCart>>($"{Endpoints.TempCartsEndpoint}");
 		customers = await _client.GetFromJsonAsync<List<Customer>>($"{Endpoints.CustomersEndpoint}");
@@ -162,5 +164,10 @@
 				}
 			}
 		}
+	}
+
+	public void Dispose()
+	{
+		_interceptor.DisposeEvent();
 	}
 }

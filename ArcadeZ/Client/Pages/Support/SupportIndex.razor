@@ -1,4 +1,6 @@
 ﻿@page "/support"
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 
 <h3 style="padding-top:1rem;" class=" card-title text-center p-5 mt-1">What can we help you with today?</h3>
 <div class="border-top px-2 mx-2 pb-1"style="background-color:#1ABC9C;"></div>
@@ -25,5 +27,15 @@
 </div>
 
 @code {
+
+    protected async override Task OnInitializedAsync()
+    {
+        _interceptor.MonitorEvent();
+    }
+
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
+    }
 
 }

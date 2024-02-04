@@ -1,5 +1,8 @@
 ﻿@page "/otherPages"
 @inject NavigationManager Navigation
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
+
 <h3>About</h3>
 
 <ul class="navbar-nav ms-auto">
@@ -14,3 +17,16 @@
     <li> <a href="/staffs/">staff</a></li>
 </ul>
 
+@code{
+
+    protected async override Task OnInitializedAsync()
+    {
+        _interceptor.MonitorEvent();
+    }
+
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
+    }
+
+}

@@ -1,6 +1,8 @@
 ﻿@page "/productsoftwares/view/{id:int}"
 @inject HttpClient _client
 @inject NavigationManager _navManager
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 
 <h3 class="card-title">View Software Product</h3>
 
@@ -13,7 +15,13 @@
 
 	protected async override Task OnParametersSetAsync()
 	{
+		_interceptor.MonitorEvent();
 		productSoftware = await _client.GetFromJsonAsync<ProductSoftware>($"{Endpoints.ProductSoftwaresEndpoint}/{id}");
+	}
+
+	public void Dispose()
+	{
+		_interceptor.DisposeEvent();
 	}
 
 }

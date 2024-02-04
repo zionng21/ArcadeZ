@@ -1,8 +1,8 @@
-﻿@* Enterprise - Create.razor
------------------- *@
-@page "/enterprises/create/"
+﻿@page "/enterprises/create/"
 @inject HttpClient _client
 @inject NavigationManager _navManager
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 
 <h3 class="card-title">Create New Enterprise</h3>
 <hr />
@@ -13,10 +13,19 @@
 @code {
     Enterprise enterprise = new Enterprise();
   
+    protected async override Task OnInitializedAsync()
+    {
+        _interceptor.MonitorEvent();
+    }
+
     private async Task CreateEnterprise()
     {
         await _client.PostAsJsonAsync(Endpoints.EnterprisesEndpoint, enterprise);
         _navManager.NavigateTo("/enterprises/");
     }
 
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
+    }
 }

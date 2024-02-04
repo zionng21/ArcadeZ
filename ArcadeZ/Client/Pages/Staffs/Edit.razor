@@ -1,6 +1,8 @@
 ﻿@page "/staffs/edit/{id:int}"
 @inject HttpClient _client
 @inject NavigationManager _navManager
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 
 <h3 class="card-title">Edit Staff</h3>
 
@@ -13,6 +15,7 @@
 
 	protected async override Task OnParametersSetAsync()
 	{
+		_interceptor.MonitorEvent();
 		staff = await _client.GetFromJsonAsync<Staff>($"{Endpoints.StaffsEndpoint}/{id}");
 	}
 
@@ -20,5 +23,10 @@
 	{
 		await _client.PutAsJsonAsync($"{Endpoints.StaffsEndpoint}/{id}", staff);
 		_navManager.NavigateTo("/staffs/");
+	}
+
+	public void Dispose()
+	{
+		_interceptor.DisposeEvent();
 	}
 }

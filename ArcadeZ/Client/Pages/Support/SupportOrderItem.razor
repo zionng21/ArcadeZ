@@ -1,6 +1,8 @@
 ﻿@page "/support/custOrder/{id:int}"
 @inject HttpClient _client
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 @attribute [Authorize]
 
 <h3 style="padding-top:1rem;" class=" card-title text-center p-5 mt-1">Select The Product</h3>
@@ -47,6 +49,7 @@ else
 
 	protected async override Task OnParametersSetAsync()
 	{
+		_interceptor.MonitorEvent();
 		custOrderItems = await _client.GetFromJsonAsync<List<CustOrderItem>>($"{Endpoints.CustOrderItemsEndpoint}");
 
 		foreach (var custOrderItem in custOrderItems)
@@ -55,5 +58,10 @@ else
 				currCustOrderItems.Add(custOrderItem);
 			}
 		}
+	}
+
+	public void Dispose()
+	{
+		_interceptor.DisposeEvent();
 	}
 }

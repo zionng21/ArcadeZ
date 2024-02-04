@@ -2,6 +2,8 @@
 @inject HttpClient _client
 @inject NavigationManager _navManager
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 @attribute [Authorize]
 
 <h3 style="padding-top:1rem;" class=" card-title text-center p-5 mt-1">Write Your Enquires To Us</h3>
@@ -59,6 +61,7 @@
 
 	protected async override Task OnParametersSetAsync()
 	{
+		_interceptor.MonitorEvent();
 		custOrderItem = await _client.GetFromJsonAsync<CustOrderItem>($"{Endpoints.CustOrderItemsEndpoint}/{id}");
 	}
 
@@ -92,5 +95,10 @@
 		}
 		await _client.PostAsJsonAsync(Endpoints.CustEnquiriesEndpoint, custEnquiry);
 		_navManager.NavigateTo("/");
+	}
+
+	public void Dispose()
+	{
+		_interceptor.DisposeEvent();
 	}
 }
