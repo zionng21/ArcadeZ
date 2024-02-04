@@ -2,29 +2,96 @@
 @inject HttpClient _client
 @inject NavigationManager _navManager
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
-<h3 style="padding-top:1rem;" class=" card-title text-center p-5 mt-1">>@productSoftware.sTitle Description</h3>
+
+<h3 style="padding-top:1rem;" class=" card-title text-center p-5 mt-1"><b style="color: #1ABC9C">Software</b> Description</h3>
 <div class="border-top px-2 mx-2 pb-1" style="background-color:#1ABC9C;"></div>
 
-<div class="container mt-4">
+<main class="mt-5 pt-4">
+	<div style="width: 75%; box-shadow: 0 0 15px rgba(26, 188, 156, 0.5);" class="mx-auto border border-2 p-3 container mt-5 pb-5">
+		<!--Grid row-->
+		<div class="row">
+			<!--Grid column-->
+			<div class="col-md-6 mb-4">
+				<img src="images/Fortnite.png" class="img-fluid" alt="" />
+			</div>
 
-	<p>Image</p>
-	<div class="card p-4">
+			<div class="col-md-5 mb-5 text-center ">
 
-		<h3 class="card-title">@productSoftware.sTitle</h3>
-		<p class="card-text">@productSoftware.Description</p>
-		<p class="card-text"><small class="text-muted">@productSoftware.Category</small></p>
+				<div class="p-4 align-items-center">
+					<div class="mb-3">
+						<a href="">
+							<span class="badge bg-info me-1">New</span>
+						</a>
+						<a href="">
+							<span class="badge bg-danger me-1">Bestseller</span>
+						</a>
+					</div>
+					<strong><p style="font-size: 50px;">@productSoftware.sTitle</p></strong>
 
-		@if (Disabled == false)
-		{
-			<button class="btn btn-primary w-50" @onclick="AddToCart">Add to Cart</button>
-		}
-		else
-		{
-			<button class="btn btn-primary w-50" @onclick="GoToCart" disabled>In Cart</button>
-		}
+					<p class="lead">
+						<span class="me-1">
+							<del>$1000</del>
+						</span>
+						<span>$@productSoftware.sPrice</span>
+					</p>
+					<strong><p style="font-size: 20px;">Description</p></strong>
+					<p>@productSoftware.Description</p>
+					
+					<form class="justify-content-center text-center">
+						@if (Disabled == false)
+						{
+							<button class="w-75 btn btn-primary ms-1" @onclick="AddToCart">Add to Cart</button>
+						}
+						else
+						{
+							<button class="w-75 btn btn-primary  ms-1" @onclick="GoToCart">In Cart</button>
+						}
+					</form>
+				</div>
+				<!--Content-->`
+			</div>
+			<!--Grid column-->
+		</div>
+		<!--Grid row-->
 	</div>
-</div>
+</main>
 
+
+
+<div style="background-color:#1ABC9C; color:white;">
+	<!--Grid row-->
+	<div class="row d-flex justify-content-center" style="background-color:#1ABC9C;">
+		<!--Grid column-->
+		<div class="col-md-6 text-center">
+			<h4 class="my-4 h4">Additional information</h4>
+
+			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus suscipit modi sapiente illo soluta odit voluptates, quibusdam officia. Neque quibusdam quas a quis porro? Molestias illo neque eum in laborum.</p>
+			<br>
+			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus suscipit modi sapiente illo soluta odit voluptates, quibusdam officia. Neque quibusdam quas a quis porro? Molestias illo neque eum in laborum.</p>
+		</div>
+		<!--Grid column-->
+	</div>
+	<!--Grid row-->
+	<!--Grid row-->
+	@* <div class="row">
+	<!--Grid column-->
+	<div class="col-lg-4 col-md-12 mb-4">
+	<img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/11.jpg" class="img-fluid" alt="" />
+	</div>
+	<!--Grid column-->
+	<!--Grid column-->
+	<div class="col-lg-4 col-md-6 mb-4">
+	<img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/12.jpg" class="img-fluid" alt="" />
+	</div>
+	<!--Grid column-->
+	<!--Grid column-->
+	<div class="col-lg-4 col-md-6 mb-4 fas fa-headset">
+	<img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/13.jpg" class="img-fluid" alt="" />
+	</div>
+	<!--Grid column-->
+	</div> *@
+	<!--Grid row-->
+</div>
 
 
 @code {
