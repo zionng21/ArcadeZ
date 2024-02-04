@@ -1,6 +1,8 @@
 ﻿@page "/support/viewReq"
 @inject HttpClient _client
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
+@attribute [Authorize]
+
 <h3 style="padding-top:1rem;" class=" card-title text-center p-5 mt-1">Select to View Your Past Enquires</h3>
 <div class="border-top px-2 mx-2 pb-1" style="background-color:#1ABC9C;"></div>
 

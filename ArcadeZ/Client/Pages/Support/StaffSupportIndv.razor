@@ -1,27 +1,39 @@
 ﻿@page "/staffSupport/{id:int}"
 @inject HttpClient _client
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
-
-<p>Customer Username: @custEnquiry.Customer.UserName</p>
-<p>Type: @custEnquiry.EnquiryType</p>
-<p>Description: @custEnquiry.EnquiryDesc</p>
-@if (@custEnquiry.UpdatedBy == null)
+@if(custEnquiry == null)
 {
-	<p>Updated By: Not yet resolved</p>
+	
 }
 else
 {
-	<p>Updated By: @custEnquiry.UpdatedBy</p>
-}
-@if (@custEnquiry.Resolved == false)
-{
-	<p>Details: Pending</p>
-	<button class="btn btn-primary" @onclick="Resolved">Resolve</button>
-}
-else
-{
-	<p>Details: Resolved</p>
-	<button disabled="true" class="btn btn-primary" @onclick="Resolved">Resolved</button>
+	@foreach(var customer in customers)
+	{
+		@if(custEnquiry.CustomerId == customer.Id)
+		{
+			<p>Customer Username: @customer.UserName</p>
+		}
+	}
+	<p>Type: @custEnquiry.EnquiryType</p>
+	<p>Description: @custEnquiry.EnquiryDesc</p>
+	@if (@custEnquiry.UpdatedBy == null)
+	{
+		<p>Updated By: Not yet resolved</p>
+	}
+	else
+	{
+		<p>Updated By: @custEnquiry.UpdatedBy</p>
+	}
+	@if (@custEnquiry.Resolved == false)
+	{
+		<p>Details: Pending</p>
+		<button class="btn btn-primary" @onclick="Resolved">Resolve</button>
+	}
+	else
+	{
+		<p>Details: Resolved</p>
+		<button disabled="true" class="btn btn-primary" @onclick="Resolved">Resolved</button>
+	}
 }
 
 
@@ -30,10 +42,12 @@ else
 	[Parameter] public int id { get; set; }
 	CustEnquiry custEnquiry = new CustEnquiry();
 	private List<Staff>? staffs;
+	private List<Customer>? customers;
 
 	protected async override Task OnParametersSetAsync()
 	{
 		custEnquiry = await _client.GetFromJsonAsync<CustEnquiry>($"{Endpoints.CustEnquiriesEndpoint}/{id}");
+		customers = await _client.GetFromJsonAsync<List<Customer>>($"{Endpoints.CustomersEndpoint}");
 	}
 
 	private async Task Resolved()
