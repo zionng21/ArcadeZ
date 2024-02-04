@@ -1,8 +1,52 @@
 ﻿@page "/support/viewReq/{id:int}"
 @inject HttpClient _client
+<h3 style="padding-top:1rem;" class=" card-title text-center p-5 mt-1">View Your Enquiry Status Below</h3>
+<div class="border-top px-2 mx-2 pb-1" style="background-color:#1ABC9C;"></div>
 
-<p>Enquiry Type: @custEnquiry.EnquiryType</p>
+<div class="container mt-5">
+    <div class="pt-4 d-flex justify-content-center">
+        <div class="rounded d-flex flex-column p-2" style="background-color:#1ABC9C; width: 26rem;">
+            <div class="p-2 d-flex">
+                <div class="col-8">Enquiry Type:</div>
+                <div class="ms-auto">@custEnquiry.EnquiryType</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5 pb-5">
+    <div class="pt-2 d-flex justify-content-center">
+        <div class="rounded d-flex flex-column p-2" style="background-color: #f8f9fa; box-shadow: 0 0 15px rgba(26, 188, 156, 0.5); width: 26rem;">
+   
+
+            <div class="p-2 d-flex">
+                <div class="col-8">Description</div>
+                <div class="ms-auto">@custEnquiry.EnquiryDesc</div>
+            </div>
+
+            <div class="border-top px-2 mx-2 pt-2"></div>
+
+            @if (!custEnquiry.Resolved == false)
+            {
+                <div class="p-2 d-flex">
+                    <div class="col-8">Status</div>
+                    <div class="ms-auto">Pending</div>
+                </div>
+            }
+            else
+            {
+                <div class="p-2 d-flex">
+                    <div class="col-8">Status</div>
+                    <div class="ms-auto">Resolved</div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@* <p>Enquiry Type: @custEnquiry.EnquiryType</p>
 <p>Details: @custEnquiry.EnquiryDesc</p>
+
 @if (@custEnquiry.Resolved == false)
 {
 	<p>Details: Pending</p>
@@ -10,7 +54,7 @@
 else
 {
 	<p>Details: Resolved</p>
-}
+} *@
 
 @code {
 	[Parameter] public int id { get; set; }
