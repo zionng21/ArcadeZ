@@ -23,6 +23,10 @@ else
 								existingImageData = Convert.ToBase64String(producthardware.hthumbnail);
 								<img src="@("data:image/png;base64," + existingImageData)" alt="image" />
 							}
+							else
+							{
+								<img width=90% src="images/Fortnite.png" class="img-fluid" alt="" />
+							}
 						</div>
 						<hr>
 						<h5 class="card-title">@producthardware.hTitle</h5>

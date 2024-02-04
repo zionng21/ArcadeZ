@@ -14,7 +14,14 @@
 		<div class="row">
 			<!--Grid column-->
 			<div class="col-md-6 mb-4">
-				<img src="images/Fortnite.png" class="img-fluid" alt="" />
+				@if (@productSoftware.sthumbnail != null)
+				{
+					<img width="100%" height="100%" src="@("data:image/png;base64," + Convert.ToBase64String(@productSoftware.sthumbnail))" alt="image" />
+				}
+				else
+				{
+					<img src="images/Fortnite.png" class="img-fluid" alt="" />
+				}
 			</div>
 
 			<div class="col-md-5 mb-5 text-center ">
@@ -108,9 +115,11 @@
 	private List<TempCart>? tempCarts;
 	private List<TempCart>? custCart = new List<TempCart>();
 	private List<Customer>? customers;
+	private byte[] imageBytes;
 	private int CustId;
 
-    public bool Disabled { get; set; } = false;
+	public bool Disabled { get; set; } = false;
+
 
 	private async Task AddToCart()
 	{
