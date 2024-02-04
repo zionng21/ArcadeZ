@@ -1,0 +1,60 @@
+﻿@page "/staffSupport/{id:int}"
+@inject HttpClient _client
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
+
+<p>Customer Username: @custEnquiry.Customer.UserName</p>
+<p>Type: @custEnquiry.EnquiryType</p>
+<p>Description: @custEnquiry.EnquiryDesc</p>
+@if (@custEnquiry.UpdatedBy == null)
+{
+	<p>Updated By: Not yet resolved</p>
+}
+else
+{
+	<p>Updated By: @custEnquiry.UpdatedBy</p>
+}
+@if (@custEnquiry.Resolved == false)
+{
+	<p>Details: Pending</p>
+	<button class="btn btn-primary" @onclick="Resolved">Resolve</button>
+}
+else
+{
+	<p>Details: Resolved</p>
+	<button disabled="true" class="btn btn-primary" @onclick="Resolved">Resolved</button>
+}
+
+
+@code {
+
+	[Parameter] public int id { get; set; }
+	CustEnquiry custEnquiry = new CustEnquiry();
+	private List<Staff>? staffs;
+
+	protected async override Task OnParametersSetAsync()
+	{
+		custEnquiry = await _client.GetFromJsonAsync<CustEnquiry>($"{Endpoints.CustEnquiriesEndpoint}/{id}");
+	}
+
+	private async Task Resolved()
+	{
+
+		var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+		var user = authstate.User;
+		var name = user.Identity.Name;
+
+		staffs = await _client.GetFromJsonAsync<List<Staff>>($"{Endpoints.StaffsEndpoint}");
+
+		foreach (var staff in staffs)
+		{
+			if (staff.Email == name)
+			{
+				custEnquiry.StaffId = staff.Id;
+				custEnquiry.UpdatedBy = staff.Name;
+			}
+		}
+		custEnquiry.Resolved = true;
+
+		await _client.PutAsJsonAsync($"{Endpoints.CustEnquiriesEndpoint}/{id}", custEnquiry);
+	}
+}

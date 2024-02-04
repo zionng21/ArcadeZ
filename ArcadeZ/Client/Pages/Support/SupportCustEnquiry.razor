@@ -60,6 +60,14 @@
 		{
 			custEnquiry.EnquiryType = enquiryTypes[0];
 		}
+		@if (custOrderItem.ProductHardware == null)
+		{
+			custEnquiry.EnquiryDesc += custOrderItem.ProductSoftware.sTitle;
+		}
+		else
+		{
+			custEnquiry.EnquiryDesc += custOrderItem.ProductHardware.hTitle;
+		}
 		await _client.PostAsJsonAsync(Endpoints.CustEnquiriesEndpoint, custEnquiry);
 		_navManager.NavigateTo("/");
 	}

@@ -1,0 +1,36 @@
+﻿@page "/staffSupport/"
+@inject HttpClient _client
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table">
+				<tbody>
+					@if (custEnquiries != null)
+					{
+						@foreach (var custEnquiry in custEnquiries)
+						{
+							<tr>
+								<td>
+									<a href="/staffSupport/@custEnquiry.Id" class="btn btn-primary btn-block rowBtn">Enquiry #@custEnquiry.Id @custEnquiry.Customer.UserName</a>
+								</td>
+							</tr>
+						}
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+
+@code {
+
+	private List<CustEnquiry> custEnquiries;
+
+	protected async override Task OnInitializedAsync()
+	{
+		custEnquiries = await _client.GetFromJsonAsync<List<CustEnquiry>>($"{Endpoints.CustEnquiriesEndpoint}");
+	}
+
+}

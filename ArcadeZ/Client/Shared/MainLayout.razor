@@ -1,5 +1,7 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager Navigation
+@inject HttpClient _client
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
 
 <head>
     <meta charset="utf-8" />
@@ -28,20 +30,52 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/about/">Other Pages</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/store/">Store</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/support/">Support</a></li>
-
-                    <AuthorizeView>
-                        <Authorized>
-                            <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="authentication/profile">@context.User.Identity?.Name!</a></li>
-                            <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#" @onclick="BeginLogOut">Log out</a></li>
-                        </Authorized>
-                        <NotAuthorized>
-                            <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="authentication/register">Register</a></li>
-                            <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="authentication/login">Log In</a></li>
-                        </NotAuthorized>
-                    </AuthorizeView>
+                    @if(role == 1)
+                    {
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/about/">Other Pages</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/staffSupport/">Support</a></li>
+                        <AuthorizeView>
+                            <Authorized>
+                                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="authentication/profile">@context.User.Identity?.Name!</a></li>
+                                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#" @onclick="BeginLogOut">Log out</a></li>
+                            </Authorized>
+                            <NotAuthorized>
+                                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="authentication/register">Register</a></li>
+                                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="authentication/login">Log In</a></li>
+                            </NotAuthorized>
+                        </AuthorizeView>
+                    }
+                    else
+                    {
+                        @if(role == 2)
+                        {
+                            <AuthorizeView>
+                                <Authorized>
+                                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="authentication/profile">@context.User.Identity?.Name!</a></li>
+                                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#" @onclick="BeginLogOut">Log out</a></li>
+                                </Authorized>
+                                <NotAuthorized>
+                                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="authentication/register">Register</a></li>
+                                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="authentication/login">Log In</a></li>
+                                </NotAuthorized>
+                            </AuthorizeView>
+                        }
+                        else
+                        {
+                            <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/store/">Store</a></li>
+                            <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/support/">Support</a></li>
+                            <AuthorizeView>
+                                <Authorized>
+                                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="authentication/profile">@context.User.Identity?.Name!</a></li>
+                                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#" @onclick="BeginLogOut">Log out</a></li>
+                                </Authorized>
+                                <NotAuthorized>
+                                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="authentication/register">Register</a></li>
+                                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="authentication/login">Log In</a></li>
+                                </NotAuthorized>
+                            </AuthorizeView>
+                        }
+                    }
                 </ul>
             </div>
         </div>
@@ -92,6 +126,11 @@
     <div class="container"><small>Copyright &copy; ArcadeZ Hub 2023</small></div>
 </div>
 @code {
+    private List<Customer>? customers;
+    private List<Staff>? staffs;
+    private List<Enterprise>? enterprises;
+    private int role;
+
     private bool collapseNavMenu = true;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
@@ -104,4 +143,46 @@
     {
         Navigation.NavigateToLogout("authentication/logout", "/");
     }
+
+    protected async override Task OnParametersSetAsync()
+    {
+        var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var user = authstate.User;
+        var name = user.Identity.Name;
+        if (name != null)
+        {
+            if (name.EndsWith("@arcadeZmail.com"))
+            {
+                staffs = await _client.GetFromJsonAsync<List<Staff>>($"{Endpoints.StaffsEndpoint}");
+
+                foreach (var staff in staffs)
+                {
+                    if (staff.Email == name)
+                    {
+                        role = 1;
+                    }
+                }
+            }
+            else
+            {
+                customers = await _client.GetFromJsonAsync<List<Customer>>($"{Endpoints.CustomersEndpoint}");
+                enterprises = await _client.GetFromJsonAsync<List<Enterprise>>($"{Endpoints.EnterprisesEndpoint}");
+
+                foreach (var customer in customers)
+                {
+                    if (customer.Email == name)
+                    {
+                        role = 0;
+                    }
+                }
+                foreach (var enterprise in enterprises)
+                {
+                    if (enterprise.Email == name)
+                    {
+                        role = 2;
+                    }
+                }
+            }
+        }
     }
+}
