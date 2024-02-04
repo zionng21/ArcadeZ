@@ -1,0 +1,36 @@
+﻿@page "/enterpriseProducts/"
+@inject NavigationManager _navManager
+
+<p style="padding-top:1rem; background-color:#1ABC9C; color: white; " class="text-center"><b>Select Category</b></p>
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-3">
+            <!-- First Div -->
+            <div class="text-center">
+                <NavLink class="btn btn-xl btn-outline-store" href="/enterpriseProducts/software" Match="NavLinkMatch.All">
+                    Software
+                </NavLink>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <!-- Second Div -->
+            <div class="text-center">
+                <NavLink class="btn btn-xl btn-outline-store" href="/enterpriseProducts/hardware" Match="NavLinkMatch.All">
+                    Hardware
+                </NavLink>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        if (_navManager.Uri.EndsWith("/enterpriseProducts/"))
+        {
+            _navManager.NavigateTo("/enterpriseProducts/software");
+        }
+    }
+}

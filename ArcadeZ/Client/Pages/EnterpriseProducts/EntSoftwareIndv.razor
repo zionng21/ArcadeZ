@@ -1,0 +1,104 @@
+﻿@page "/enterpriseProducts/software/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Edit Software Product</h3>
+
+@if (productSoftware.sthumbnail == null)
+{
+    <div class="form-group">
+        <label>Image: </label>
+        <div>
+            <InputFile OnChange="HandleFileSelected"></InputFile>
+        </div>
+    </div>
+}
+@if (productSoftware.sthumbnail != null)
+{
+    <div class="form-group">
+        <label>Image: </label>
+        <img src="@("data:image/png;base64," + Convert.ToBase64String(productSoftware.sthumbnail))" alt="image" />
+        <div>
+            <InputFile OnChange="HandleFileSelected"></InputFile>
+        </div>
+    </div>
+    
+}
+<div class="form-group">
+    <label>Title: </label>
+    <div>
+        <InputText @bind-Value="@productSoftware.sTitle" class="form-control" />
+    </div>
+</div>
+
+<div class="form-group">
+    <label>Price: </label>
+    <div>
+        <InputNumber @bind-Value="@productSoftware.sPrice" class="form-control" />
+    </div>
+</div>
+
+<div class="form-group">
+    <label>Category: </label>
+    <div>
+        <InputText @bind-Value="@productSoftware.Category" class="form-control" />
+    </div>
+</div>
+
+<div class="form-group">
+    <label>Description: </label>
+    <div>
+        <InputTextArea @bind-Value="@productSoftware.Description" class="form-control" />
+    </div>
+</div>
+
+<div class="form-group">
+    <label>Enterprise ID: </label>
+    <div>
+        <InputNumber @bind-Value="@productSoftware.EnterpriseId" class="form-control" />
+    </div>
+</div>
+<button @onclick="EditProductSoftware" type="submit" class="btn btn-success btn-block">
+    Save
+</button>
+
+@code {
+
+	[Parameter] public int id { get; set; }
+    private byte[] imageBytes;
+	ProductSoftware? productSoftware = new ProductSoftware();
+
+	protected async override Task OnParametersSetAsync()
+	{
+		productSoftware = await _client.GetFromJsonAsync<ProductSoftware>($"{Endpoints.ProductSoftwaresEndpoint}/{id}");
+	}
+
+	async Task EditProductSoftware()
+	{
+		await _client.PutAsJsonAsync($"{Endpoints.ProductSoftwaresEndpoint}/{id}", productSoftware);
+        _navManager.NavigateTo("/enterpriseProducts/");
+	}
+
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+
+        if (file != null)
+        {
+            var resizedFile = await file.RequestImageFileAsync(file.ContentType, 376, 282);
+            // Read the selected file
+            using (var stream = resizedFile.OpenReadStream())
+            {
+                // Convert the file content to a byte array
+                using (var memoryStream = new MemoryStream())
+                {
+                    await stream.CopyToAsync(memoryStream);
+                    imageBytes = memoryStream.ToArray();
+
+                    // Assign the byte array to the productSoftware.thumbnail property
+                    productSoftware.sthumbnail = imageBytes;
+                }
+            }
+        }
+    }
+}

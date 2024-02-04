@@ -1,0 +1,70 @@
+﻿@page "/enterpriseProducts/hardware/"
+@inject HttpClient _client
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
+@attribute [Authorize]
+
+<EnterpriseProducts />
+@if (currProductHardwares == null)
+{
+	<div class="alert alert-info">Loading Hardware Products...</div>
+}
+else
+{
+	<div class="row p-5">
+		@foreach (var producthardware in currProductHardwares)
+		{
+			<div class="col-md-3 mb-3">
+				<div class="card h-100">
+					<a class="card-body" style="box-shadow: 0 0 15px rgba(26, 188, 156, 0.5);" href="/enterpriseProducts/hardware/@producthardware.Id">
+						<div style="text-align:center">
+							@if (producthardware.hthumbnail != null)
+							{
+								existingImageData = Convert.ToBase64String(producthardware.hthumbnail);
+								<img src="@("data:image/png;base64," + existingImageData)" alt="image" />
+							}
+						</div>
+						<hr>
+						<h5 class="card-title">@producthardware.hTitle</h5>
+						<p>$@producthardware.hPrice</p>
+					</a>
+				</div>
+			</div>
+		}
+	</div>
+}
+@code {
+	private List<ProductHardware>? productHardwares;
+	private List<ProductHardware>? currProductHardwares = new List<ProductHardware>();
+	private List<Enterprise>? enterprises;
+	private int entId;
+	private string existingImageData;
+
+	protected async override Task OnInitializedAsync()
+	{
+		productHardwares = await _client.GetFromJsonAsync<List<ProductHardware>>($"{Endpoints.ProductHardwaresEndpoint}");
+		enterprises = await _client.GetFromJsonAsync<List<Enterprise>>($"{Endpoints.EnterprisesEndpoint}");
+
+		var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+		var user = authstate.User;
+		var name = user.Identity.Name;
+
+		foreach (var enterprise in enterprises)
+		{
+			if (enterprise.Email == name)
+			{
+				entId = enterprise.Id;
+			}
+		}
+
+		if (productHardwares != null)
+		{
+			foreach (var productHardware in productHardwares)
+			{
+				if (productHardware.EnterpriseId == entId)
+				{
+					currProductHardwares.Add(productHardware);
+				}
+			}
+		}
+	}
+}

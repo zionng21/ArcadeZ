@@ -32,7 +32,7 @@
                 <ul class="navbar-nav ms-auto">
                     @if(role == 1)
                     {
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/about/">Other Pages</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/otherPages/">Other Pages</a></li>
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/staffSupport/">Support</a></li>
                         <AuthorizeView>
                             <Authorized>
@@ -49,6 +49,7 @@
                     {
                         @if(role == 2)
                         {
+                            <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/enterpriseProducts/">Products</a></li>
                             <AuthorizeView>
                                 <Authorized>
                                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="authentication/profile">@context.User.Identity?.Name!</a></li>

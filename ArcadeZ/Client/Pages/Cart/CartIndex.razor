@@ -34,13 +34,13 @@
                             @if (@custCartItem.ProductHardwareId == null)
                             {
                                 <tr>
-                                    <td>
+									<td class="col-md-4">
                                         @if (@custCartItem.ProductSoftware.sthumbnail != null)
                                         {
                                             <img src="@("data:image/png;base64," + Convert.ToBase64String(@custCartItem.ProductSoftware.sthumbnail))" alt="image" />
                                         }
                                     </td>
-									<td>
+									<td class="col-md-4">
                                         <h5 class="mt-1">Title: @custCartItem.ProductSoftware.sTitle</h5>
                                         <div>Price: $@custCartItem.ProductSoftware.sPrice</div>
 									</td>
@@ -64,18 +64,23 @@
                             @if (@custCartItem.ProductSoftwareId == null)
                             {
                                 <tr>
-                                    <td>@custCartItem.ProductHardware.hthumbnail</td>
-									<td>
-                                    <h5 class="mt-1">Title:@custCartItem.ProductHardware.hTitle</h5>
+									<td class="col-md-4">
+										@if (@custCartItem.ProductHardware.hthumbnail != null)
+										{
+											<img src="@("data:image/png;base64," + Convert.ToBase64String(@custCartItem.ProductHardware.hthumbnail))" alt="image" />
+										}
+									</td>
+									<td class="col-md-4">
+                                    <h5 class="mt-1">Title: @custCartItem.ProductHardware.hTitle</h5>
                                     <div>$@custCartItem.ProductHardware.hPrice</div>
                                     
                                     
-                                    <div class="form-group w-25">
+                                    <div class="form-group w-50">
                                         <div class="input-group">
                                             <span class="input-group-btn">
                                                 <button class="btn btn-primary" @onclick="() => DecrementQuantity(custCartItem.Id)">-</button>
                                             </span>
-                                            <input disabled="true" type="number" class="form-control" @bind="@custCartItem.Quantity" min="0" />
+                                            <input style="width: 30%" disabled="true" type="number" class="form-control" @bind="@custCartItem.Quantity" min="0" />
                                             <span class="input-group-btn">
                                                 <button class="btn btn-primary" @onclick="() => IncrementQuantity(custCartItem.Id)">+</button>
                                             </span>
@@ -231,6 +236,11 @@
 			if(custCartItem.ProductSoftwareId == null)
 			{
 				custOrderItem.ProductHardwareId = custCartItem.ProductHardwareId;
+				ProductHardware productHardware = new ProductHardware();
+				productHardware = await _client.GetFromJsonAsync<ProductHardware>($"{Endpoints.ProductHardwaresEndpoint}/{custCartItem.ProductHardwareId}");
+				productHardware.Inventory -= custCartItem.Quantity;
+				await _client.PutAsJsonAsync($"{Endpoints.ProductHardwaresEndpoint}/{custCartItem.ProductHardwareId}", productHardware);
+
 			}
 			if (custCartItem.ProductHardwareId == null)
 			{
