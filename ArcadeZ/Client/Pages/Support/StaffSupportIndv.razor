@@ -1,42 +1,48 @@
 ﻿@page "/staffSupport/{id:int}"
 @inject HttpClient _client
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
-@if(custEnquiry == null)
-{
-	
-}
-else
-{
-	@foreach(var customer in customers)
+
+<h3 style="padding-top:1rem;" class=" card-title text-center p-5 mt-1">Resolving Enquiries</h3>
+<div class="border-top px-2 mx-2 pb-1" style="background-color:#1ABC9C;"></div>
+<div style="padding:5rem;">
+	<div class="text-center mx-auto border border-2 p-3" style="width: 30rem; box-shadow: 0 0 15px rgba(26, 188, 156, 0.5);">
+	@if(custEnquiry == null)
 	{
-		@if(custEnquiry.CustomerId == customer.Id)
+	
+	}
+	else
+	{
+		@foreach(var customer in customers)
 		{
-			<p>Customer Username: @customer.UserName</p>
+			@if(custEnquiry.CustomerId == customer.Id)
+			{
+				<p>Customer Username: @customer.UserName</p>
+				<hr>
+			}
+		}
+		<p>Type: @custEnquiry.EnquiryType</p>
+		<p>Description: @custEnquiry.EnquiryDesc</p>
+		@if (@custEnquiry.UpdatedBy == null)
+		{
+			<p>Updated By: Not yet resolved</p>
+		}
+		else
+		{
+			<p>Updated By: @custEnquiry.UpdatedBy</p>
+		}
+		@if (@custEnquiry.Resolved == false)
+		{
+			<p>Details: Pending</p>
+			<button class="btn btn-primary" @onclick="Resolved">Resolve</button>
+		}
+		else
+		{
+			<p>Details: Resolved</p>
+			<button disabled="true" class="btn btn-primary" @onclick="Resolved">Resolved</button>
 		}
 	}
-	<p>Type: @custEnquiry.EnquiryType</p>
-	<p>Description: @custEnquiry.EnquiryDesc</p>
-	@if (@custEnquiry.UpdatedBy == null)
-	{
-		<p>Updated By: Not yet resolved</p>
-	}
-	else
-	{
-		<p>Updated By: @custEnquiry.UpdatedBy</p>
-	}
-	@if (@custEnquiry.Resolved == false)
-	{
-		<p>Details: Pending</p>
-		<button class="btn btn-primary" @onclick="Resolved">Resolve</button>
-	}
-	else
-	{
-		<p>Details: Resolved</p>
-		<button disabled="true" class="btn btn-primary" @onclick="Resolved">Resolved</button>
-	}
-}
-
-
+	</div>
+</div>
 @code {
 
 	[Parameter] public int id { get; set; }

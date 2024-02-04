@@ -2,27 +2,70 @@
 @inject HttpClient _client
 @inject NavigationManager _navManager
 
-<h3 class="card-title">Edit Software Product</h3>
+<h3 style="padding-top:1rem;" class=" card-title text-center p-5 mt-1">Edit Hardware Product</h3>
+<div class="border-top px-2 mx-2 pb-1" style="background-color:#1ABC9C;"></div>
 
-@if (productHardware.hthumbnail == null)
-{
-    <div class="form-group">
-        <label>Image: </label>
-        <div>
-            <InputFile OnChange="HandleFileSelected"></InputFile>
+<div class="container mt-5 pb-5">
+    <div style="width: 26rem; box-shadow: 0 0 15px rgba(26, 188, 156, 0.5);" class="mx-auto border border-2 p-3">
+        <div class="form-group pt-4 text-center">
+            <div>
+                @if (productHardware.hthumbnail == null)
+                {
+                    <div class="form-group">
+                        <label>Image: </label>
+                        <div>
+                            <InputFile OnChange="HandleFileSelected"></InputFile>
+                        </div>
+                    </div>
+                }
+                @if (productHardware.hthumbnail != null)
+                {
+                    <div class="form-group">
+                        <label>Image: </label>
+                        <img src="@("data:image/png;base64," + Convert.ToBase64String(productHardware.hthumbnail))" alt="image" />
+                        <InputFile OnChange="HandleFileSelected"></InputFile>
+                    </div>
+                }
+            </div>
+            <div class="form-group">
+                <label>Title: </label>
+                <div>
+                    <InputText @bind-Value="@productHardware.hTitle" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Price: </label>
+                <div>
+                    <InputNumber @bind-Value="@productHardware.hPrice" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Description: </label>
+                <div>
+                    <InputTextArea @bind-Value="@productHardware.Description" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Inventory: </label>
+                <div>
+                    <InputNumber @bind-Value="@productHardware.Inventory" class="form-control" />
+                </div>
+            </div>
+
+            <div class="d-grid gap-2 pt-2">
+                <button @onclick="EditProductHardware" type="submit" class="btn btn-success btn-block">
+                    Save
+                </button>
+                <div />
+            </div>
         </div>
     </div>
-}
-@if (productHardware.hthumbnail != null)
-{
-    <div class="form-group">
-        <label>Image: </label>
-        <img src="@("data:image/png;base64," + Convert.ToBase64String(productHardware.hthumbnail))" alt="image" />
-        <div>
-            <InputFile OnChange="HandleFileSelected"></InputFile>
-        </div>
-    </div>
-}
+</div>
+
+
 <div class="form-group">
     <label>Title: </label>
     <div>
@@ -51,12 +94,6 @@
     </div>
 </div>
 
-<div class="form-group">
-    <label>Enterprise ID: </label>
-    <div>
-        <InputNumber @bind-Value="@productHardware.EnterpriseId" class="form-control" />
-    </div>
-</div>
 <button @onclick="EditProductHardware" type="submit" class="btn btn-success btn-block">
     Save
 </button>
@@ -77,6 +114,7 @@
         await _client.PutAsJsonAsync($"{Endpoints.ProductHardwaresEndpoint}/{id}", productHardware);
         _navManager.NavigateTo("/enterpriseProducts/");
     }
+
 
     private async Task HandleFileSelected(InputFileChangeEventArgs e)
     {
