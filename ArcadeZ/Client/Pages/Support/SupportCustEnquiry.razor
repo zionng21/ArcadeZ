@@ -4,26 +4,48 @@
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
 @attribute [Authorize]
 
-<div class="form-group">
-	<label>Type of Enquiry: </label>
-	<div>
-		<InputSelect @bind-Value="custEnquiry.EnquiryType" class="form-control">
-			@foreach (var enquiryType in @enquiryTypes)
-			{
-				<option value="@enquiryType">@enquiryType</option>
-			}
-		</InputSelect>
-	</div>
-	<div class="form-group">
-		<label>Description: </label>
-		<div>
-			<InputTextArea @bind-Value="custEnquiry.EnquiryDesc" class="form-control" />
-		</div>
-	</div>
-	<button @onclick="CreateEnquiry" type="submit" class="btn btn-success btn-block">
-        Submit Enquiry
-    </button>
+<h3 style="padding-top:1rem;" class=" card-title text-center p-5 mt-1">Write Your Enquires To Us</h3>
+<div class="border-top px-2 mx-2 pb-1" style="background-color:#1ABC9C;"></div>
+
+<div class="container mt-5 pb-5">
+    <div style="width: 26rem; box-shadow: 0 0 15px rgba(26, 188, 156, 0.5);" class="mx-auto border border-2 p-3">
+        <div class="form-group pt-4 text-center">
+            <label>Type of Enquiry: </label>
+            <div>
+                <InputSelect @bind-Value="custEnquiry.EnquiryType" class="form-control">
+                    @foreach (var enquiryType in @enquiryTypes)
+                    {
+                        <option value="@enquiryType">@enquiryType</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="form-group">
+                <label>Description: </label>
+                <div>
+                    <InputTextArea @bind-Value="custEnquiry.EnquiryDesc" class="form-control" />
+                </div>
+            </div>
+            <!-- Checkbox -->
+            <div class="form-check d-flex justify-content-center mb-4">
+                <input class="form-check-input me-2"
+                       type="checkbox"
+                       value=""
+                       id="form4Example4"
+                       checked />
+                <label class="form-check-label" for="form4Example4">
+                    Send me a copy of this message
+                </label>
+            </div>
+            <div class="d-grid gap-2">
+                <button @onclick="CreateEnquiry" type="submit" class="btn btn-success">
+                    Submit Enquiry
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
+
+
 
 @code {
 

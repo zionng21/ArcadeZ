@@ -1,14 +1,16 @@
 ﻿@page "/support/viewReq"
 @inject HttpClient _client
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
+<h3 style="padding-top:1rem;" class=" card-title text-center p-5 mt-1">Select to View Your Past Enquires</h3>
+<div class="border-top px-2 mx-2 pb-1" style="background-color:#1ABC9C;"></div>
 
 @if (currCustEnquiries.Count == 0)
 {
-	<div class="alert alert-info">No recent enquiries</div>
+	<div class="alert alert-info pt-4">No recent enquiries</div>
 }
 else
 {
-	<div class="container">
+	<div class="container pt-4">
 		<div class="row">
 			<div class="col-md-12">
 				<table class="table">

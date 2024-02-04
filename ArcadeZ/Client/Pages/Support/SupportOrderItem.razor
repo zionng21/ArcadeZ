@@ -3,14 +3,17 @@
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
 @attribute [Authorize]
 
+<h3 style="padding-top:1rem;" class=" card-title text-center p-5 mt-1">Select The Product</h3>
+<div class="border-top px-2 mx-2 pb-1" style="background-color:#1ABC9C;"></div>
+
 @if(@currCustOrderItems.Count == 0)
 {
-	<div class="alert alert-info">Loading Order Items...</div>
+	<div class="alert alert-info pt-4">Loading Order Items...</div>
 }
 else
 {
 	<div class="container">
-		<div class="row">
+		<div class="row pt-4">
 			<div class="col-md-12">
 				<table class="table">
 					<tbody>
