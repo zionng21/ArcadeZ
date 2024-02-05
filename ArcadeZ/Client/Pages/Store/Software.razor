@@ -4,6 +4,7 @@
 @implements IDisposable
 @attribute [Authorize]
 
+
 <StoreIndex />
 @if (ProductSoftwares == null)
 {
@@ -20,6 +21,7 @@ else
 						<div style ="text-align:center">
 							@if(productsoftware.sthumbnail != null)
 							{
+								/*Retrieve byte array d ata, convert to img*/
 								existingImageData = Convert.ToBase64String(productsoftware.sthumbnail);
 								<img src="@("data:image/png;base64," + existingImageData)" alt="image" />
 							}
