@@ -10,3 +10,6 @@ function DataTablesDispose(table) {
         element.parentNode.removeChild(element);
     })
 }
+function reloadPage() {
+    window.location.reload();
+}

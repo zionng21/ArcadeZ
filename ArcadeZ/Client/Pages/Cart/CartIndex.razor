@@ -1,5 +1,6 @@
 ﻿@page "/cart/"
 @inject HttpClient _client
+@inject IJSRuntime js
 @inject NavigationManager _navManager
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
 @inject HttpInterceptorService _interceptor
@@ -52,6 +53,11 @@
 											<h5 class="mt-1">Title: @custCartItem.ProductSoftware.sTitle</h5>
 											<div>Price: $@custCartItem.ProductSoftware.sPrice</div>
 										</td>
+										<td>
+											<button class="btn btn-danger" @onclick="@(()=>Delete(custCartItem.Id))">
+												<span class="oi oi-delete"></span>
+											</button>
+										</td>
 									</tr>
 								}
 							}
@@ -98,6 +104,11 @@
 													</span>
 												</div>
 											</div>
+										</td>
+										<td>
+											<button class="btn btn-danger" @onclick="@(()=>Delete(custCartItem.Id))">
+												<span class="oi oi-delete"></span>
+											</button>
 										</td>
 									</tr>
 								}
@@ -203,6 +214,8 @@
 		customers = await _client.GetFromJsonAsync<List<Customer>>($"{Endpoints.CustomersEndpoint}");
 		tempCarts = await _client.GetFromJsonAsync<List<TempCart>>($"{Endpoints.TempCartsEndpoint}");
 
+		custCart.Clear();
+
 		var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
 		var user = authstate.User;
 		var name = user.Identity.Name;
@@ -284,12 +297,31 @@
 		_navManager.NavigateTo("/store/");
 	}
 
+	async Task Delete(int cartItemId)
+	{
+		var custcart = custCart.First(q => q.Id == cartItemId);
+		var confirm = false;
+		if (custcart.ProductHardware != null)
+		{
+			confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {custcart.ProductHardware.hTitle}?");
+		}
+		else
+		{
+			if (custcart.ProductSoftware != null)
+			{
+				confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {custcart.ProductSoftware.sTitle}?");
+			}
+		}
+		if (confirm)
+		{
+			await _client.DeleteAsync($"{Endpoints.TempCartsEndpoint}/{cartItemId}");
+			await OnInitializedAsync();
+		}
+	}
+
 	public void Dispose()
 	{
 		_interceptor.DisposeEvent();
 	}
 
 }
-
-					
-			

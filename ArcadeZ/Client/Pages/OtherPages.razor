@@ -3,151 +3,76 @@
 @inject HttpInterceptorService _interceptor
 @implements IDisposable
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-3">
+<div class="container-fluid">
+    <div class="row justify-content-center pt-3">
+        <div class="col-md-auto">
             <div class="text-center">
-                <NavLink class="btn btn-xl btn-outline-store" href="/customers/" Match="NavLinkMatch.All">
+                <NavLink class="btn btn-outline-store" href="/custEnquiries/" Match="NavLinkMatch.All">
+                    Customer Enquiries
+                </NavLink>
+            </div>
+        </div>
+        <div class="col-md-auto">
+            <div class="text-center">
+                <NavLink class="btn btn-outline-store" href="/customers/" Match="NavLinkMatch.All">
                     Customers
                 </NavLink>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-auto">
             <div class="text-center">
-                <NavLink class="btn btn-xl btn-outline-store" href="/enterprises/" Match="NavLinkMatch.All">
+                <NavLink class="btn btn-outline-store" href="/custOrders/" Match="NavLinkMatch.All">
+                    Customer Orders
+                </NavLink>
+            </div>
+        </div>
+        <div class="col-md-auto">
+            <div class="text-center">
+                <NavLink class="btn btn-outline-store" href="/custOrderItems/" Match="NavLinkMatch.All">
+                    CO Items
+                </NavLink>
+            </div>
+        </div>
+        <div class="col-md-auto">
+            <div class="text-center">
+                <NavLink class="btn btn-outline-store" href="/enterprises/" Match="NavLinkMatch.All">
                     Enterprises
                 </NavLink>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-auto">
             <div class="text-center">
-                <NavLink class="btn btn-xl btn-outline-store" href="/payments/" Match="NavLinkMatch.All">
+                <NavLink class="btn btn-outline-store" href="/payments/" Match="NavLinkMatch.All">
                     Payments
                 </NavLink>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-auto">
             <div class="text-center">
-                <NavLink class="btn btn-xl btn-outline-store" href="/staffs/" Match="NavLinkMatch.All">
+                <NavLink class="btn btn-outline-store" href="/producthardwares/" Match="NavLinkMatch.All">
+                    Hardware Products
+                </NavLink>
+            </div>
+        </div>
+        <div class="col-md-auto">
+            <div class="text-center">
+                <NavLink class="btn btn-outline-store" href="/productsoftwares/" Match="NavLinkMatch.All">
+                    Software Products
+                </NavLink>
+            </div>
+        </div>
+        <div class="col-md-auto">
+            <div class="text-center">
+                <NavLink class="btn btn-outline-store" href="/staffs/" Match="NavLinkMatch.All">
                     Staff
                 </NavLink>
             </div>
         </div>
     </div>
 </div>
+<hr>
 
-@* <div class="container">
-    <div class="row justify-content-center">
-        <div class="col">
-            <!-- First Div -->
-            <div class="text-center">
-                <a class="btn btn-xl btn-outline-store" href="/custEnquiries/">
-                    CustomerEnquiries
-                </a>
-            </div>
-        </div>
-        <div class="col">
-            <!-- Second Div -->
-            <div class="text-center">
-                <a class="btn btn-xl btn-outline-store" href="/customers/">
-                    Customers
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
- *@
-@* <div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col">
-            <!-- Third Div -->
-            <div class="text-center">
-                <a class="btn btn-xl btn-outline-store" href="/custEnquiries/">
-                    CustomerEnquires
-                </a>
-            </div>
-        </div>
-        <div class="col">
-            <!-- Third Div -->
-            <div class="text-center">
-                <a class="btn btn-xl btn-outline-store" href="/customers/">
-                    Customers
-                </a>
-            </div>
-        </div>
-        <div class="col">
-            <!-- Third Div -->
-            <div class="text-center">
-                <a class="btn btn-xl btn-outline-store" href="/custorders/">
-                    CustomerOrder
-                </a>
-            </div>
-        </div>
-        <div class="col">
-            <!-- Fourth Div -->
-            <div class="text-center">
-                <a class="btn btn-xl btn-outline-store" href="/custOrderItems/">
-                    CustomerOrderItems
-                </a>
-            </div>
-        </div>
-        <div class="col">
-            <!-- Fifth Div -->
-            <div class="text-center">
-                <a class="btn btn-xl btn-outline-store" href="/enterprises/">
-                    Enterprise
-                </a>
-            </div>
-        </div>
-        <div class="col">
-            <!-- Sixth Div -->
-            <div class="text-center">
-                <a class="btn btn-xl btn-outline-store" href="/payments/">
-                    Payment
-                </a>
-            </div>
-        </div>
-        <div class="col">
-            <!-- Seventh Div -->
-            <div class="text-center">
-                <a class="btn btn-xl btn-outline-store" href="/producthardwares/">
-                    Hardware
-                </a>
-            </div>
-        </div>
-        <div class="col">
-            <!-- Eighth Div -->
-            <div class="text-center">
-                <a class="btn btn-xl btn-outline-store" href="/productsoftwares/">
-                    Software
-                </a>
-            </div>
-        </div>
-        <div class="col">
-            <!-- Ninth Div -->
-            <div class="text-center">
-                <a class="btn btn-xl btn-outline-store" href="/staffs/">
-                    Staff
-                </a>
-            </div>
-        </div>
-        <!-- Repeat the structure for the remaining items in your list -->
-    </div>
-</div> *@
-
-@* <ul class="navbar-nav ms-auto">
-    <li> <a href="/custEnquiries/">CustomerEnquires</a></li>
-    <li> <a href="/customers/">Customer</a></li>
-    <li> <a href="/custorders/">CustomerOrder</a></li>
-    <li> <a href="/custOrderItems/">CustomerOrderItem</a></li>
-    <li> <a href="/enterprises/">Enterprises</a></li>
-    <li> <a href="/payments/">Payment</a></li>
-    <li> <a href="/producthardwares/">Hardware Products</a></li>
-    <li> <a href="/productsoftwares/">Software Products</a></li>
-    <li> <a href="/staffs/">staff</a></li>
-</ul> *@
-
-@code{
+@code {
 
     protected async override Task OnInitializedAsync()
     {
@@ -163,7 +88,7 @@
     {
         if (_navManager.Uri.EndsWith("/otherPages/"))
         {
-            _navManager.NavigateTo("/customers/");
+            _navManager.NavigateTo("/custEnquiries/");
         }
     }
 }

@@ -4,10 +4,12 @@
 @inject HttpInterceptorService _interceptor
 @implements IDisposable
 @attribute [Authorize]
+
 <h3 style="padding-top:1rem;" class=" card-title text-center p-5 mt-1">Admin View Page</h3>
 <div class="border-top px-2 mx-2 pb-1" style="background-color:#1ABC9C;"></div>
 
-<h3 class="card-title">Customer Order Creation</h3>
+<OtherPages />
+
 <a href="/custorders/create" class="btn btn-secondary">
 	<span class="oi oi-plus"></span>
 	Create New Customer Order
@@ -22,12 +24,11 @@
 }
 else
 {
-	<table class="table table-responsive">
+	<table class="table table-responsive" id="custOrderTable">
 		<thead>
 			<tr>
 				<th>Name</th>
 				<th>Address</th>
-				<th>Managed By</th>
 				<th>Actions</th>
 			</tr>
 		</thead>
@@ -37,7 +38,6 @@ else
 				<tr>
 					<td>@custorder.Customer.FirstName</td>
 					<td>@custorder.OrderDateTime</td>
-					<td>@custorder.Staff.Name</td>
 					<td>
 						<a href="/custorders/view/@custorder.Id" class="btn btn-primary">
 							<span class="oi oi-book"></span>
@@ -78,8 +78,14 @@ else
 		}
 	}
 
+	protected async override Task OnAfterRenderAsync(bool firstRender)
+	{
+		await js.InvokeVoidAsync("AddDataTable", "#custOrderTable");
+	}
+
 	public void Dispose()
 	{
+		js.InvokeVoidAsync("DataTablesDispose", "#custOrderTable");
 		_interceptor.DisposeEvent();
 	}
 }

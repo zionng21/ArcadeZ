@@ -7,7 +7,8 @@
 <h3 style="padding-top:1rem;" class=" card-title text-center p-5 mt-1">Admin View Page</h3>
 <div class="border-top px-2 mx-2 pb-1" style="background-color:#1ABC9C;"></div>
 
-<h3 class="card-title">Product Hardware Creation</h3>
+<OtherPages />
+
 <a href="/producthardwares/create" class="btn btn-secondary">
 	<span class="oi oi-plus"></span>
 	Create New Hardware Product
@@ -22,7 +23,7 @@
 }
 else
 {
-	<table class="table table-responsive">
+	<table class="table table-responsive" id="productHardwareTable">
 		<thead>
 			<tr>
                 <th>Title</th>
@@ -81,8 +82,14 @@ else
 		}
 	}
 
+	protected async override Task OnAfterRenderAsync(bool firstRender)
+	{
+		await js.InvokeVoidAsync("AddDataTable", "#productHardwareTable");
+	}
+
 	public void Dispose()
 	{
+		js.InvokeVoidAsync("DataTablesDispose", "#productHardwareTable");
 		_interceptor.DisposeEvent();
 	}
 }
