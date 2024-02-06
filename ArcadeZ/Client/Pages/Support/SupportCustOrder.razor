@@ -49,10 +49,15 @@ else
 		customers = await _client.GetFromJsonAsync<List<Customer>>($"{Endpoints.CustomersEndpoint}");
 		custOrders = await _client.GetFromJsonAsync<List<CustOrder>>($"{Endpoints.CustOrdersEndpoint}");
 
+
+
+		/*Check Customer Login Email*/
 		var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
 		var user = authstate.User;
 		var name = user.Identity.Name;
 
+
+		/*Retreive Current Cusomter ID*/
 		foreach (var customer in customers)
 		{
 			if (customer.Email == name)
@@ -61,6 +66,8 @@ else
 			}
 		}
 
+
+		/*Retrieve  CustOrder with the CustID*/
 		if(custOrders != null)
 		{
 			foreach(var custOrder in custOrders)

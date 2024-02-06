@@ -30,6 +30,7 @@
 @code {
     protected override void OnInitialized()
     {
+        /*Direcly  Nav to store/software, /store/ have no display*/
         _interceptor.MonitorEvent();
         if (_navManager.Uri.EndsWith("/store/"))
         {
