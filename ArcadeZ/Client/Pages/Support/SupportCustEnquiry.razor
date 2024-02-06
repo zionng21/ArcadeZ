@@ -54,6 +54,8 @@
 	[Parameter] public int id { get; set; }
 	private List<Customer>? customers;
 	private List<CustEnquiry>? custEnquiries;
+	private ProductHardware? productHardware;
+	private ProductSoftware? productSoftware;
 	private CustOrderItem? custOrderItem;
 	private CustEnquiry custEnquiry = new CustEnquiry();
 	List<string> enquiryTypes = new List<string> { "Gameplay or technical issue", "Refund" };
@@ -85,13 +87,15 @@
 		{
 			custEnquiry.EnquiryType = enquiryTypes[0];
 		}
-		@if (custOrderItem.ProductHardware == null)
+		@if (custOrderItem.ProductHardwareId == null)
 		{
-			custEnquiry.EnquiryDesc += custOrderItem.ProductSoftware.sTitle;
+			productSoftware = await _client.GetFromJsonAsync<ProductSoftware>($"{Endpoints.ProductSoftwaresEndpoint}/{custOrderItem.ProductSoftwareId}");
+			custEnquiry.EnquiryDesc += productSoftware.sTitle;
 		}
 		else
 		{
-			custEnquiry.EnquiryDesc += custOrderItem.ProductHardware.hTitle;
+			productHardware = await _client.GetFromJsonAsync<ProductHardware>($"{Endpoints.ProductHardwaresEndpoint}/{custOrderItem.ProductHardwareId}");
+			custEnquiry.EnquiryDesc += productHardware.hTitle;
 		}
 		await _client.PostAsJsonAsync(Endpoints.CustEnquiriesEndpoint, custEnquiry);
 		_navManager.NavigateTo("/");
